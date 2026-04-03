@@ -1,0 +1,75 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+<!--{strip}-->
+<!--{if count($arrBestProducts) > 0}-->
+<section id="top_recommend">
+	<header class="tit_default_center">
+		<h1>OUR RECOMMEND</h1>
+	</header>
+	<div class="item_list">
+		<ul>
+			<!--{foreach from=$arrBestProducts item=arrProduct name=bestLoop}-->
+			<!--{if $smarty.foreach.bestLoop.iteration <= 20}-->
+			<li>
+				<a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrProduct.product_id|u}--><!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">
+					<div class="list_pict">
+						<div>
+							<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" class="lazyload fade_in">
+							<!--{if $arrProduct.status == 1 OR $arrProduct.status == 8}--><span class="over_img"><img data-src="<!--{$TPL_URLPATH}-->images/img_coming.png" class="lazyload fade_in"></span>
+							<!--{elseif $arrProduct.stock == 0}--><span class="over_img"><img data-src="<!--{$TPL_URLPATH}-->images/img_soldout.png" class="lazyload fade_in"></span><!--{/if}-->
+						</div>
+					</div>
+					<p class="mg_t10"><!--{$arrProduct.name|h}--><br>
+						<!--{strip}-->
+						<!--{if $arrProduct.max_price == $arrProduct.min_price}-->
+							<!--{if $arrProduct.min_price == $arrProduct.norm_price}-->
+							<span>&yen; <!--{$arrProduct.norm_price|n2s}--></span>
+							<!--{else}-->
+							<span><strike>&yen; <!--{$arrProduct.norm_price|n2s}--></strike> <span class="red">&yen; <!--{$arrProduct.min_price|n2s}--> <!--{$arrProduct.max_rate}-->%OFF</span></span>
+							<!--{/if}-->
+						<!--{else}-->
+							<span>&yen; <!--{$arrProduct.max_price|n2s}--> ～ &yen; <!--{$arrProduct.min_price|n2s}--></span>
+						<!--{/if}--><!--{/strip}-->
+					</p>
+				</a>
+				<!--{assign var=status value=`$arrProduct.status`}-->
+				<!--{assign var=status1 value=`$arrProduct.status1`}-->
+				<!--{assign var=status2 value=`$arrProduct.status2`}-->
+				<!--{assign var=status3 value=`$arrProduct.status3`}-->
+				<!--{if $status != ""}-->
+				<ul class="item_icon">
+					<!--{if $status1 != ""}--><li class="item_icon<!--{$status1}-->"><!--{$arrSTATUS[$status1]}--></li><!--{/if}-->
+					<!--{if $status2 != ""}--><li class="item_icon<!--{$status2}-->"><!--{$arrSTATUS[$status2]}--></li><!--{/if}-->
+					<!--{if $status3 != ""}--><li class="item_icon<!--{$status3}-->"><!--{$arrSTATUS[$status3]}--></li><!--{/if}-->
+				</ul>
+				<!--{/if}-->
+			</li>
+			<!--{/if}-->
+			<!--{/foreach}-->
+		</ul>
+	</div>
+	<div class="alignC"> 
+		<a href="/products/list.php<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->" class="btn_gray_norm w_full">ALL ITEM</a>
+	</div>
+</section>
+<!--{/if}-->
+<!--{/strip}-->

@@ -1,0 +1,132 @@
+
+<section class="collection">
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <div style="margin-bottom: 0px;">
+            <div style="margin-bottom: 0px;">
+                <img data-src="/user_data/images/collection/2024accessories/top_SP.jpg" alt="" class="lazyload fade_in">
+                <img data-src="/user_data/images/collection/2024accessories/message_gray_SP.jpg" alt="" class="lazyload fade_in">
+            </div>
+        </div>
+        <!--*<p>
+            <img data-src="/user_data/images/collection/2024summer/title_SP.jpg" alt="" class="lazyload fade_in">
+        </p>*-->
+    </header>
+    <div>
+        <!--*<h2 class="tit_collection" style="margin-bottom: 40px; margin-left: 6%;">2024 summer collection</h2>*-->
+        <ul class="collection_block">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--*<li style="margin-bottom: 0px;"><img data-src="/user_data/images/collection/2024summer/title_SP.jpg" alt="" class="lazyload fade_in"></li>*-->
+            <!--*画像ブロックエンド*-->
+            <li><img data-src="/user_data/images/collection/2024accessories/look1-1.jpg" alt="" class="lazyload fade_in"></li>
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=369">ツイストカーブチェーンピアス　5,500円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=367">ツイストカーブチェーンネックレス　11,000円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=366">ボタンスタッズレザーベルト　9,900円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+            <!--*アイテムアコーディオンブロックエンド*-->
+
+            <li style="margin-top: 20px; margin-bottom: 30px;"><img data-src="/user_data/images/collection/2024accessories/look1-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 30px;"><img data-src="/user_data/images/collection/2024accessories/look1-3.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024accessories/line_SP.png" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024accessories/look2-1.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=370">フープライクイヤーカフセット　5,500円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=368">マルチウェイドロップネックレス　5,500円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 20px; margin-bottom: 0px;"><img data-src="/user_data/images/collection/2024accessories/look2-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 10px;"><img data-src="/user_data/images/collection/2024accessories/look2-3.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024accessories/line_SP.png" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024accessories/look3-1.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=369">ツイストカーブチェーンピアス　5,500円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=366">ボタンスタッズレザーベルト　9,900円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 20px; margin-bottom: 0px;"><img data-src="/user_data/images/collection/2024accessories/look3-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024accessories/look3-3.jpg" alt="" class="lazyload fade_in"></li>
+            <!--*<li style="margin: 20px 0;"><img data-src="/user_data/images/collection/2024summer/middle_SP.jpg" alt="" class="lazyload fade_in"></li>*-->
+            <li><img data-src="/user_data/images/collection/2024accessories/line_SP.png" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024accessories/look4-1.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=370">フープライクイヤーカフセット　5,500円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=368">マルチウェイドロップネックレス　5,500円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 20px; margin-bottom: 0px;"><img data-src="/user_data/images/collection/2024accessories/look4-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 10px;"><img data-src="/user_data/images/collection/2024accessories/look4-3.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 130px;"><img data-src="/user_data/images/collection/2024accessories/bottom_SP.jpg" alt="" class="lazyload fade_in"></li>
+            <!--*<li><img data-src="/user_data/images/collection/2024summer/look_5-1_sp.jpg" alt="" class="lazyload fade_in"></li>*-->
+            <!--*<li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=361">ハーフスリーブボクシージャケット　9,900円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=360">マルチカラーノースリーブトップス　4,950円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=359">サイドタックスラブワイドパンツ　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>*-->
+            <!--*<li style="margin-top: 20px; margin-bottom: 0px;"><img data-src="/user_data/images/collection/2024summer/look_5-2_sp.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 10px;"><img data-src="/user_data/images/collection/2024summer/look_5-3_sp.jpg" alt="" class="lazyload fade_in"></li>*-->
+            <!--*<li><img data-src="/user_data/images/collection/2024summer/look_6-1_sp.jpg" alt="" class="lazyload fade_in"></li>*-->
+            <!--*<li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=362">シルケットピンタックT　4,400円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=365">ナイロンマルチウェイセットアップ　12,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=359">サイドタックスラブワイドパンツ　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=349">バックタックナロースカート　7,700円</a></li>
+                    </ul>
+                </div>
+            </li>*-->
+            <!--*<li style="margin-top: 20px; margin-bottom: 0px;"><img data-src="/user_data/images/collection/2024summer/look_6-2_sp.jpg" alt="" class="lazyload fade_in"></li>*-->
+            <!--*<li style="margin-bottom: 10px;"><img data-src="/user_data/images/collection/2024summer/look_6-3_sp.jpg" alt="" class="lazyload fade_in"></li>*-->
+            <!--*<li><img data-src="/user_data/images/collection/2024summer/bottom_SP.jpg" alt="" class="lazyload fade_in"></li>*-->
+            <!--*<li style="margin-top: 0px; margin-bottom: 0px;"><img data-src="/user_data/images/collection/2024summer/title_bottom_SP.jpg" alt="" class="lazyload fade_in"></li>*-->
+            
+            <li class="collection_movie">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/eZrAz__ukcI?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </li>
+            
+            <li class="collection_txt">
+                <p class="tit_crewre"><img src="/user_data/images/collection/tit_crewre.png?v=2" alt=""></p>
+                <h3>2024 accessories collection</h3>
+                <p>producer: Cospashion Yurie</p>
+                <p>photographer: Tomoyuki Ichida<br>
+                    videographer: Shuhei Shine<br>
+                    hair&make up: Sayumi Ono<br>
+                    model: Hazuki Onishi</p>
+            </li>
+        </ul>
+    </div>
+</section>
+<script>
+    $('.collection_item_tit').on('click', function () {
+        $(this).next('.collection_item_list').slideToggle();
+        $(this).find('a').toggleClass('ico_rotate');
+    });
+</script>

@@ -1,0 +1,900 @@
+<!--{if $products_alert != ''}-->
+<section>
+	<p style="margin-top: 50px; margin-bottom: 30px; padding:0 2.5%;"><!--{$products_alert}--></p>
+	<!--{if $arrProduct.status == 5}-->
+	<p style="padding:0 2.5%;"><a class="btn_n btn_gray btn_gray02" href="/mypage/campaign.php">認証を行う</a></p>
+	<!--{/if}-->
+</section>
+<!--{else}-->
+<script type="text/javascript">//<![CDATA[
+    // 規格2に選択肢を割り当てる。
+    function fnSetClassCategories(form, classcat_id2_selected) {
+        var $form = $(form);
+        var product_id = $form.find('input[name=product_id]').val();
+        var $sele1 = $form.find('select[name=classcategory_id1]');
+        var $sele2 = $form.find('select[name=classcategory_id2]');
+        eccube.setClassCategories($form, product_id, $sele1, $sele2, classcat_id2_selected);
+    }
+	var cartSent = false;
+	var setParamSubmitDetail = function(product_class_id,classcategory_id1,classcategory_id2,plan_price,product_type_id) {
+		//ボタンを無効化
+		$('.cart_btn a').css('pointer-events','none');
+		$('.cart_favorite_btn a').css('pointer-events','none');
+		if (cartSent) {
+			alert("只今、処理中です。しばらくお待ち下さい。");
+			return false;
+		}
+		cartSent = true;
+        document.form1.product_class_id.value = product_class_id;
+		document.form1.classcategory_id1.value = classcategory_id1;
+		document.form1.classcategory_id2.value = classcategory_id2;
+        document.form1.submit();
+    };
+	$(document).ready(function (){	
+		$(".inline2").colorbox({inline:true, width:"90%", height:"70%"});
+		$(".inline3").colorbox({
+			inline:true,
+			width:"90%",
+			height:"60%",
+			onClosed:function(){
+				$('.cart_btn a').css('pointer-events','');
+				$('.cart_favorite_btn a').css('pointer-events','');
+			},
+			onComplete : function() {
+				let H = $('#inline_content3').height();
+				console.log(H);
+				$(this).colorbox.resize({
+					height:H+45
+				});
+			}
+		});
+		$(".iframe").colorbox({iframe:true, width:"90%", height:"75%"});
+		$(".iframe2").colorbox({iframe:true, width:"90%", height:"80%"});
+
+		$('.btn_cart').on('click', function(){
+			//ボタンを有効化
+			$('.cart_btn a').css('pointer-events','auto');
+			$('.cart_favorite_btn a').css('pointer-events','auto');
+		});
+
+		$('.cart_favorite_btn a').on('click',function(){
+			//ボタンを無効化
+			$('.cart_btn a').css('pointer-events','none');
+			$('.cart_favorite_btn a').css('pointer-events','none');
+		});
+		
+		//ログイン
+		var $login_email = $('#header_login_form input[name=login_email]');
+		var $login_pw = $('#header_login_form input[name=login_pass]');
+
+        $('#header_login_form').submit(function() {
+            if ($login_email.val() && $login_pw.val()) {
+                return true;
+            }else{
+				alert('メールアドレス/パスワードを入力して下さい。');
+				return false;
+			}
+        });
+
+		$('.detail_tit').on('click', function(){
+			$(this).next('.item_info_hidden').slideToggle();
+			$(this).toggleClass("open_detail");
+
+			setTimeout(function(){
+				var arrHeight = [];
+				$('#size_first li').each(function(i, box) {
+					$(box).each(function() {
+						var height = $(this).height();
+						arrHeight.push(height);
+					});
+				});
+				$('.size_body').each(function(j, box2) {
+					$(box2).find('li').each(function(h) {
+						var height = $(this).height();
+						if(height > arrHeight[h]){
+							arrHeight[h] = height;
+						}
+					});
+				});
+				$('#size_first li').each(function(i, box) {
+					$(box).each(function() {
+						$(this).height(arrHeight[i]);
+					});
+				});
+				$('.size_body').each(function(j, box2) {
+					$(box2).find('li').each(function(h) {
+						$(this).height(arrHeight[h]);
+					});
+				});
+
+				var arrHeight = [];
+				$('#size_first2 li').each(function(i, box) {
+					$(box).each(function() {
+						var height = $(this).height();
+						arrHeight.push(height);
+					});
+				});
+				$('.size_body2').each(function(j, box2) {
+					$(box2).find('li').each(function(h) {
+						var height = $(this).height();
+						if(height > arrHeight[h]){
+							arrHeight[h] = height;
+						}
+					});
+				});
+				$('#size_first2 li').each(function(i, box) {
+					$(box).each(function() {
+						$(this).height(arrHeight[i]);
+					});
+				});
+				$('.size_body2').each(function(j, box2) {
+					$(box2).find('li').each(function(h) {
+						$(this).height(arrHeight[h]);
+					});
+				});
+			},50);
+		});
+
+		$('#back_thumb_list').on('click', function(){
+			$('#outer_thumb_list').removeClass('active_photo_list');
+			$('body').removeClass('scroll_stop');
+		});
+		$('#images_count').on('click', function(){
+			$('#outer_thumb_list').addClass('active_photo_list');
+			$('body').addClass('scroll_stop');
+		});
+		$('.open_cart').on('click', function(){
+			$('html, body').css('overflow', 'hidden');
+			$('#cart_box_outer').fadeIn();
+		})
+		$('#cart_box_outer .btn_outer_close, #cart_box_bg, #cart_box_header').on('click', function(){
+			$('html, body').removeAttr('style');
+			$('#cart_box_outer').fadeOut();
+		});
+	});
+	function ajaxLogin() {
+        var postData = new Object;
+        postData['<!--{$smarty.const.TRANSACTION_ID_NAME}-->'] = "<!--{$transactionid}-->";
+        postData['mode'] = 'login';
+        postData['login_email'] = $('input[name=login_email]').val();
+        postData['login_pass'] = $('input[name=login_pass]').val();
+        postData['url'] = $('input[name=url]').val();
+
+        $.ajax({
+            type: "POST",
+            url: "<!--{$smarty.const.HTTPS_URL}-->frontparts/login_check.php",
+            data: postData,
+            cache: false,
+            dataType: "json",
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert(textStatus);
+            },
+            success: function(result){
+                if (result.success) {
+                    location.href = result.success;
+                } else {
+                    alert(result.login_error);
+                }
+            }
+        });
+    }
+
+//]]></script>
+<!-- item_photo start -->
+<div id="item_detail_block">
+	<div id="product_detail">
+		<div id="product_detail_photo">
+			<script>
+				let itemDetailSlider;
+				$(document).ready(function (){
+					var itemDetailSlider = new Swiper ('#item_photo_slider', {
+						loop: true,
+						speed: 400,
+						slidesPerView: 1,
+						spaceBetween: 0,
+						slidesPerGroup: 1,
+						lazy: {
+							loadPrevNext: true,
+						},
+						centeredSlides: false,
+						navigation: {
+							nextEl: '#all_slide_next',
+							prevEl: '#all_slide_prev',
+						},
+						pagination: {
+							el: '#all_slide_pagination',
+							type: 'bullets',
+							clickable: true
+						},
+						on: {
+							init: function () {
+							$('#item_photo_outer').addClass('fade_on');
+							}
+						}
+					});
+				});
+			</script>
+			<div id="item_photo_outer" class="fade_in">
+				<div id="item_photo_slider">
+					<div class="swiper">
+						<div class="swiper-wrapper">
+							<!--{assign var=key value="main_image"}-->
+							<!--{foreach from=$arrColorImages item=cimage}-->
+							<div class="swiper-slide">
+								<!--{if $cimage.c_image !=''}-->
+								<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$cimage.c_image|h}-->" alt="<!--{$arrProduct.name|h}-->" class="swiper-lazy">
+								<!--{else}-->
+								<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="/upload/save_image/noimage_main.jpg" alt="<!--{$arrProduct.name|h}-->" class="swiper-lazy">
+								<!--{/if}-->
+								<!--{if $cimage.c_title !=''}-->
+								<p><!--{$cimage.c_title}--></p>
+								<!--{/if}-->
+							</div>
+							<!--{/foreach}-->
+							<!--{section name=cnt loop=$smarty.const.PRODUCTSUB_MAX}-->
+							<!--{assign var=ikey value="sub_image`$smarty.section.cnt.index+1`"}-->
+							<!--{assign var=jkey value="sub_title`$smarty.section.cnt.index+1`"}-->
+							<!--{if $arrProduct[$ikey]|strlen >= 1}-->
+							<div class="swiper-slide">
+								<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$arrFile[$ikey].filepath}-->" alt="<!--{$arrProduct.name|h}-->" class="swiper-lazy">
+								<!--{if $arrProduct[$jkey] != ''}-->
+								<p><!--{$arrProduct[$jkey]}--></p>
+								<!--{/if}-->
+							</div>
+							<!--{/if}-->
+							<!--{/section}-->
+						</div>
+					</div>
+				</div>
+				<div id="images_count">
+					<p>
+						<a href="javascript:;"><span id="now_image">1</span> / <span id="total_image"></span></a>
+					</p>
+				</div>
+			</div>
+			<div id="color_select">
+				<ul>
+					<!--{foreach from=$arrColorImages item=colorItem key=color_id name=colortip}-->
+					<li class="c_<!--{$color_id}-->" data-color="<!--{$color_id}-->" data-index="<!--{$smarty.foreach.colortip.index}-->">
+						<!--{if $color == $color_id}-->
+						<div class="color_outer active_color">
+						<!--{else}-->
+						<div class="color_outer">
+						<!--{/if}-->
+							<a href="javascript:;" class="color_<!--{$color_id}-->"></a>
+						</div>
+						<p><!--{$colorItem.c_name}--></p>
+					</li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+			<div class="item_photo_thumb swiper">
+				<ul class="swiper-wrapper">
+					<!--{foreach from=$arrColorImages item=cimage name=cimage}-->
+					<!--{assign var=ccount value="`$smarty.foreach.cimage.iteration`"}-->
+					<!--{if $cimage.c_image !=''}-->
+					<li class="swiper-slide"><a href="javascript:void(0)" data_target="<!--{$ccount}-->"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$cimage.c_list_image|h}-->" alt="<!--{$arrProduct.name|h}-->" class="lazyload fade_in"></a></li>
+					<!--{else}-->
+					<li class="swiper-slide"><a href="javascript:void(0)" data_target="<!--{$ccount}-->"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="/upload/save_image/noimage_main.jpg" alt="<!--{$arrProduct.name|h}-->" class="lazyload fade_in"></a></li>
+					<!--{/if}-->
+					<!--{/foreach}-->
+					<!--{assign var=key value="main_image"}-->
+					<!--{section name=cnt loop=$smarty.const.PRODUCTSUB_MAX}-->
+					<!--{assign var=ikey value="sub_image`$smarty.section.cnt.index`"}-->
+					<!--{assign var=subcount value="`$smarty.section.cnt.index+$ccount`"}-->
+					<!--{if $arrProduct[$ikey]|strlen >= 1}-->
+					<li class="swiper-slide"><a href="javascript:void(0)" data_target="<!--{$subcount}-->"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$arrFile[$ikey].filelistpath}-->" alt="<!--{$arrProduct.name|h}-->" class="lazyload fade_in"></a></li>
+					<!--{/if}-->
+					<!--{/section}-->
+				</ul>
+				<div class="swiper-scrollbar"></div>
+			</div>
+		</div>
+		<div id="outer_thumb_list">
+			<div id="outer_thumb_list_inner">
+				<p id="back_thumb_list"><a href="javascript:;">＜ back</a></p>
+				<div id="outer_thumb_list_list">
+					<ul>
+						<!--{foreach from=$arrColorImages item=cimage name=cimage}-->
+						<!--{assign var=ccount value="`$smarty.foreach.cimage.iteration`"}-->
+						<!--{if $cimage.c_image !=''}-->
+						<li><a href="javascript:void(0)" data_target="<!--{$ccount}-->"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$cimage.c_list_image|h}-->" alt="<!--{$arrProduct.name|h}-->" class="lazyload fade_in"></a></li>
+						<!--{else}-->
+						<li><a href="javascript:void(0)" data_target="<!--{$ccount}-->"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="/upload/save_image/noimage_main.jpg" alt="<!--{$arrProduct.name|h}-->" class="lazyload fade_in"></a></li>
+						<!--{/if}-->
+						<!--{/foreach}-->
+						<!--{assign var=key value="main_image"}-->
+						<!--{section name=cnt loop=$smarty.const.PRODUCTSUB_MAX}-->
+						<!--{assign var=ikey value="sub_image`$smarty.section.cnt.index`"}-->
+						<!--{assign var=subcount value="`$smarty.section.cnt.index+$ccount`"}-->
+						<!--{if $arrProduct[$ikey]|strlen >= 1}-->
+						<li><a href="javascript:void(0)" data_target="<!--{$subcount}-->"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$arrFile[$ikey].filelistpath}-->" alt="<!--{$arrProduct.name|h}-->" class="lazyload fade_in"></a></li>
+						<!--{/if}-->
+						<!--{/section}-->
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="outer_item_photo_outer">
+			<div id="outer_item_photo_slider">
+				<div id="outer_item_photo_slider_head">
+					<div class="swiper-pagination"></div>
+					<p class="btn_outer_close"><a href="javascript:;"><span></span><span></span></a></p>
+				</div>
+				<div class="swiper">
+					<div class="swiper-wrapper">
+						<!--{assign var=key value="main_image"}-->
+						<!--{foreach from=$arrColorImages item=cimage}-->
+						<div class="swiper-slide">
+							<!--{if $cimage.c_image !=''}-->
+							<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$cimage.c_image|h}-->" alt="<!--{$arrProduct.name|h}-->" class="swiper-lazy">
+							<!--{else}-->
+							<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="/upload/save_image/noimage_main.jpg" alt="<!--{$arrProduct.name|h}-->" class="swiper-lazy">
+							<!--{/if}-->
+							<!--{if $cimage.c_title !=''}-->
+							<p><!--{$cimage.c_title}--></p>
+							<!--{/if}-->
+						</div>
+						<!--{/foreach}-->
+						<!--{section name=cnt loop=$smarty.const.PRODUCTSUB_MAX}-->
+						<!--{assign var=ikey value="sub_image`$smarty.section.cnt.index+1`"}-->
+						<!--{assign var=jkey value="sub_title`$smarty.section.cnt.index+1`"}-->
+						<!--{if $arrProduct[$ikey]|strlen >= 1}-->
+						<div class="swiper-slide">
+							<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$arrFile[$ikey].filepath}-->" alt="<!--{$arrProduct.name|h}-->" class="swiper-lazy">
+							<!--{if $arrProduct[$jkey] != ''}-->
+							<p><!--{$arrProduct[$jkey]}--></p>
+							<!--{/if}-->
+						</div>
+						<!--{/if}-->
+						<!--{/section}-->
+					</div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+				</div>
+			</div>
+		</div>
+		<section id="product_detail_text">
+			<div id="product_detail_text_inner">
+				<div id="product_detail_text_content">
+					<!--{if $startSellDate != ""}--><p class="mg_t20"><!--{$startSellDate}--> release</p><!--{/if}-->
+					<header>
+						<div class="flex_between">
+							<h1><!--{$arrProduct.name|h}--></h1>
+							<p class="open_cart"><a href="javascript:;"><img src="<!--{$TPL_URLPATH}-->images/ico_favorite_off.png" alt=""></a></p>
+						</div>
+						<ul id="detail_price">
+							<!--{strip}-->
+							<!--{if $arrProduct.price02_min_inctax == $arrProduct.price02_max_inctax}-->
+							<!--{if $arrProduct.price02_min_inctax == $arrProduct.fix_price}-->
+							<li>&yen; <span><!--{$arrProduct.price02_min_inctax|n2s}--></span> - tax in</li>
+							<!--{else}-->
+							<li>&yen; <span class="font_through"><!--{$arrProduct.price02_min_inctax|n2s}--></span></li>
+							<li class="red">&yen; <span><!--{$arrProduct.fix_price|n2s}--></span></li>
+							<li class="red"> - tax in <!--{$arrProduct.fix_rate}-->% OFF</li>
+							<!--{/if}-->
+							<!--{else}-->
+							<li>&yen; <span><!--{$arrProduct.price02_min_inctax|n2s}--></span>～<span>&yen; <!--{$arrProduct.price02_max_inctax|n2s}--></span></li>
+							<!--{/if}-->
+							<!--{/strip}-->
+						</ul>
+					</header>
+					<!--{if count($product_status) > 0 OR $smarty.const.USE_POINT !== false}-->
+					<ul class="product_icon">
+						<!--{strip}-->
+						<!--{foreach from=$product_status item=status name=statusLoop}-->
+						<!--{if $status != ''}-->
+						<li class="product_icon_default product_icon<!--{$status}-->"><!--{$arrSTATUS[$status]}--></li>
+						<!--{/if}-->
+						<!--{/foreach}-->
+						<!--{if $smarty.const.USE_POINT !== false}-->
+						<li id="point_rate">獲得予定pt：<!--{if $arrProduct.price02_min == $arrProduct.price02_max}-->
+									<!--{$arrProduct.price02_min|sfPrePoint:$arrProduct.point_rate|n2s}-->
+								<!--{else}-->
+									<!--{if $arrProduct.price02_min|sfPrePoint:$arrProduct.point_rate == $arrProduct.price02_max|sfPrePoint:$arrProduct.point_rate}-->
+										<!--{$arrProduct.price02_min|sfPrePoint:$arrProduct.point_rate|n2s}-->
+									<!--{else}-->
+										<!--{$arrProduct.price02_min|sfPrePoint:$arrProduct.point_rate|n2s}-->～<!--{$arrProduct.price02_max|sfPrePoint:$arrProduct.point_rate|n2s}-->
+									<!--{/if}-->
+								<!--{/if}-->pt</li>
+						<!--{/if}-->
+						<!--{/strip}-->
+					</ul>
+					<!--{/if}-->
+					<div id="add_to_cart" class="open_cart">
+						<a href="javascript:;" class="inline">add to cart</a>
+					</div>
+					<!--{if $arrProduct.comment6 != ''}-->
+					<div id="comment_point">
+						<h3>points</h3>
+						<!--{$arrProduct.comment6|nl2br_html}-->
+					</div>
+					<!--{/if}-->
+					<div id="item_info">
+						<div class="item_detail_txt">
+							<h2 class="detail_tit">detail</h2>
+							<div class="item_info_hidden">
+								<!--{$arrProduct.main_comment|nl2br_html}-->
+							</div>
+						</div>
+						<!--{if $arrSizeHeader.0 !='' }-->
+						<div class="item_detail_txt">
+							<h2 class="detail_tit">sizing</h2>
+							<div class="item_info_hidden">
+								<div class="size_table">
+									<ul id="size_first">
+										<li></li>
+										<!--{foreach from=$arrSizeHeader item=sizehead}-->
+										<li><!--{$sizehead}--></li>
+										<!--{/foreach}-->
+									</ul>
+									<!--{foreach from=$arrSizeName item=sizename key=sizeid}-->
+									<ul class="size_body">
+										<li><!--{$sizename}--></li>
+										<!--{foreach from=$arrSize[$sizeid] item=size}-->
+										<li><!--{$size}--></li>
+										<!--{/foreach}-->
+									</ul>
+									<!--{/foreach}-->
+								</div>
+								<div style="display: none;">
+								<!--{assign var="sizecount" value=$arrSizeName|@count}-->
+								<!--{$sizecount}-->
+								</div>
+								<!--{if $arrProduct.main_list_comment != ""}-->
+								<div class="mg_t40">
+									<!--{$arrProduct.main_list_comment|nl2br_html}-->
+								</div>
+								<!--{/if}-->
+							</div>
+						</div>
+						<!--{/if}-->
+						<!--{if $arrProduct.material.0 !='' }-->
+						<div class="item_detail_txt">
+							<h2 class="detail_tit">material</h2>
+							<div class="item_info_hidden">
+								<p><!--{$arrProduct.material|nl2br_html}--></p>
+								<!--{if $materialSpec != false}-->
+								<p class="mg_t30"><img src="<!--{$materialSpec}-->" alt=""></p>
+								<!--{/if}-->
+							</div>
+						</div>
+						<!--{/if}-->
+						<!--{if $arrProduct.made_in.0 !='' }-->
+						<div class="item_detail_txt" style="display: none;">
+							<h2 class="detail_tit">Country Of Origin</h2>
+							<div class="item_info_hidden">
+								<p><!--{$arrProduct.made_in}--></p>
+							</div>
+						</div>
+						<!--{/if}-->
+						<!--{if $arrProduct.comment1.0 !='' }-->
+						<div class="item_detail_txt">
+							<h2 class="detail_tit">movie</h2>
+							<div class="item_info_hidden youtube_block">
+								<iframe width="100%" src="https://www.youtube.com/embed/<!--{$arrProduct.comment1}-->" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							</div>
+						</div>
+						<!--{/if}-->
+						<!--{if count($arrSnapProducts) > 0}-->
+						<div class="item_detail_txt" style="display: none;">
+							<h2 class="detail_tit_snap"><a href="javascript:;">Snap</a></h2>
+						</div>
+						<!--{/if}-->
+					</div>
+				</div>
+			</div>
+		</section>
+		
+	</div>
+	<!--{if count($arrSnapProducts) > 0}-->
+	<div id="top_snap">
+		<header>
+			<h3 class="tit_default_small">snap</h3>
+		</header>
+		<div id="snap_outer" class="fade_in">
+			<div id="snap_slider">
+				<div class="swiper">
+					<div class="swiper-wrapper">
+						<!--{foreach from=$arrSnapProducts item=snap name=snap}-->
+						<div class="swiper-slide"> <a class="snap_btn snapindex<!--{$smarty.foreach.snap.index}-->" href="javascript:;" data-snap="<!--{$snap.coordinate_id}-->" data-snapindex="<!--{$smarty.foreach.snap.index}-->"><img src="" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$snap.photo_list_img_path}-->" class="swiper-lazy">
+							<p class="mg_t10 mg_r10 mg_l10"><!--{$snap.name_en}--><!--{if $snap.height != "" OR $snap.department != ""}--><br><span class="font_gray"><!--{if $snap.height != ""}--><!--{$snap.height}-->cm<!--{/if}--><!--{if $snap.department !=''}--> 
+					<!--{assign var=dept value=$snap.department}-->
+					/ <!--{$arrDEPARTMENT[$dept]}--><!--{if $snap.comment != ""}--><br><!--{$snap.comment}--><!--{/if}-->
+					<!--{/if}--></span><!--{/if}--></p></a></div>
+						<!--{/foreach}-->
+					</div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+				</div>
+				<div class="swiper-pagination"></div>
+			</div>
+			<p id="btn_insta_large"><a href="https://www.instagram.com/crewre_jp/" target="_blank"><img src="<!--{$TPL_URLPATH}-->images/btn_insta_snap.png"></a></p>
+		</div>
+	</div>
+	<!--{/if}-->
+	<!--{if $recentCheckedItem != ''}-->
+	<div id="detail_recent">
+		<header>
+			<h3 class="tit_default_small">recent view</h3>
+		</header>
+		<div id="recent_view_outer" class="fade_in">
+			<div id="recent_view_slider">
+				<div class="swiper">
+					<div class="swiper-wrapper">
+						<!--{foreach from=$recentCheckedItem item=recentitem name=recentLoop}-->
+						<!--{if $smarty.foreach.recentLoop.index < 5 }-->
+						<!--{if $recentitem.product_id !=$arrProduct.product_id}-->
+						<div class="swiper-slide">
+							<a href="/products/detail.php?product_id=<!--{$recentitem.product_id}--><!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">
+							<div class="list_pict">
+								<div> 
+									<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$recentitem.main_list_image|sfNoImageMainList|h}-->" alt="" class="lazyload fade_in">
+									<!--{if $recentitem.plan_status == 1 OR $recentitem.plan_status == 8}--><span class="over_img"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$TPL_URLPATH}-->images/img_coming.png" alt="COMMING SOON" class="lazyload fade_in"></span>
+									<!--{elseif $recentitem.stock == 0}--><span class="over_img"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$TPL_URLPATH}-->images/img_soldout.png" alt="SOLD OUT" class="lazyload fade_in"></span><!--{/if}-->
+								</div>
+							</div>
+							</a>
+						</div>
+						<!--{/if}-->
+						<!--{/if}-->
+						<!--{/foreach}-->
+					</div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+				</div>
+				<div class="swiper-pagination"></div>
+			</div>
+		</div>
+	</div>
+	<!--{/if}-->
+	<script>
+		let total = $('#item_photo_slider .swiper-slide').length;
+		$('#total_image').html(total);
+
+		const mySwiper_thumb = new Swiper('.item_photo_thumb', {
+			slidesPerView: 7,
+			spaceBetween: 5,
+			grabCursor: true,
+			scrollbar: {
+				el: '.swiper-scrollbar',
+				draggable: true,
+			}
+		});
+		
+		const TopVisualSwiper = new Swiper('#item_photo_slider .swiper', 
+		{
+			effect: 'fade',
+			fadeEffect: {
+				crossFade: true,
+			},
+			slidesPerView: 1,
+			spaceBetween: 0,
+			grabCursor: true,
+			lazy: {
+				loadPrevNext: true,
+			},
+			loopAdditionalSlides: 1, // 無限ループさせる場合に複製するスライド数
+			speed: 500,
+			autoplay: false,
+			thumbs: {
+				swiper: mySwiper_thumb,
+			},
+			on: { // イベントを登録する
+				afterInit: (swiper) => {
+					$('#item_photo_outer').toggleClass('fade_on');
+				},
+				slideChange: (swiper) => {
+					$('#now_image').html(swiper.realIndex + 1);
+				}
+			},
+		});
+
+		const OuterSwiper = new Swiper('#outer_item_photo_slider .swiper', 
+		{
+			effect: 'slide',
+			slidesPerView: 1,
+			spaceBetween: 0,
+			grabCursor: true,
+			lazy: {
+				loadPrevNext: true,
+			},
+			navigation: {
+				nextEl: '#outer_item_photo_slider .swiper-button-next', // 「次へ」ボタン要素のクラス
+				prevEl: '#outer_item_photo_slider .swiper-button-prev', // 「前へ」ボタン要素のクラス
+			},
+			pagination: {
+				el: "#outer_item_photo_slider .swiper-pagination", // ページネーションのクラス名を指定
+				type: "fraction", // ページネーションのtypeを指定
+			},
+			loopAdditionalSlides: 1, // 無限ループさせる場合に複製するスライド数
+			speed: 500,
+		});
+
+		const topSnapSlider = new Swiper ('#snap_slider .swiper', {
+			autoplay: {
+				delay: 4000,
+			},
+			speed: 800,
+			slidesPerView: 2.5,
+			slidesPerGroup: 1,
+			spaceBetween: 7,
+			lazy: {
+				loadPrevNext: true,
+			},
+			centeredSlides: false,
+			navigation: {
+				nextEl: '#snap_slider .swiper-button-next', // 「次へ」ボタン要素のクラス
+				prevEl: '#snap_slider .swiper-button-prev', // 「前へ」ボタン要素のクラス
+			},
+			pagination: {
+				el: '#snap_slider .swiper-pagination',
+				type: 'bullets',
+				clickable: true
+			},
+			on: {
+				init: function () {
+					$('#snap_outer').addClass('fade_on');
+				}
+			}
+		});
+		$("#snap_slider").hover(function() {
+			topSnapSlider.autoplay.stop();
+		}, function() {
+			topSnapSlider.autoplay.start();
+		});
+			
+		const topRecentSlider = new Swiper ('#recent_view_slider .swiper', {
+			autoplay: {
+				delay: 4000,
+			},
+			speed: 800,
+			slidesPerView: 3,
+			slidesPerGroup: 1,
+			spaceBetween: 7,
+			lazy: {
+				loadPrevNext: true,
+			},
+			navigation: {
+				nextEl: '#recent_view_slider .swiper-button-next', // 「次へ」ボタン要素のクラス
+				prevEl: '#recent_view_slider .swiper-button-prev', // 「前へ」ボタン要素のクラス
+			},
+			centeredSlides: false,
+			pagination: {
+				el: '#recent_view_slider .swiper-pagination',
+				type: 'bullets',
+				clickable: true
+			},
+			on: {
+				init: function () {
+					$('#recent_view_outer').addClass('fade_on');
+				}
+			}
+		});
+		$("#recent_view_slider").hover(function() {
+			topRecentSlider.autoplay.stop();
+		}, function() {
+			topRecentSlider.autoplay.start();
+		});
+		$('#color_select li').on('click', function(){
+			$('.color_outer').removeClass('active_color');
+			$(this).find('.color_outer').addClass('active_color');
+			var num = $(this).data('index');
+			TopVisualSwiper.slideTo(num);
+		})
+		$('#outer_thumb_list_inner ul li').on('click', function(){
+			let num = $('#outer_thumb_list_inner ul li').index($(this));
+			OuterSwiper.slideTo(num);
+			$('#outer_item_photo_outer').addClass('aclive_outer_slide');
+		});
+		$('#outer_item_photo_slider_head .btn_outer_close a').on('click', function(){
+			$('#outer_item_photo_outer').removeClass('aclive_outer_slide');
+		})
+	</script>
+</div>
+
+
+	<section id="cart_box_outer">
+		<div id="cart_box_bg"></div>
+		<div id="cart_box_header">
+			<p class="btn_outer_close"><a href="javascript:;"><span></span><span></span></a></p>
+		</div>
+		<div id="cart_box">
+			<form name="form1" id="form1" method="post" action="">
+				<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+				<!--{if $isAdminLogin}-->
+				<input type="hidden" name="admin" value="on" />
+				<input type="hidden" name="admin_date" value="<!--{$adminDate}-->" />
+				<!--{/if}-->
+				<input type="hidden" name="mode" value="cart" />
+				<input type="hidden" name="product_id" value="<!--{$tpl_product_id}-->" />
+				<input type="hidden" name="product_class_id" value="" />
+				<input type="hidden" name="classcategory_id1" value="" />
+				<input type="hidden" name="classcategory_id2" value="" />
+				<input type="hidden" name="quantity" value="1" />
+				<input type="hidden" name="favorite_product_class_id" value="" />
+			<!--{foreach from=$arrProductClasses item=outerItems name=outer}-->
+				<!--{assign var="ccount" value=$outerItems|@count}-->
+				<div class="cart_item">
+					<!--{foreach from=$outerItems item=innerItems name=inner}-->
+					<!--{if $smarty.foreach.inner.first}-->
+					<div class="cart_item_photo">
+						<!--{if $innerItems.c_image != ''}-->
+						<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$innerItems.c_list_image}-->" class="lazyload fade_in">
+						<!--{else}-->
+						<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="/upload/save_image/noimage_main.jpg" class="lazyload fade_in">
+						<!--{/if}-->
+						<p><!--{$innerItems.classcategory_name1}--></p>
+					</div>
+					<div class="cart_item_list">
+					<!--{/if}-->
+						<div class="cart_item_detail">
+							<ul>
+								<li class="cart_item_text">
+									<!--{strip}-->
+									<!--{$innerItems.classcategory_name2}--> / <!--{if $innerItems.plan_status == 1}-->coming soon<!--{elseif $innerItems.plan_status != 2}-->通常商品<!--{else}-->予約商品<!--{/if}-->
+									<!--{if $innerItems.plan_status == 5}--><br>
+										<!--{if $innerItems.finish_date}--><span class="cart_item_deliv">SALE<br>〜<!--{$innerItems.finish_date}--></span><!--{/if}-->
+									<!--{/if}-->
+									<!--{if $innerItems.plan_deliv}--><span class="cart_item_deliv">配送予定<br><!--{$innerItems.plan_deliv}--></span><!--{/if}-->
+									<!--{/strip}-->
+								</li>
+								<li class="cart_btn">
+								<!--{strip}-->
+								<!--{if $cartIn_flg == true && $innerItems.stock > 0}-->
+									<a class="btn_add_cart_n" href="javascript:void" onclick="setParamSubmitDetail(<!--{$innerItems.product_class_id}-->,<!--{$innerItems.classcategory_id1}-->,<!--{$innerItems.classcategory_id2}-->)">
+										add to cart
+									</a>
+								<!--{elseif $innerItems.plan_status == 1}-->
+									<a class="iframe btn_black_full" href="/products/products_mail.php?page=/products/detail.php?product_id=<!--{$innerItems.product_id}-->&product_class_id=<!--{$innerItems.product_class_id}-->&form_mode=arrival">
+										入荷お知らせ
+									</a>
+								<!--{elseif $innerItems.plan_status == 2 || $innerItems.plan_status == 3 || $innerItems.plan_status == 4 || $innerItems.plan_status == 5 || $innerItems.plan_status == 6 || $innerItems.plan_status == NULL}-->
+									<!--{if $innerItems.stock > 0 && $innerItems.plan_status == 2}-->
+										<a class="btn_black_full" href="javascript:void" onclick="setParamSubmitDetail(<!--{$innerItems.product_class_id}-->,<!--{$innerItems.classcategory_id1}-->,<!--{$innerItems.classcategory_id2}-->)">
+											RESERVE
+										</a>
+									<!--{elseif $innerItems.stock > 0 && $innerItems.plan_status != 2}-->
+										<a class="btn_black_full" href="javascript:void" onclick="setParamSubmitDetail(<!--{$innerItems.product_class_id}-->,<!--{$innerItems.classcategory_id1}-->,<!--{$innerItems.classcategory_id2}-->)">
+											add to cart
+										</a>
+									<!--{else}-->
+										<a class="iframe btn_black_full" href="/products/products_mail.php?page=/products/detail.php?product_id=<!--{$innerItems.product_id}-->&product_class_id=<!--{$innerItems.product_class_id}-->&form_mode=rearrival">
+											再入荷お知らせ
+										</a>
+									<!--{/if}-->
+								<!--{elseif $innerItems.plan_status == 7}-->
+									<a href="javascript:void(0)" class="btn_black_full">
+										受注期間終了
+									</a>
+								<!--{/if}-->
+								<!--{/strip}-->
+								</li>
+								<!--{if $tpl_product_id != 552 && $tpl_product_id != 551 && $tpl_product_id != 550 && $tpl_product_id != 549 && $tpl_product_id != 548 && $tpl_product_id != 547 && $tpl_product_id != 546 && $tpl_product_id != 545 && $tpl_product_id != 544}-->
+								<li class="cart_favorite_btn">
+									<!--{strip}-->
+									<!--{if $smarty.const.OPTION_FAVORITE_PRODUCT == 1 && $tpl_login === true}-->
+										<!--{assign var=add_favorite value="add_favorite`$innerItems.product_class_id`"}-->
+										<!--{if $arrErr[$add_favorite]}-->
+											<span class="attention"><!--{$arrErr[$add_favorite]}--></span>
+										<!--{/if}-->
+										<!--{if !$is_favorite[$innerItems.product_class_id]}-->
+											<a href="javascript:eccube.changeAction('?product_id=<!--{$arrProduct.product_id|h}-->'); eccube.setModeAndSubmit('add_favorite','favorite_product_class_id','<!--{$innerItems.product_class_id|h}-->');">
+												<img src="<!--{$TPL_URLPATH}-->images/ico_favorite_off.png" alt=""/>
+											</a>
+										<!--{else}-->
+											<a href="javascript:eccube.changeAction('?product_id=<!--{$arrProduct.product_id|h}-->'); eccube.setModeAndSubmit('delete_favorite','favorite_product_class_id','<!--{$innerItems.product_class_id|h}-->');">
+												<img src="<!--{$TPL_URLPATH}-->images/ico_favorite_on.png" alt=""/>
+											</a>
+										<!--{/if}-->
+									<!--{else}-->
+										<a href="#inline_content3" class="inline3"><img src="<!--{$TPL_URLPATH}-->images/ico_favorite_off.png" alt=""/></a>
+									<!--{/if}-->
+									<!--{/strip}-->
+								</li>
+								<!--{/if}-->
+							</ul>
+						</div>
+					<!--{if $smarty.foreach.inner.last}-->
+					</div>
+					<!--{/if}-->
+					<!--{/foreach}-->
+				</div>
+			<!--{/foreach}-->
+			</form>
+		</div>
+	</section>
+
+
+<!--{strip}-->
+<div style="display:none">
+<section id="inline_content3" class="default_bloc_vertical">
+	<h1 class="tit_mini_center_border mg_b30">お気に入り登録にはログインが必要です</h1>
+	<form name="header_login_form" id="header_login_form" method="post" action="javascript:;" onsubmit="return ajaxLogin();">
+		<input type="hidden" name="mode" value="login" />
+		<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+		<input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
+		<ul class="mg_b10list">
+			<li>
+				<input type="text" class="w_full gray_input formL" name="login_email" value="<!--{$tpl_login_email|h}-->" style="ime-mode: disabled;" placeholder="e-mail">
+			</li>
+			<li class="mg_b20">
+				<input type="password" class="w_full gray_input formL" name="login_pass" placeholder="password">
+				<p class="mg_t10"><a href="<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->" onclick="eccube.openWindow('<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->','forget','600','400',{scrollbars:'no',resizable:'no'}); return false;" target="_blank">パスワードを忘れた方</a></p>
+			</li>
+			<li class="mg_b30">
+				<input class="btn_cart_black" type="submit" value="log in">
+			</li>
+			<li>
+				<p class="alignC mg_b10">会員登録がお済みでない方はご登録ください。</p>
+				<a href="/entry/kiyaku.php" class="btn_cart_white">会員登録</a>
+			</li>
+		</ul>
+	</form>
+</section>
+</div>
+<!--{/strip}-->
+
+<div id="snap_block_outer">
+	<div id="snap_block_bg"></div>
+	<div id="snap_block_inner">
+		<iframe id="snap_iframe" src="" allowtransparency="true"></iframe>
+	</div>
+	<p class="btn_snap_r">
+		<a href="javascript:;"><img src="<!--{$TPL_URLPATH}-->images/ico_arrow_bk_R.png" alt=""></a>
+	</p>
+	<p class="btn_snap_l">
+		<a href="javascript:;"><img src="<!--{$TPL_URLPATH}-->images/ico_arrow_bk_L.png" alt=""></a>
+	</p>
+	<p class="btn_outer_close"><a href="javascript:;"><span></span><span></span></a></p>
+</div>
+<script>
+	let now;
+	$('.snap_btn').on('click',function(){
+		let pid = $(this).data('snap');
+		now = $(this).data('snapindex');
+		next = now + 1;
+		prev = now - 1;
+		$('#snap_iframe').attr('src', '/contents/coordinate_detail.php?cid='+pid);
+		$('#snap_block_outer').fadeIn('fast');
+		if(typeof $('.snapindex' + next).data('snap') === 'undefined'){
+			$('.btn_snap_r').hide();
+		}
+		if(typeof $('.snapindex' + prev).data('snap') === 'undefined'){
+			$('.btn_snap_l').hide();
+		}
+	});
+	$('.btn_snap_r').on('click', function(){
+		now = now + 1;
+		let next = now + 1;
+		$('#snap_iframe').attr('src', '');
+		pid = $('.snapindex' + now).data('snap');
+		$('#snap_iframe').attr('src', '/contents/coordinate_detail.php?cid='+pid);
+		if(typeof $('.snapindex' + next).data('snap') === 'undefined'){
+			$('.btn_snap_r').hide();
+		}else{
+			$('.btn_snap_r').show();
+		}
+		$('.btn_snap_l').show();
+	});
+	$('.btn_snap_l').on('click', function(){
+		now = now - 1;
+		let prev = now - 1;
+		$('#snap_iframe').attr('src', '');
+		pid = $('.snapindex' + now).data('snap');
+		$('#snap_iframe').attr('src', '/contents/coordinate_detail.php?cid='+pid);
+		if(typeof $('.snapindex' + prev).data('snap') === 'undefined'){
+			$('.btn_snap_l').hide();
+		}else{
+			$('.btn_snap_l').show();
+		}
+		$('.btn_snap_r').show();
+	});
+	$('.btn_outer_close, #snap_block_bg').on('click',function(){
+		$('#snap_block_outer').fadeOut('fast',function(){
+			$('#snap_iframe').attr('src', '');
+		});
+	});
+</script>
+
+<!--{/if}-->

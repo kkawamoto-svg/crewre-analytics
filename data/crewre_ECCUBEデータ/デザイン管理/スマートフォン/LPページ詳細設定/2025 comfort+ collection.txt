@@ -1,0 +1,140 @@
+
+<section class="collection">
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <div style="margin-bottom: 0px;">
+            <div style="margin-bottom: 0px;">
+                <img data-src="/user_data/images/collection/2025comfort/SPCOF01修正2.jpg" alt="" class="lazyload fade_in">
+                <!--*<img data-src="/user_data/images/collection/2024winter/statement.jpg" alt="" class="lazyload fade_in">*-->
+            </div>
+        </div>
+    </header>
+    <div>
+        <!--*1コーデ目*-->
+        <!--*<h2 class="tit_collection" style="margin-bottom: 40px; margin-left: 6%;">2024 summer collection</h2>*-->
+        <ul class="collection_block">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--*<li style="margin-bottom: 0px;"><img data-src="/user_data/images/collection/2024winter/intro_1SP.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 0px;"><img data-src="/user_data/images/collection/2024winter/intro_2SP.jpg" alt="" class="lazyload fade_in"></li>*-->
+            <!--*画像ブロックエンド*-->
+            <li style="margin-bottom: -15px;"><img data-src="/user_data/images/collection/2025comfort/SPCOF02修正.jpg" alt="" class="lazyload fade_in"></li>
+            <!--*<li><img data-src="/user_data/images/collection/2025summer/LOOK1_3sp.jpg" alt="" class="lazyload fade_in"></li>*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=470">ドライコンフォートカラーTシャツ　4,400円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=471">ウォーターリペレントスラックス　7,700円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: -35px;"><img data-src="/user_data/images/collection/2025comfort/SPCOF03.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: -15px;"><img data-src="/user_data/images/collection/2025comfort/SPCOF04修正.jpg" alt="" class="lazyload fade_in"></li>
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=469">ポケッタブルストレッチジャケット　9,900円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=471">ウォーターリペレントスラックス　7,700円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+            <!--*2コーデ目*-->
+            <!--*アイテムアコーディオンブロックエンド*-->
+            <li style="margin-top: -35px;"><img data-src="/user_data/images/collection/2025comfort/SPCOF05.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2025comfort/SPCOF06.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2025comfort/SPCOF07.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: -15px;"><img data-src="/user_data/images/collection/2025comfort/SPCOF08修正.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=472">イージーラップマキシワンピース　9,350円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <!--*3コーデ目*-->
+            <li style="margin-top: -35px;"><img data-src="/user_data/images/collection/2025comfort/SPCOF09.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: -15px;"><img data-src="/user_data/images/collection/2025comfort/SPCOF10修正.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=469">ポケッタブルストレッチジャケット　9,900円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=472">イージーラップマキシワンピース　9,350円</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <!--*4コーデ目*-->
+            <li style="margin-top: -35px;"><img data-src="/user_data/images/collection/2025comfort/SPCOF11.jpg" alt="" class="lazyload fade_in"></li>
+
+            <li><img data-src="/user_data/images/collection/2025comfort/SPCOF12.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2025comfort/SPCOF13.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2025comfort/SPCOF14.jpg" alt="" class="lazyload fade_in"></li>
+            <!--*<li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=460">シアーニットストレートワンピース　9,900円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=462">トリアセテートジャカードパンツ　14,300円</a></li>
+                    </ul>
+                </div>
+            </li>*-->
+
+            <!--*5コーデ目*-->
+            <!--<li><img data-src="/user_data/images/collection/2025summer/LOOK5_1sp.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=458">マルチウェイレイヤードタンクトップ　5,940円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=463">ピンタックスラブストレートパンツ　9,130円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><img data-src="/user_data/images/collection/2025summer/LOOK5_2sp.jpg" alt="" class="lazyload fade_in"></li>*-->
+
+            <!--*6コーデ目*-->
+            <!--*<li><img data-src="/user_data/images/collection/2025summer/LOOK6_1sp.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=455">フロントフライバックオープンジレ　9,350円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=466"> ボックスタックキャミワンピース　11,000円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><img data-src="/user_data/images/collection/2025summer/LOOK6_2sp.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2025summer/LOOK6_3sp.jpg" alt="" class="lazyload fade_in"></li>*-->
+
+            <li class="collection_movie">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/QOWOTWnm1Cs?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </li>
+            <li class="collection_txt">
+                <p class="tit_crewre"><img src="/user_data/images/collection/tit_crewre.png?v=2" alt=""></p>
+                <h3>2025 comfort+ collection</h3>
+                <p>producer: Cospashion Yurie</p>
+                <p>photographer: Tomoyuki Ichida<br>
+                    videographer: Yuki Furue<br>
+                    hair&make up: Takuma Suga<br>
+                    model: Hazuki Onishi</p>
+            </li>
+        </ul>
+    </div>
+</section>
+<script>
+    $('.collection_item_tit').on('click', function () {
+        $(this).next('.collection_item_list').slideToggle();
+        $(this).find('a').toggleClass('ico_rotate');
+    });
+</script>

@@ -1,0 +1,158 @@
+<!--{*
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+
+<section id="mypagecolumn" class="default_bloc">
+	<div class="undercolumn_inner">
+	<header>
+	<h2 class="tit_default_s"><!--{$tpl_subtitle|h}--></h2>
+	</header>
+	<div class="mg_t25">
+		<div>
+			<!--{if $tpl_linemax > 0}-->
+				<form name="form1" id="form1" method="post" action="<!--{$smarty.const.HTTPS_URL}-->mypage/delivery.php" >
+					<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+					<input type="hidden" name="mode" value="" />
+					<input type="hidden" name="other_deliv_id" value="" />
+					<input type="hidden" name="pageno" value="<!--{$tpl_pageno}-->" />
+
+					<!--▼フォームボックスここから -->
+					<div class="mypage_deliv_list">
+						<!--{section name=cnt loop=$arrOtherDeliv max=$dispNumber}-->
+							<!--▼お届け先 -->
+							<!--{assign var=OtherPref value="`$arrOtherDeliv[cnt].pref`"}-->
+							
+							<ul class="form_add_addr">
+								<li><strong>ご住所 <!--{$smarty.section.cnt.iteration}--></strong></li>
+								<li><a href="#" onClick="eccube.openWindow('./delivery_addr.php?other_deliv_id=<!--{$arrOtherDeliv[cnt].other_deliv_id}-->','deliv_disp','600','640'); return false;" class="btn_black_mini" rel="external">CHANGE</a></li>
+								<li><a href="#" onClick="eccube.setModeAndSubmit('delete','other_deliv_id','<!--{$arrOtherDeliv[cnt].other_deliv_id}-->'); return false;" class="btn_black_mini" rel="external">DELETE</a></li>
+							</ul>
+							<p>
+								〒<span class="zip01"><!--{$arrOtherDeliv[cnt].zip01}--></span>-<span class="zip02"><!--{$arrOtherDeliv[cnt].zip02}--></span><br />
+								<span class="address"><!--{$arrPref[$OtherPref]|h}--><!--{$arrOtherDeliv[cnt].addr01|h}--><!--{$arrOtherDeliv[cnt].addr02|h}--></span><br />
+								<span class="name01"><!--{$arrOtherDeliv[cnt].name01|h}--></span>&nbsp;<span class="name02"><!--{$arrOtherDeliv[cnt].name02|h}--></span></p>
+							<!--▲お届け先-->
+						<!--{/section}-->
+					</div><!--▲formBox -->
+				</form>
+			<!--{else}-->
+				<p class="delivempty"><strong>新しいお届け先はありません。</strong></p>
+			<!--{/if}-->
+			
+			
+			<!--{if $tpl_linemax < $smarty.const.DELIV_ADDR_MAX}-->
+				<!--{* 退会時非表示 *}-->
+				<!--{if $tpl_login}-->
+					<!--★ボタン★-->
+					<p class="alignC mg_b20 mg_t20"><strong>※新しく住所の変更・追加をおこなっても注文確定後の情報は<br>変更になりませんのでご注意ください。</strong></p>
+					<div class="mg_t20 btn_style">
+						<a href="#" onClick="eccube.openWindow('./delivery_addr.php','deliv_disp','',''); return false;" class="btn_cart_black" rel="external" target="_blank"><p>お届け先情報の追加</p></a>
+					</div>
+				<!--{/if}-->
+			<!--{/if}-->
+			
+			<!--{if count($arrOtherDeliv) > $dispNumber}-->
+				<p><a rel="external" href="javascript: void(0);" class="btn_more" id="btn_more_delivery" onClick="getDelivery(<!--{$dispNumber}-->); return false;" rel="external">もっとみる(＋<!--{$dispNumber}-->件)</a></p>
+			<!--{/if}-->
+
+		</div><!-- /.form_area -->
+	</div>
+    </div>
+</section>
+<div class="mypage_navi">
+    <div>
+        <!--{if $tpl_navi != ""}-->
+            <!--{include file=$tpl_navi}-->
+        <!--{else}-->
+            <!--{include file=`$smarty.const.TEMPLATE_REALDIR`mypage/navi.tpl}-->
+        <!--{/if}-->
+    </div>
+</div>
+
+
+<script>
+    var pageNo = 2;
+
+    function getDelivery(limit) {
+        eccube.showLoading();
+        var i = limit;
+        //送信データを準備
+        var postData = {};
+        $('#form1').find(':input').each(function(){
+            postData[$(this).attr('name')] = $(this).val();
+        });
+        postData["mode"] = "getList";
+        postData["pageno"] = pageNo;
+        postData["disp_number"] = i;
+
+        $.ajax({
+            type: "POST",
+            url: "<!--{$smarty.const.ROOT_URLPATH}-->mypage/delivery.php",
+            data: postData,
+            cache: false,
+            dataType: "json",
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert(textStatus);
+                eccube.hideLoading();
+            },
+            success: function(result){
+                var count = ((pageNo - 1) * i + 1); //お届け先住所の番号
+                for (var j = 0; j < i; j++) {
+                    if (result[j] != null) {
+                        var delivery = result[j];
+                        var deliveryHtml = "";
+                        var maxCnt = $(".delivBox").length - 1;
+                        var deliveryEl = $(".delivBox").get(maxCnt);
+                        deliveryEl = $(deliveryEl).clone(true).insertAfter(deliveryEl);
+                        maxCnt++;
+
+                        //住所タイトルをセット
+                        $($(".delivBox span.zip_title").get(maxCnt)).text('お届け先住所' + count);
+                        //郵便番号1をセット
+                        $($(".delivBox span.zip01").get(maxCnt)).text(delivery.zip01);
+                        //郵便番号2をセット
+                        $($(".delivBox span.zip02").get(maxCnt)).text(delivery.zip02);
+                        //住所をセット
+                        $($(".delivBox span.address").get(maxCnt)).text(delivery.prefname + delivery.addr01 + delivery.addr02);
+                        //姓をセット
+                        $($(".delivBox span.name01").get(maxCnt)).text(delivery.name01);
+                        //名前をセット
+                        $($(".delivBox span.name02").get(maxCnt)).text(delivery.name02);
+                        //編集ボタンをセット
+                        $($(".delivBox a.deliv_edit").get(maxCnt)).attr("onClick", "eccube.openWindow('./delivery_addr.php?other_deliv_id=" + delivery.other_deliv_id + "','deliv_disp','600','640'); return false;");
+                        //削除ボタンをセット
+                        $($(".delivBox a.deliv_delete").get(maxCnt)).attr("onClick", "eccube.setModeAndSubmit('delete','other_deliv_id','" + delivery.other_deliv_id + "'); return false;");
+                        count++;
+                    }
+                }
+                pageNo++;
+
+                //全てのお届け先を表示したか判定
+                if (parseInt(result.delivCount) <= $(".delivBox").length) {
+                    $("#btn_more_delivery").hide();
+                }
+                eccube.hideLoading();
+            }
+        });
+    }
+</script>

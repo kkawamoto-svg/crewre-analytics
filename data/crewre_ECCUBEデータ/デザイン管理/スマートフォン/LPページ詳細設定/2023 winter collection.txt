@@ -1,0 +1,256 @@
+<section class="collection">
+    <header>
+        <h2 class="tit_collection" style="margin: 40px 23px 20px 23px;">2023 winter collection</h2>
+        <div id="winter2023_outer" class="fade_in">
+            <div id="winter2023_slider">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="/user_data/images/collection/2023winter/slide_1.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="/user_data/images/collection/2023winter/slide_2.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="/user_data/images/collection/2023winter/slide_3.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="/user_data/images/collection/2023winter/slide_4.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="/user_data/images/collection/2023winter/slide_5.jpg" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const winter2023slider = new Swiper('#winter2023_slider .swiper',
+                {
+                    slidesPerView: 1.3,
+                    spaceBetween: '6.5%',
+                    grabCursor: true,
+                    /*pagination: {
+                        el: '#topslider_outer .swiper-pagination',
+                        clickable: true,
+                    },*/
+                    loop: true,  // 無限ループさせる
+                    centeredSlides: true, // アクティブなスライドを中央にする
+                    loopAdditionalSlides: 1, // 無限ループさせる場合に複製するスライド数
+                    speed: 500,
+                    autoplay: { // 自動再生させる
+                        delay: 3000, // 次のスライドに切り替わるまでの時間（ミリ秒）
+                        disableOnInteraction: false, // ユーザーが操作しても自動再生を止めない
+                        waitForTransition: true, // アニメーションの間も自動再生を止めない（最初のスライドの表示時間を揃えたいときに）
+                    },
+                    on: { // イベントを登録する
+                        slideChange: (swiper) => {
+                            console.log('Slide index changed to: ' + (swiper.realIndex + 1));
+                        },
+                        afterInit: function () {
+                            $('#winter2023_outer').toggleClass('fade_on')
+                        }
+                    },
+                });
+        </script>
+        <div id="header_text_2023winter">
+            <span id="header_txt_top_border_2023winter"></span>
+            <p>
+                「いつか着てみたい」と思っていたもの、<br>
+                今年は全部叶えたい。<br>
+                冬の夢をぎゅっと詰め込んだ、心躍るコレクション。
+            </p>
+            <span id="header_txt_bottom_border_2023winter"></span>
+        </div>
+        <style>
+            #header_text_2023winter {
+                text-align: center;
+                font-size: 1.1rem;
+                line-height: 210%;
+                position: relative;
+                padding: 18px 0;
+                margin-top: 35px;
+                letter-spacing: 1.0px;
+            }
+            #header_txt_top_border_2023winter {
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: block;
+                width: 88%;
+                height: 1px;
+                background-color: var(--default_light_gray);
+            }
+            #header_txt_bottom_border_2023winter {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                display: block;
+                width: 88%;
+                height: 1px;
+                background-color: var(--default_light_gray);
+            }
+        </style>
+    </header>
+    <div>
+        <ul class="collection_block">
+            <li style="text-align: center; margin-top: 40px; color: #666562;">scroll</li>
+            <li class="border_mid" style="margin-top: 3px;">
+                <span></span>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_01.jpg?v=2" alt=""
+                class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--{if $adminDateDisp|strtotime >= "2023-11-08 21:00:00"|strtotime}-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=324">スタンドカラーダウンジャケット　23,100円</a></li>
+                        <!--{/if}-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=318">ボタンスリーブギャザーシャツ　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=319">メランジディープVネックニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=320">フェイクレザーナロースカート　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_02.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_03.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="border_mid">
+                <span></span>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_04.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=321">フロントフライニットワンピース　11,000円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_05.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="border_mid">
+                <span></span>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_06.jpg?v=2" alt=""
+                    class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=317">カスタムメルトンマキシコート　19,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=318">ボタンスリーブギャザーシャツ　7,700円</a></li>
+                        <!--{if $adminDateDisp|strtotime >= "2023-11-08 21:00:00"|strtotime}-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=325">ブークレークルーネックニット　8,250円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=326">ウォッシャブルフレアパンツ　7,700円</a></li>
+                        <!--{/if}-->
+                    </ul>
+                </div>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_07.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="border_mid">
+                <span></span>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_08.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=317">カスタムメルトンマキシコート　19,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=318">ボタンスリーブギャザーシャツ　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=319">メランジディープVネックニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=320">フェイクレザーナロースカート　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_09.jpg?v=2" alt=""
+                    class="lazyload fade_in"></li>
+            <li class="border_mid">
+                <span></span>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_10.jpg?v=2" alt=""
+                    class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--{if $adminDateDisp|strtotime >= "2023-11-08 21:00:00"|strtotime}-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=323">ビッグカラーミディコート　26,400円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=325">ブークレークルーネックニット　8,250円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=326">ウォッシャブルフレアパンツ　7,700円</a></li>
+                        <!--{else}-->
+                        <li>coming soon...</li>
+                        <!--{/if}-->
+                    </ul>
+                </div>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_11.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_12.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="border_mid">
+                <span></span>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_13.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--{if $adminDateDisp|strtotime >= "2023-11-08 21:00:00"|strtotime}-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=324">スタンドカラーダウンジャケット　23,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=325">ブークレークルーネックニット　8,250円</a></li>
+                        <!--{/if}-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=320">フェイクレザーナロースカート　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_14.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="border_mid">
+                <span></span>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_15.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=317">カスタムメルトンマキシコート　19,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=321">フロントフライニットワンピース　11,000円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_16.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_17.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="border_mid">
+                <span></span>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_18.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--{if $adminDateDisp|strtotime >= "2023-11-08 21:00:00"|strtotime}-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=324">スタンドカラーダウンジャケット　23,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=325">ブークレークルーネックニット　8,250円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=326">ウォッシャブルフレアパンツ　7,700円</a></li>
+                        <!--{else}-->
+                        <li>coming soon...</li>
+                        <!--{/if}-->
+                    </ul>
+                </div>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_19.jpg?v=2" alt="" class="lazyload fade_in"></li>
+            <li class="border_long">
+                <span></span>
+            </li>
+            <li class="collection_movie">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/rv4yFSzPAi4?si=vat5hXPANb6LZbNC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </li>
+            <li class="collection_movie">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/mkobS9cuyxE?si=pVaG-9n_E_iZUTRC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </li>
+            <li class="collection_txt">
+                <p class="tit_crewre"><img src="/user_data/images/collection/tit_crewre.jpg?v=2" alt=""></p>
+                <h3>2023 winter collection</h3>
+                <p>producer: Cospashion Yurie</p>
+                <p>photographer: Tomoyuki Ichida<br>
+                    videographer: A’s<br>
+                    hair&make up: Sayumi Ono<br>
+                    model: Maiki Kimura</p>
+            </li>
+            <li><img data-src="/user_data/images/collection/2023winter/2023winter_20.jpg?v=2" alt="" class="lazyload fade_in"></li>
+        </ul>
+    </div>
+</section>
+<script>
+    $('.collection_item_tit').on('click', function () {
+        $(this).next('.collection_item_list').slideToggle();
+        $(this).find('a').toggleClass('ico_rotate');
+    });
+</script>

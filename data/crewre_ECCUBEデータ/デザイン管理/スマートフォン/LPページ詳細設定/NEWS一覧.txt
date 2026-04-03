@@ -1,0 +1,181 @@
+<section id="undercolumn" class="default_bloc">
+<h2 class="tit_news_default">news</h2>
+<ul class="news_list">
+	
+	
+<!-- ニュースブロック -->
+
+<li><a href="https://crewre.jp/lp/2026_popup_news.php">
+<p class="img"><img data-src="/user_data/lp/images/news/26popupバナー.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>crewre pop up store 開催のお知らせ</h3>
+<p class="txt"></p>
+<p class="day">2026.1.21</p>
+</div>
+</a></li>
+
+<li><a href="https://crewre.jp/lp/nenmatsunenshi2025.php">
+<p class="img"><img data-src="/user_data/lp/images/news/年末年始のお知らせ2025.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>年末年始の休業のお知らせ</h3>
+<p class="txt"></p>
+<p class="day">2025.12.17</p>
+</div>
+</a></li>
+
+<li><a href="https://crewre.jp/lp/2025_popup_news.php">
+<p class="img"><img data-src="/user_data/lp/images/news/25popupb.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>crewre pop up store 開催のお知らせ</h3>
+<p class="txt"></p>
+<p class="day">2025.10.24</p>
+</div>
+</a></li>
+
+<li><a href="https://crewre.jp/lp/importantnews2.php">
+<p class="img"><img data-src="/user_data/lp/images/news/一部変更のお知らせ.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>一部原産国変更のお知らせ</h3>
+<p class="txt"></p>
+<p class="day">2025.8.7</p>
+</div>
+</a></li>
+
+<li><a href="https://crewre.jp/lp/2025sm.php">
+<p class="img"><img data-src="/user_data/lp/images/news/2025夏季休業.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>夏季休業のお知らせ</h3>
+<p class="txt"></p>
+<p class="day">2025.8.5</p>
+</div>
+</a></li>
+
+<li><a href="https://crewre.jp/lp/machiai-shitsuhanbai.php">
+<p class="img"><img data-src="/user_data/lp/images/news/news20250628.png" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>7月9日販売における当日のオンライン待合室についてのご案内</h3>
+<p class="txt"></p>
+<p class="day">2025.6.28</p>
+</div>
+</a></li>
+
+<li><a href="https://crewre.jp/lp/0519explanation.php">
+<p class="img"><img data-src="/user_data/lp/images/news/お詫びと今後の対応について.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>お詫びと今後の対応について</h3>
+<p class="txt"></p>
+<p class="day">2025.5.19</p>
+</div>
+</a></li>
+    
+<li><a href="https://crewre.jp/lp/machiai-shitsu.php">
+<p class="img"><img data-src="/user_data/lp/images/news/newsオンライン待合室.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>混雑時のオンライン待合室についてのご案内</h3>
+<p class="txt"></p>
+<p class="day">2025.5.16</p>
+</div>
+</a></li>
+    
+<li><a href="https://crewre.jp/lp/0430explanation.php">
+<p class="img"><img data-src="/user_data/lp/images/news/ご報告とお詫び.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>crewreでのご購入に際して、いただいているご不安やご質問へのご案内</h3>
+<p class="txt"></p>
+<p class="day">2025.4.30</p>
+</div>
+</a></li>
+    
+<li><a href="https://crewre.jp/lp/2025gw.php">
+<p class="img"><img data-src="/user_data/lp/images/news/2025GW休業.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>GWの休業について2025</h3>
+<p class="txt"></p>
+<p class="day">2025.4.22</p>
+</div>
+</a></li>
+    
+<li><a href="https://crewre.jp/lp/iten.php">
+<p class="img"><img data-src="/user_data/lp/images/news/移転.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>本社の移転のお知らせ</h3>
+<p class="txt"></p>
+<p class="day">2025.3.21</p>
+</div>
+</a></li>
+    
+<li><a href="https://crewre.jp/lp/nenmatsunenshi2024.php">
+<p class="img"><img data-src="/user_data/lp/images/news/年末年始のお知らせ.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>年末年始の休業のお知らせ</h3>
+<p class="txt"></p>
+<p class="day">2024.12.26</p>
+</div>
+</a></li> 
+        
+<li><a href="https://crewre.jp/lp/2024_popup.php">
+<p class="img"><img data-src="/user_data/lp/images/news/news_popup.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>crewre pop up event 開催のお知らせ</h3>
+<p class="txt"></p>
+<p class="day">2024.8.28</p>
+</div>
+</a></li>
+    
+ <li><a href="https://crewre.jp/lp/2024sm.php">
+<p class="img"><img data-src="/user_data/lp/images/news/news_お盆休み.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>夏季休業のお知らせ</h3>
+<p class="txt"></p>
+<p class="day">2024.8.9</p>
+</div>
+</a></li> 
+    
+<li><a href="https://crewre.jp/lp/christmas.php">
+<p class="img"><img data-src="/user_data/lp/images/20231223/pc1.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>Christmas gifts | オリジナルスマホ壁紙配布のご案内</h3>
+<p class="txt"></p>
+<p class="day">2023.12.23</p>
+</div>
+</a></li> 
+    
+<li><a href="https://crewre.jp/lp/importantnews.php">
+<p class="img"><img data-src="/user_data/lp/images/20231122/pc.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>商品ページ内の混率の誤りと訂正</h3>
+<p class="txt"></p>
+<p class="day">2023.11.22</p>
+</div>
+</a></li>    
+
+<li><a href="https://crewre.jp/lp/col_2023winter.php">
+<p class="img"><img data-src="/user_data/lp/images/banner/23winter_pclook.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>winter collection</h3>
+<p class="txt"></p>
+<p class="day">2023.10.11</p>
+</div>
+</a></li>
+	
+<li><a href="https://crewre.jp/lp/col_2023autumn.php">
+<p class="img"><img data-src="/user_data/lp/images/banner/23autumn_pclook.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>debut collection</h3>
+<p class="txt"></p>
+<p class="day">2023.08.16</p>
+</div>
+</a></li>
+	
+<li><a href="https://crewre.jp/user_data/about.php">
+<p class="img"><img data-src="/user_data/lp/images/banner/23autumn_pcabout.jpg" src="" class="fade_in lazyload"></p>
+<div class="txt_area">
+<h3>about us</h3>
+<p class="txt"></p>
+<p class="day">2023.08.16</p>
+</div>
+</a></li>
+	
+<!-- ニュースブロック -->
+</ul>
+</section>

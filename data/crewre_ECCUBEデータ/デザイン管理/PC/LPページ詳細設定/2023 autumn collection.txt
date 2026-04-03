@@ -1,0 +1,160 @@
+
+
+
+<section class="collection">
+<header>
+<h2 class="tit_collection">2023 autumn | debut collection</h2>
+<div style="position: relative; margin-top: -40px;">
+<img data-src="/user_data/images/collection/2023autumn/pc_2023autumn_01.png" alt="" class="lazyload fade_in" style="width: 800px; margin: 0 auto; display: block;">
+<div style="position: absolute; top: 50px; left: 0;">
+<p>どんなシーンにも合う柔軟性と、<br>
+着ただけでさらっとキマる存在感。<br>
+クローゼットのベースになるアイテム。</p>
+</div>
+</div>
+</header>
+<div>
+<ul class="collection_block">
+<li class="border_mid">
+<span></span>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_02.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="collection_item">
+<p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+<div class="collection_item_list">
+<ul>
+<li><a href="https://crewre.jp/products/detail.php?product_id=281">ヘザーカラーミニマルジャケット　12,100円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=305">フロッキーチュールトップス　5,500円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=285">ドレープサテンマキシスカート　8,800円</a></li>
+</ul>
+</div>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_03.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="border_short">
+<span></span>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_04.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="collection_item">
+<p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+<div class="collection_item_list">
+<ul>
+<li><a href="https://crewre.jp/products/detail.php?product_id=281">ヘザーカラーミニマルジャケット　12,100円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=305">フロッキーチュールトップス　5,500円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=302">リングジャカードワンピース　11,000円</a></li>
+</ul>
+</div>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_05.png?v=1" alt="" class="lazyload fade_in"></li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_06.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="border_short">
+<span></span>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_07.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="collection_item">
+<p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+<div class="collection_item_list">
+<ul>
+<li><a href="https://crewre.jp/products/detail.php?product_id=304">アセテートパネルシームシャツ　7,700円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=305">フロッキーチュールトップス　5,500円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=303">ウールブレンドスラックス　7,700円</a></li>
+</ul>
+</div>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_08.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="border_short">
+<span></span>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_09.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="collection_item">
+<p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+<div class="collection_item_list">
+<ul>
+<li><a href="https://crewre.jp/products/detail.php?product_id=304">アセテートパネルシームシャツ　7,700円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=305">フロッキーチュールトップス　5,500円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=303">ウールブレンドスラックス　7,700円</a></li>
+</ul>
+</div>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_10.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="border_short">
+<span></span>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_11.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="collection_item">
+<p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+<div class="collection_item_list">
+<ul>
+<li><a href="https://crewre.jp/products/detail.php?product_id=285">ドレープサテンマキシスカート　8,800円</a></li>
+</div>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_12.png?v=1" alt="" class="lazyload fade_in"></li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_13.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="border_short">
+<span></span>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_14.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="collection_item">
+<p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+<div class="collection_item_list">
+<ul>
+<li><a href="https://crewre.jp/products/detail.php?product_id=304">アセテートパネルシームシャツ　7,700円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=303">ウールブレンドスラックス　7,700円</a></li>
+</ul>
+</div>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_15.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="border_short">
+<span></span>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_16.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="collection_item">
+<p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+<div class="collection_item_list">
+<ul>
+<li><a href="https://crewre.jp/products/detail.php?product_id=304">アセテートパネルシームシャツ　7,700円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=305">フロッキーチュールトップス　5,500円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=285">ドレープサテンマキシスカート　8,800円</a></li>
+</ul>
+</div>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_17.png?v=1" alt="" class="lazyload fade_in"></li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_18.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="border_short">
+<span></span>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_19.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="collection_item">
+<p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+<div class="collection_item_list">
+<ul>
+<li><a href="https://crewre.jp/products/detail.php?product_id=281">ヘザーカラーミニマルジャケット　12,100円</a></li>
+<li><a href="https://crewre.jp/products/detail.php?product_id=302">リングジャカードワンピース　11,000円</a></li>
+</ul>
+</div>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_20.png?v=1" alt="" class="lazyload fade_in"></li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_21.png?v=1" alt="" class="lazyload fade_in"></li>
+<li class="border_long">
+<span></span>
+</li>
+<li class="collection_movie">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/aBfKg_mSY1I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>	
+</li>
+<li class="collection_txt">
+<p class="tit_crewre"><img src="/user_data/images/collection/tit_crewre.png?v=1" alt=""></p>
+<h3>2023 autumn collection</h3>
+<p>producer: Cospashion Yurie</p>
+<p>photographer: Yuki Igarashi<br>
+hair&make up: Akemi Ezashi<br>
+model: Maiki Kimura</p>
+</li>
+<li><img data-src="/user_data/images/collection/2023autumn/2023autumn_23.png?v=1" alt="" class="lazyload fade_in"></li>
+</ul>
+</div>
+</section>
+<script>
+$('.collection_item_tit').on('click', function(){
+$(this).next('.collection_item_list').slideToggle();
+$(this).find('a').toggleClass('ico_rotate');
+});
+</script>

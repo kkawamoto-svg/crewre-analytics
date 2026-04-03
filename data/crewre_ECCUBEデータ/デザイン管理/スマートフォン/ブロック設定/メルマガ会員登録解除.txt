@@ -1,0 +1,56 @@
+<!--{*
+/*
+ * This file is part of PostCarrier for EC-CUBE
+ *
+ * Copyright(c) 2010-2013 IPLOGIC CO.,LTD. All Rights Reserved.
+ *
+ * http://www.iplogic.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+<!--メルマガ専用会員登録フォーム-->
+<script type="text/javascript">
+<!--
+    function fnPostCarrierMailCustomerSubmit(mode){
+        var form = document.postcarrier_mailcustomer_input_form;
+        if(mode==1){
+            form.mode.value = 'input';
+            form.action = "<!--{$smarty.const.HTTPS_URL}--><!--{$smarty.const.USER_DIR}-->mdl_postcarrier/mailcustomer/input.php";
+            form.submit();
+        }else if(mode==2){
+            if(window.confirm('本当に解除してもよろしいでしょうか？')){
+                form.mode.value = 'stop';
+                form.action = "<!--{$smarty.const.HTTPS_URL}--><!--{$smarty.const.USER_DIR}-->mdl_postcarrier/mailcustomer/stop.php";
+                form.submit();
+            }
+        }
+    }
+//-->
+</script>
+<form name="postcarrier_mailcustomer_input_form" id="postcarrier_mailcustomer_input_form" method="post" action="<!--{$smarty.const.HTTPS_URL}--><!--{$smarty.const.USER_DIR}-->mdl_postcarrier/mailcustomer/input.php">
+<input type="hidden" name="mode" value="input"/>
+<section class="pagenumberarea clearfix">
+  <section id="product_list">
+    <h2 class="title_block">メルマガ会員登録</h2>
+      <p class="intro clear">メールアドレス
+      &nbsp;<input type="text" name="email" class="boxLong text top data-role-none" /></p>
+      <ul>
+        <li><a href="javascript:fnPostCarrierMailCustomerSubmit(1)" rel="external">登録</a></li>
+        <li><a href="javascript:fnPostCarrierMailCustomerSubmit(2)" rel="external">解除</a></li>
+      </ul>
+  </section>
+</section>
+</form>

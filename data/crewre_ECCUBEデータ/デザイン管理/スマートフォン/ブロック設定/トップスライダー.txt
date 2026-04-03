@@ -1,0 +1,112 @@
+
+<div id="topslider_outer" class="fade_in">
+<div id="topslider_slider">
+<div class="swiper">
+<div class="swiper-wrapper">
+
+
+
+<!--ここから　26popup　-->	
+<!--{if $adminDateDisp|strtotime >= "2026-1-21 20:00:00"|strtotime && $adminDateDisp|strtotime <= "2035-6-28 21:00:00"|strtotime}-->	
+<div class="swiper-slide">
+<a href="https://crewre.jp/lp/2026_popup_news.php"><img src="/user_data/lp/images/banner/26popupバナー.jpg" alt=""></a>
+</div>
+<!--{/if}-->
+<!--ここまで　26popup　-->       
+
+
+
+<!--ここから　25winter2nd 新作　-->	
+<!--{if $adminDateDisp|strtotime >= "2025-11-12 21:00:00"|strtotime && $adminDateDisp|strtotime <= "2030-9-13 21:00:00"|strtotime}-->	
+<div class="swiper-slide">
+<a href="https://crewre.jp/products/list.php"><img src="/user_data/lp/images/banner/25winter2nd_ラインナップ.jpg" alt=""></a>
+</div>
+<!--{/if}-->
+<!--ここまで　25winter2nd　新作　-->
+
+
+
+<!--ここから　25winter　新作-->	
+<!--{if $adminDateDisp|strtotime >= "2025-10-18 21:00:00"|strtotime && $adminDateDisp|strtotime <= "2025-11-12 21:00:00"|strtotime}-->	
+<div class="swiper-slide">
+<a href="https://crewre.jp/products/list.php"><img src="/user_data/lp/images/banner/25winter_ラインナップ.jpg" alt=""></a>
+</div>
+<!--{/if}-->
+<!--ここまで　25winter　新作-->
+
+
+
+<!--ここから　25winter2nd　look-->	
+<!--{if $adminDateDisp|strtotime >= "2025-11-12 21:00:00"|strtotime && $adminDateDisp|strtotime <= "2030-9-13 21:00:00"|strtotime}-->	
+<div class="swiper-slide">
+<a href="http://crewre.jp/lp/col_2025winter.php"><img src="/user_data/lp/images/banner/25winter2nd_look.jpg" alt=""></a>
+</div>	
+<!--{/if}-->
+<!--ここまで　25winter2nd   look-->
+
+
+
+<!--ここから　25winter　look-->	
+<!--{if $adminDateDisp|strtotime >= "2025-10-18 21:00:00"|strtotime && $adminDateDisp|strtotime <= "2025-11-12 21:00:00"|strtotime}-->	
+<div class="swiper-slide">
+<a href="https://crewre.jp/lp/col_2025winter.php"><img src="/user_data/lp/images/banner/25winter_look.jpg" alt=""></a>
+</div>	
+<!--{/if}-->
+<!--ここまで　25winter　look-->
+    
+    
+<!--ここからnews-->	
+<!--{if $adminDateDisp|strtotime >= "2025-11-01 21:00:00"|strtotime && $adminDateDisp|strtotime <= "2030-10-21 21:00:00"|strtotime}-->	
+<div class="swiper-slide">
+<a href="https://crewre.jp/lp/2025_popup_news.php"><img src="/user_data/lp/images/banner/25popup_banner.jpg" alt=""></a>
+</div>	
+<!--{/if}-->
+<!--ここまでnews-->
+
+<!--ここからshopping guide-->	
+<div class="swiper-slide">
+<a href="https://crewre.jp/user_data/shopping_guide.php"><img src="/user_data/lp/images/banner/ショッピングガイド.png" alt=""></a>
+</div>
+<!--ここまでshopping guide-->
+	
+
+<!--ここからabout-->	
+<div class="swiper-slide">
+<a href="https://crewre.jp/user_data/about.php"><img src="/user_data/lp/images/banner/23winter_about.jpg" alt=""></a>
+</div>
+<!--ここまでabout-->
+
+</div>
+</div>
+<div class="swiper-pagination"></div>
+</div>
+</div>
+
+<script>
+const TopVisualSwiper = new Swiper('#topslider_slider .swiper', 
+{
+slidesPerView: 1,
+spaceBetween: 0,
+grabCursor: true,
+pagination: {
+el: '#topslider_outer .swiper-pagination',
+clickable: true,
+},
+loop: true,  // 無限ループさせる
+loopAdditionalSlides: 1, // 無限ループさせる場合に複製するスライド数
+speed: 500,
+autoplay: { // 自動再生させる
+delay: 3000, // 次のスライドに切り替わるまでの時間（ミリ秒）
+disableOnInteraction: false, // ユーザーが操作しても自動再生を止めない
+waitForTransition: true, // アニメーションの間も自動再生を止めない（最初のスライドの表示時間を揃えたいときに）
+},
+on: { // イベントを登録する
+slideChange: (swiper) => {
+console.log('Slide index changed to: ' + (swiper.realIndex + 1));
+},
+afterInit: function () {
+$('#topslider_outer').toggleClass('fade_on')
+}
+},
+});
+</script>

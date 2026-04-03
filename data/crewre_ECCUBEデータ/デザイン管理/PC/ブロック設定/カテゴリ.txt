@@ -1,0 +1,113 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+<nav id="side_culmn">
+	<div id="nav_mypage_list">
+		<ul>
+			<li><a href="/mypage/">log in / my page</a></li>
+		</ul>
+	</div>
+	<div>
+		
+		<ul id="nav_status_lists" class="nav_inner_lists">
+			<li><a href="/products/list.php">all</a></li>
+			<!--{if count($arrStatusTree) > 0}-->
+			<!--{foreach from=$arrStatusTree key=status_id item=status_count}-->
+			<li><a href="/products/list.php?plan=<!--{$status_id}--><!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->"><!--{$arrSTATUS[$status_id]}--></a></li>
+			<!--{/foreach}-->
+			<!--{/if}-->
+		</ul>
+	</div>
+	<div class="nav_default_list">
+		<h2><a href="javascript:void(0)">category</a></h2>
+		<div class="nav_default_list_inner">
+			<ul id="nav_category_lists" class="nav_inner_lists">
+				<!--{foreach from=$arrTree name=cattree item=cat}-->
+				<li><a href="<!--{$smarty.const.ROOT_URLPATH}-->products/list.php?category_id=<!--{$cat.category_id}--><!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->"><!--{$cat.category_name|h}--></a></li>
+				<!--{/foreach}-->
+			</ul>
+			
+		</div>
+	</div>
+	<div class="nav_default_list">
+		<h2><a href="javascript:void(0)">collection</a></h2>
+		<div class="nav_default_list_inner">
+			<ul id="collection_list_inner" class="nav_inner_lists">
+                <!--{if $adminDateDisp|strtotime >= "2025-10-18 21:00:00"|strtotime}-->
+				<li><a href="/lp/col_2025winter.php">2025 winter</a></li>
+                <!--{/if}-->
+                <!--{if $adminDateDisp|strtotime >= "2025-8-16 21:00:00"|strtotime}-->
+				<li><a href="/lp/col_2025preautumn.php">2025 autumn</a></li>
+                <!--{/if}-->
+                <!--{if $adminDateDisp|strtotime >= "2025-6-28 21:00:00"|strtotime}-->
+				<li><a href="/lp/col_2025comfort.php">2025 comfort+</a></li>
+                <!--{/if}-->
+                <!--{if $adminDateDisp|strtotime >= "2025-5-8 21:00:00"|strtotime}-->
+				<li><a href="/lp/col_2025summer.php">2025 summer</a></li>
+                <!--{/if}-->
+                <!--{if $adminDateDisp|strtotime >= "2025-3-12 21:00:00"|strtotime}-->
+				<li><a href="/lp/col_2025spring.php">2025 spring</a></li>
+                <!--{/if}-->
+                <!--{if $adminDateDisp|strtotime >= "2024-10-16 21:00:00"|strtotime}-->
+				<li><a href="/lp/col_2024winter.php">2024 winter</a></li>
+                <!--{/if}-->
+                <!--{if $adminDateDisp|strtotime >= "2024-08-15 21:00:00"|strtotime}-->
+				<li><a href="/lp/col_2024autumn.php">2024 autumn</a></li>
+                <!--{/if}-->
+                <!--{if $adminDateDisp|strtotime >= "2024-07-17 21:00:00"|strtotime}-->
+				<li><a href="/lp/col_2024accessories.php">2024 accessories</a></li>
+                <!--{/if}-->
+                <!--{if $adminDateDisp|strtotime >= "2024-05-16 21:00:00"|strtotime}-->
+				<li><a href="/lp/col_2024summer.php">2024 summer</a></li>
+				<!--{/if}-->
+				<!--{if $adminDateDisp|strtotime >= "2024-02-21 21:00:00"|strtotime}-->
+				<li><a href="/lp/col_2024spring.php">2024 spring</a></li>
+				<!--{/if}-->
+				<li><a href="/lp/col_2023winter.php">2023 winter</a></li>
+			    <li><a href="/lp/col_2023autumn.php">2023 autumn</a></li>
+			</ul>
+		</div>
+		<script>
+			$(document).ready(function (){
+				$('.nav_default_list h2 a').on('click', function(){
+					$(this).parent().next('div').slideToggle();
+					$(this).toggleClass('side_active');
+				});
+			});
+		</script>
+	</div>
+	<div id="nav_other_list">
+		<ul>
+			<li><a href="/contents/coordinate_list.php">snap</a></li>
+			<li><a href="/user_data/about.php">about</a></li>
+			<li><a href="/lp/">news</a></li>
+			<li><a href="/user_data/shopping_guide.php">shopping guide</a></li>
+			<li style="font-size: 1.2rem;"><a href="/order/">特定商取引法に基づく表記</a></li>
+		</ul>
+	</div>
+	<div id="nav_sns_list">
+		<ul>
+			<li id="ico_insta"><a href="https://www.instagram.com/crewre_jp/" target="_blank"><span>Instagram</span></a></li>
+			<li id="ico_youtube"><a href="https://www.youtube.com/@cospashionyurie" target="_blank"><span>You Tube</span></a></li>
+			<li id="ico_line"><a href="https://lin.ee/NLCDklz" target="_blank"><span>LINE</span></a></li>
+		</ul>
+	</div>
+</nav>

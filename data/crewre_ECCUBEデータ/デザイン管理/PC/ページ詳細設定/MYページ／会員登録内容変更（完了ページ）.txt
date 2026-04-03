@@ -1,0 +1,40 @@
+<!--{*
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+<section id="mypage_block">
+	<header>
+		<h2 class="tit_default"></h2>
+	</header>
+	<div id="mypagecolumn">
+		<!--{include file=$tpl_navi}-->
+		<div id="mycontents_area">
+			<h3 class="tit_bg_gray" style="display: none;"><!--{$tpl_subtitle|h}--></h3>
+
+			<p class="mg_t80 font_lato alignC txt_thanks">thank you</p>
+			<p class="mg_b80 alignC">会員情報を変更しました。</p>
+
+			<p class="mg_b50">会員登録内容の変更が完了しました。<br>
+			今後ともご愛顧賜りますようよろしくお願い申し上げます。</p>
+		</div>
+	</div>
+</section>

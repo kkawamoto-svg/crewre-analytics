@@ -1,0 +1,7 @@
+streamlit
+pandas
+plotly
+python-dotenv
+google-analytics-data
+google-auth
+google-auth-oauthlib

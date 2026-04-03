@@ -1,0 +1,147 @@
+<!--{*
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+<script type="text/javascript">//<![CDATA[
+	var setParamSubmitDetail = function(product_class_id,classcategory_id1,classcategory_id2,plan_price,product_type_id) {
+        document.form1.product_class_id.value = product_class_id;
+		document.form1.classcategory_id1.value = classcategory_id1;
+		document.form1.classcategory_id2.value = classcategory_id2;
+        document.form1.submit();
+    };
+	
+	$(document).ready(function (){
+		$(".iframe").colorbox({iframe:true, width:"770px", height:"80%"});
+	});
+
+//]]></script>
+<section id="mypage_block">
+	<header>
+		<h2 class="tit_default">お気に入り一覧</h2>
+	</header>
+	<div id="mypagecolumn">
+		<!--{if $tpl_navi != ""}-->
+			<!--{include file=$tpl_navi}-->
+		<!--{else}-->
+			<!--{include file=`$smarty.const.TEMPLATE_REALDIR`mypage/navi.tpl}-->
+		<!--{/if}-->
+		<div id="mycontents_area">
+			<form name="form1" id="form1" method="post" action="?">
+				<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+				<input type="hidden" name="order_id" value="" />
+				<input type="hidden" name="pageno" value="<!--{$tpl_pageno}-->" />
+				<input type="hidden" name="mode" value="cart" />
+				<input type="hidden" name="product_class_id" value="" />
+				<input type="hidden" name="classcategory_id1" value="" />
+				<input type="hidden" name="classcategory_id2" value="" />
+
+				<!--{if $objNavi->all_row > 0}-->
+				<div class="tit_bg_gray flex_between">
+					<h3><!--{$tpl_subtitle|h}--></h3>
+					<p><span class="attention"><!--{$objNavi->all_row}-->件</span>のお気に入りがあります。</p>
+				</div>
+					<table summary="お気に入り" class="mypage_table">
+						<col width="15%" />
+						<col width="20%" />
+						<col width="45%" />
+						<col width="20%" />
+						<tr class="th_white">
+							<th class="alignC">削除</th>
+							<th class="alignC">商品画像</th>
+							<th class="alignC">商品名</th>
+							<th class="alignC"><!--{$smarty.const.SALE_PRICE_TITLE}-->(税込)</th>
+						</tr>
+
+						<!--{section name=cnt loop=$arrFavorite}-->
+							<!--{assign var=product_id value="`$arrFavorite[cnt].product_id`"}-->
+							<!--{assign var=product_class_id value="`$arrFavorite[cnt].product_class_id`"}-->
+							<tr>
+								<td class="alignC">
+									<a href="javascript:eccube.setModeAndSubmit('delete_favorite','product_class_id','<!--{$product_class_id|h}-->');">
+										削除</a>
+								</td>
+								<td class="alignC">
+									<a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$product_id|u}-->">
+										<img src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$arrFavorite[cnt].c_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65px;" alt="<!--{$arrFavorite[cnt].name|h}-->" /></a>
+								</td>
+								<td class="favorute_block">
+									<div>
+										<p><a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$product_id|u}-->">
+										<!--{$arrFavorite[cnt].name|h}--></a></p>
+										<p>
+											カラー：<!--{$arrFavorite[cnt].c_name|h}--><br>
+											サイズ：<!--{$arrFavorite[cnt].s_name|h}-->
+										</p>
+									</div>
+									<div class="mg_t10">
+									<!--{if $customer_rank == 1 && $arrFavorite[cnt].status == 5 && $arrFavorite[cnt].stock > 0}-->
+									<a class="btn_gray" href="javascript:void" onclick="setParamSubmitDetail(<!--{$arrFavorite[cnt].product_class_id}-->,<!--{$arrFavorite[cnt].classcategory_id1}-->,<!--{$arrFavorite[cnt].classcategory_id2}-->)">
+										add to cart
+									</a>
+									<!--{elseif $arrFavorite[cnt].plan_status == 1}-->
+										<a class="iframe btn_gray" href="/products/products_mail.php?page=/products/detail.php?product_id=<!--{$arrFavorite[cnt].product_id}-->&product_class_id=<!--{$arrFavorite[cnt].product_class_id}-->&form_mode=arrival">
+											入荷お知らせメール
+										</a>
+									<!--{elseif $arrFavorite[cnt].plan_status == 2 || $arrFavorite[cnt].plan_status == 3 || $arrFavorite[cnt].plan_status == 4 || $arrFavorite[cnt].plan_status == 5 || $arrFavorite[cnt].plan_status == 6 || $arrFavorite[cnt].plan_status == NULL}-->
+										<!--{if $arrFavorite[cnt].stock > 0 && $arrFavorite[cnt].plan_status == 2}-->
+											<a class="btn_gray" href="javascript:void" onclick="setParamSubmitDetail(<!--{$arrFavorite[cnt].product_class_id}-->,<!--{$arrFavorite[cnt].classcategory_id1}-->,<!--{$arrFavorite[cnt].classcategory_id2}-->)">
+												予約する
+											</a>
+										<!--{elseif $arrFavorite[cnt].stock > 0 && $arrFavorite[cnt].plan_status != 2}-->
+											<a class="btn_gray" href="javascript:void" onclick="setParamSubmitDetail(<!--{$arrFavorite[cnt].product_class_id}-->,<!--{$arrFavorite[cnt].classcategory_id1}-->,<!--{$arrFavorite[cnt].classcategory_id2}-->)">
+												add to cart
+											</a>
+										<!--{else}-->
+											<a class="iframe btn_gray" href="/products/products_mail.php?page=/products/detail.php?product_id=<!--{$arrFavorite[cnt].product_id}-->&product_class_id=<!--{$arrFavorite[cnt].product_class_id}-->&form_mode=rearrival">
+												再入荷お知らせメール
+											</a>
+										<!--{/if}-->
+									<!--{elseif $arrFavorite[cnt].plan_status == 7}-->
+										<a class="btn_gray" href="javascript:void(0)">販売終了</a>
+									<!--{/if}-->
+									</div>
+
+								</td>
+								<td class="alignR sale_price">
+									<span class="price"><!--{$arrFavorite[cnt].price02|n2s}-->円</span>
+								</td>
+							</tr>
+						<!--{/section}-->
+					</table>
+					
+					<!--{if $objNavi->strnavi !=""}-->
+					<!--{if $tpl_nowPage == 1 && $tpl_maxPage == 1}-->
+					<!--{else}-->
+					<div class="paging mg_t20">
+						<!--▼ページナビ-->
+						<!--{$objNavi->strnavi}-->
+						<!--▲ページナビ-->
+					</div>
+					<!--{/if}-->
+					<!--{/if}-->
+				<!--{else}-->
+					<p>お気に入りが登録されておりません。</p>
+				<!--{/if}-->
+			</form>
+		</div>
+	</div>
+</section>

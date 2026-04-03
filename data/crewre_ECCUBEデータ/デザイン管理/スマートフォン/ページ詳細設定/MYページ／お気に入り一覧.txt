@@ -1,0 +1,137 @@
+<!--{*
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+<section id="mypagecolumn">
+	<header class="default_bloc">
+		<h1 class="tit_default_s">お気に入り一覧</h1>
+	</header>
+    <!--{if $objNavi->all_row > 0}-->
+	<div class="mg_t25">
+
+        <!--▼フォームここから -->
+        <div>
+            <form name="form1" id="form1" method="post" action="<!--{$smarty.const.ROOT_URLPATH}-->mypage/favorite.php">
+                <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+				<input type="hidden" name="order_id" value="" />
+				<input type="hidden" name="pageno" value="<!--{$tpl_pageno}-->" />
+				<input type="hidden" name="mode" value="cart" />
+				<input type="hidden" name="product_class_id" value="" />
+				<input type="hidden" name="classcategory_id1" value="" />
+				<input type="hidden" name="classcategory_id2" value="" />
+
+                <ul class="mypage_favorite_list">
+				<!--{foreach from=$arrFavorite item=favorite}-->
+					<!--{assign var=product_id value="`$favorite.product_id`"}-->
+					<!--{assign var=product_class_id value="`$favorite.product_class_id`"}-->
+					<li>
+						<div class="favorite_thumb">
+							<a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$product_id|u}-->&c=<!--{$favorite.classcategory_id1}-->">
+								<img src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$favorite.c_list_image|sfNoImageMainList|h}-->" alt="<!--{$favorite.name|h}-->" />
+							</a>
+						</div>
+						<div class="favorite_text">
+							<ul class="list_color_tip">
+								<li><a href="/products/detail.php?product_id=<!--{$product_id|u}-->&c=<!--{$favorite.classcategory_id1}-->" class="color_<!--{$favorite.classcategory_id1}-->"></a></li>
+							</ul>
+							<p class="favorite_product_name"><!--{$favorite.name|h}--></p>
+							<p>
+								color：<!--{$favorite.c_name|h}--><br>
+								size：<!--{$favorite.s_name|h}-->
+							</p>
+							<ul class="favorite_price">
+								<li>&yen;<!--{$favorite.price02|n2s}--></li>
+								<li class="favorite_list_btn" data-favorite="<!--{$product_id|u}-->">
+									<a href="javascript:eccube.setModeAndSubmit('delete_favorite','product_class_id','<!--{$product_class_id|h}-->');"><img src="/user_data/packages/default/images/ico_favorite_on.png" alt=""></a>
+								</li>
+							</ul>
+							<div class="btn_favorite">
+								<!--{if $customer_rank == 1 && $favorite.status == 5 && $favorite.stock > 0}-->
+								<a href="javascript:void" onclick="setParamSubmitDetail(<!--{$favorite.product_class_id}-->,<!--{$favorite.classcategory_id1}-->,<!--{$favorite.classcategory_id2}-->)">
+									add to cart
+								</a>
+								<!--{elseif $favorite.plan_status == 1}-->
+									<a class="iframe" href="/products/products_mail.php?page=/products/detail.php?product_id=<!--{$favorite.product_id}-->&product_class_id=<!--{$favorite.product_class_id}-->&form_mode=arrival">
+										入荷お知らせ
+									</a>
+								<!--{elseif $favorite.plan_status == 2 || $favorite.plan_status == 3 || $favorite.plan_status == 4 || $favorite.plan_status == 5 || $favorite.plan_status == 6 || $favorite.plan_status == NULL}-->
+									<!--{if $favorite.stock > 0 && $favorite.plan_status == 2}-->
+										<a href="javascript:void" onclick="setParamSubmitDetail(<!--{$favorite.product_class_id}-->,<!--{$favorite.classcategory_id1}-->,<!--{$favorite.classcategory_id2}-->)">
+											reserve
+										</a>
+									<!--{elseif $favorite.stock > 0 && $favorite.plan_status != 2}-->
+										<a href="javascript:void" onclick="setParamSubmitDetail(<!--{$favorite.product_class_id}-->,<!--{$favorite.classcategory_id1}-->,<!--{$favorite.classcategory_id2}-->)">
+											add to cart
+										</a>
+									<!--{else}-->
+										<a class="iframe" href="/products/products_mail.php?page=/products/detail.php?product_id=<!--{$favorite.product_id}-->&product_class_id=<!--{$favorite.product_class_id}-->&form_mode=rearrival">
+											再入荷お知らせ
+										</a>
+									<!--{/if}-->
+								<!--{elseif $favorite.plan_status == 7}-->
+									<a href="javascript:void(0)">販売終了</a>
+								<!--{/if}-->
+							</div>
+						</div>
+					</li>
+				<!--{/foreach}-->
+				</ul>
+            </form>
+        </div><!-- /.form_area -->
+		<!--{if $objNavi->strnavi !=""}-->
+		<!--{if $tpl_nowPage == 1 && $tpl_maxPage == 1}-->
+		<!--{else}-->
+		<nav class="mg_t30">
+			<div class="paging">
+				<!--{$objNavi->strnavi}-->
+			</div>
+		</nav>
+		<!--{/if}-->
+		<!--{/if}-->
+	</div>
+    <!--{else}-->
+	<div class="default_bloc alignC mg_t30 mg_b30">
+		<p>お気に入りが登録されておりません。</p>
+	</div>
+    <!--{/if}-->
+	
+	<div class="mypage_navi">
+		<div>
+			<!--{if $tpl_navi != ""}-->
+				<!--{include file=$tpl_navi}-->
+			<!--{else}-->
+				<!--{include file=`$smarty.const.TEMPLATE_REALDIR`mypage/navi.tpl}-->
+			<!--{/if}-->
+		</div>
+	</div>
+</section>
+<script type="text/javascript">//<![CDATA[
+	var setParamSubmitDetail = function(product_class_id,classcategory_id1,classcategory_id2,plan_price,product_type_id) {
+        document.form1.product_class_id.value = product_class_id;
+		document.form1.classcategory_id1.value = classcategory_id1;
+		document.form1.classcategory_id2.value = classcategory_id2;
+        document.form1.submit();
+    };
+	$(document).ready(function (){
+		$(".iframe").colorbox({iframe:true, width:"90%", height:"90%"});
+	});
+//]]></script>

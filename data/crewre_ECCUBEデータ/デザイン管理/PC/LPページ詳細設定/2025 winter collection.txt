@@ -1,0 +1,328 @@
+<style>
+    .collection_item01 {
+        font-size: 1.5rem;
+        margin-left: 210px;
+        padding: 35px 0;
+    }
+    .collection_item02 {
+        font-size: 1.5rem;
+        margin-left: 210px;
+        padding: 35px 0;
+    }
+    .collection_item03 {
+        font-size: 1.5rem;
+        margin-left: 210px;
+        padding: 35px 0;
+    }
+    .collection_item04 {
+        font-size: 1.5rem;
+        margin-left: 210px;
+        padding: 35px 0;
+    }
+    .collection_item05 {
+        font-size: 1.5rem;
+        margin-left: 210px;
+        padding: 35px 0;
+    }
+    .collection_item06 {
+        font-size: 1.5rem;
+        margin-left: 210px;
+        padding: 35px 0;
+    }
+    .collection_item07 {
+        font-size: 1.5rem;
+        margin-left: 210px;
+        padding: 35px 0;
+    }
+</style>
+<section class="collection">
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <h2 class="tit_collection" style="margin-bottom: 0px;"></h2>
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025winter/PC01.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025winter/PC02.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025winter/PC03.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+        </p>        
+    </header>
+    <div>
+        <ul class="collection_block" style="width: auto;">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--*<img data-src="/user_data/images/collection/2025winter/PC01.jpg" alt="" class="lazyload fade_in" style="width: 100%">*-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item01">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li>・left</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=527">リバーロングステンカラーコート　19,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=539">ウールリヨセルハイネックニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=532">3wayスリットIラインスカート　9,900円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=543">グロッシーペブルピアス / イヤリング　6,930円</a></li>
+                        <li>・center</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=527">リバーロングステンカラーコート　19,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=530">カシミアブレンドメリノウールニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=538">ロービングスラブルーズニット　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=540">ギャバフリースウォームスラックス　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=535">ボタンスタッズスウェードベルト　9,900円</a></li>
+                        <li>・right</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=527">リバーロングステンカラーコート　19,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=530">カシミアブレンドメリノウールニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=531">2wayハイネックスリムカーディガン　7,150円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=534">サイドシームニットラインスラックス　8,800円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+            <!--*アイテムアコーディオンブロックエンド*-->
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025winter/PC04.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025winter/PC05.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025winter/PC06.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+         </p>
+      </header>
+    <div>
+        <ul class="collection_block" style="width: auto;">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item02">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=531">2wayハイネックスリムカーディガン　7,150円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=540">ギャバフリースウォームスラックス　7,700円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025winter/PC07.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+            <img data-src="/user_data/images/collection/2025winter/PC08.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025winter/PC09.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025winter/PC10.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+         </p>
+      </header>
+    <div>
+        <ul class="collection_block" style="width: auto;">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item03">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li>・left</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=530">カシミアブレンドメリノウールニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=531">2wayハイネックスリムカーディガン　7,150円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=534">サイドシームニットラインスラックス　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=543">グロッシーペブルピアス / イヤリング　6,930円</a></li>
+                        <li>・center</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=530">カシミアブレンドメリノウールニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=543">グロッシーペブルピアス / イヤリング　6,930円</a></li>
+                        <li>・right</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=530">カシミアブレンドメリノウールニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=539">ウールリヨセルハイネックニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=532">3wayスリットIラインスカート　9,900円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025winter/PC11.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025winter/最終修正PC12.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+         </p>
+      </header>
+    <div>
+        <ul class="collection_block" style="width: auto;">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item04">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li>・left</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=536">2wayノーカラーパファーコート　23,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=539">ウールリヨセルハイネックニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=532">3wayスリットIラインスカート　9,900円</a></li>
+                        <li>・right</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=528">リバーフーデッドミドルコート　29,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=530">カシミアブレンドメリノウールニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=540">ギャバフリースウォームスラックス　7,700円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025winter/PC13.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025winter/最終修正PC14.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025winter/PC15.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+         </p>
+      </header>
+    <div>
+        <ul class="collection_block" style="width: auto;">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item05">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=529">ソフトツイードオーバージャケット　17,600円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=533">フロントフライニットワンピース　11,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=543">グロッシーペブルピアス / イヤリング　6,930円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025winter/PC16.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+            <img data-src="/user_data/images/collection/2025winter/PC17.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+         </p>
+      </header>
+    <div>
+        <ul class="collection_block" style="width: auto;">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item06">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=537">コーデュロイシートダウンコート　29,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=540">ギャバフリースウォームスラックス　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=543">グロッシーペブルピアス / イヤリング　6,930円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <header id="winter2023_header" style="margin-top: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025winter/PC18.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025winter/PC19修正.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+         </p>
+      </header>
+    <div>
+        <ul class="collection_block" style="width: auto;">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item07">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li>・left</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=538">ロービングスラブルーズニット　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=542">モイストタッチボリュームストール　6,600円</a></li>
+                        <li>・right</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=538">ロービングスラブルーズニット　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=541">ロービングスラブニットスカート　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=543">グロッシーペブルピアス / イヤリング　6,930円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=542">モイストタッチボリュームストール　6,600円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=535">ボタンスタッズスウェードベルト　9,900円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <header id="winter2023_header" style="margin-bottom: 400px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025winter/PC20.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+        </p>
+      </header>
+    <div>
+       <ul class="collection_block">     
+            <li class="collection_movie">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/RSJzrZ3Q0O0?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </li>
+            
+            <li class="collection_txt">
+                <p class="tit_crewre"><img src="/user_data/images/collection/tit_crewre.png?v=2" alt=""></p>
+                <h3>2025 winter collection</h3>
+                <p>producer: Cospashion Yurie</p>
+                <p>photographer: Tomoyuki Ichida<br>
+                    videographer: Yuki Furue<br>
+                    hair&make up: Takuma Suga<br>
+                    model: Hazuki Onishi, Sae Yoshikawa, Luna</p>
+            </li>
+        </ul>
+    </div>
+</section>
+<script>
+    $('.collection_item_tit').on('click', function () {
+        $(this).next('.collection_item_list').slideToggle();
+        $(this).find('a').toggleClass('ico_rotate');
+    });
+</script>

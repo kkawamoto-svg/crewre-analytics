@@ -1,0 +1,280 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+
+<script>//<![CDATA[
+
+    function fnCheckSubmit() {
+        $('.btn_area').hide();
+		$('#now_execute').show();
+		var num = Math.random();
+		if(num >= 0.5){
+			setTimeout(function(){document.form1.submit();}, 1000);
+		}else{
+			document.form1.submit();
+		}
+    }
+
+    //ご注文内容エリアの表示/非表示
+    var speed = 1000; //表示アニメのスピード（ミリ秒）
+    var stateCartconfirm = 0;
+    function fnCartconfirmToggle(areaEl, imgEl) {
+        areaEl.toggle(speed);
+        if (stateCartconfirm == 0) {
+            $(imgEl).attr("src", "<!--{$TPL_URLPATH}-->img/button/btn_plus.png");
+            stateCartconfirm = 1;
+        } else {
+            $(imgEl).attr("src", "<!--{$TPL_URLPATH}-->img/button/btn_minus.png");
+            stateCartconfirm = 0
+        }
+    }
+    //お届け先エリアの表示/非表示
+    var stateDelivconfirm = 0;
+    function fnDelivconfirmToggle(areaEl, imgEl) {
+        areaEl.toggle(speed);
+        if (stateDelivconfirm == 0) {
+            $(imgEl).attr("src", "<!--{$TPL_URLPATH}-->img/button/btn_plus.png");
+            stateDelivconfirm = 1;
+        } else {
+            $(imgEl).attr("src", "<!--{$TPL_URLPATH}-->img/button/btn_minus.png");
+            stateDelivconfirm = 0
+        }
+    }
+    //配送方法エリアの表示/非表示
+    var stateOtherconfirm = 0;
+    function fnOtherconfirmToggle(areaEl, imgEl) {
+        areaEl.toggle(speed);
+        if (stateOtherconfirm == 0) {
+            $(imgEl).attr("src", "<!--{$TPL_URLPATH}-->img/button/btn_plus.png");
+            stateOtherconfirm = 1;
+        } else {
+            $(imgEl).attr("src", "<!--{$TPL_URLPATH}-->img/button/btn_minus.png");
+            stateOtherconfirm = 0
+        }
+    }
+//]]></script>
+
+<!--▼コンテンツここから -->
+<section id="undercolumn" class="default_bloc"> 
+<div class="undercolumn_inner">
+	<header class="mg_b10">
+		<h1 class="tit_default_s">入力内容のご確認</h1>
+		<div id="cart_flow" class="cart_flow1">
+			<ul>
+				<li class="cart_active_line"><span class="flow_active_icon"></span></li>
+				<li><span class="flow_active_icon"></span></li>
+				<li><span></span><span></span></li>
+			</ul>
+		</div>
+	</header>
+	<form name="form1" id="form1" method="post" action="<!--{$smarty.const.ROOT_URLPATH}-->shopping/confirm.php">
+		<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+		<input type="hidden" name="mode" value="confirm" />
+		<input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->" />
+		<div class="cart_items">
+			<!--{foreach from=$arrCartItems item=item}-->
+			<div class="cart_item_inner">
+				<ul class="cart_item_info">
+					<li class="item_photo"><img src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$item.productsClass.c_list_image|sfNoImageMainList|h}-->" alt="<!--{$item.productsClass.name|h}-->" /> </li>
+					<li class="item_info">
+						<p class="mg_b15"><!--{$item.productsClass.name|h}--><br>
+							<!--{$item.price_inctax|n2s|h}-->
+						</p>
+						<p>color：<!--{$item.productsClass.classcategory_name1|h}-->
+						<br>size：<!--{$item.productsClass.classcategory_name2|h}-->
+						<!--{if $item.productsClass.status == 3}-->
+						<br><span class="red">※ノベルティ商品</span>
+						<!--{/if}-->
+						</p>
+						<div class="cart_quantity">
+							<p>数量：<!--{$item.quantity|n2s}--></p>
+						</div>
+						<p style="display: none;">小計：&yen;<!--{$item.total_inctax|n2s}--></p>
+					</li>
+				</ul>
+			</div>
+			<!--{/foreach}-->
+			<div class="result_area">
+				<ul>
+					<li>
+						<p>小計 ：</p>
+						<p>&yen;<!--{$tpl_total_inctax[$cartKey]|n2s}--></p>
+					</li>
+					<!--{if $smarty.const.USE_POINT !== false}-->
+					<li>
+						<p>値引き（ポイント利用時）： </p>
+						<!--{assign var=discount value=`$arrForm.use_point*$smarty.const.POINT_VALUE`}-->
+						<p>-&yen;<!--{$discount|n2s|default:0}--></p>
+					</li>
+					<!--{/if}-->
+					<!--{if $arrForm.coupon_check != "" && $arrForm.coupon_check != "0" && $arrForm.coupon_discount_price > 0 && $smarty.const.USE_COUPON == true}-->
+					<li><span class="mini">クーポン利用 ：</span>-<!--{$arrForm.coupon_discount_price|number_format}-->円</li>
+					<!--{/if}-->
+					<li>
+						<p>送料 ：</p>
+						<p>&yen;<!--{$arrForm.deliv_fee|n2s}--></p>
+					</li>
+					<li>
+						<p>手数料 ：</p>
+						<p>&yen;<!--{$arrForm.charge|n2s}--></p>
+					</li>
+					<!--{if $key != $smarty.const.PRODUCT_TYPE_DOWNLOAD && $arrInfo.free_rule > 0 && $arrForm.deliv_fee == 0}-->
+					<li style="display: none">●税込<!--{$arrInfo.free_rule|n2s|h}-->円以上送料無料適用中</li>
+					<!--{/if}-->
+				</ul>
+			</div>
+			<div class="cart_total mg_t30">
+				<ul class="cart_price_total flex_between">
+					<li class="total_txt">合計税込：</li>
+					<li><span><!--{$arrForm.payment_total|n2s}--></span>円</li>
+				</ul>
+			</div>
+		</div>
+		<div class="subblock mg_t60">
+			<h2 class="ttl_form_default">お届け先</h2>
+			<div>
+				<!--{foreach item=shippingItem from=$arrShipping name=shippingItem}-->
+				<!--▼フォームボックスここから -->
+				<p>〒<!--{$shippingItem.shipping_zip01|h}-->-<!--{$shippingItem.shipping_zip02|h}--><br />
+					<!--{$arrPref[$shippingItem.shipping_pref]}--><!--{$shippingItem.shipping_addr01|h}--><!--{$shippingItem.shipping_addr02|h}--></p>
+				<p class="deliv_name"><!--{$shippingItem.shipping_name01|h}--> <!--{$shippingItem.shipping_name02|h}--> 様</p>
+				<p>電話番号：<!--{$shippingItem.shipping_tel01}-->-<!--{$shippingItem.shipping_tel02}-->-<!--{$shippingItem.shipping_tel03}--></p>
+				<!--{if $shippingItem.shipping_fax01 > 0}-->
+				<p>FAX番号：<!--{$shippingItem.shipping_fax01}-->-<!--{$shippingItem.shipping_fax02}-->-<!--{$shippingItem.shipping_fax03}--></p>
+				<!--{/if}-->
+				<!--{if $is_multiple}-->
+					<!--▼カートの中の商品一覧 -->
+					<div class="cartcartconfirmarea">
+						<!--{foreach item=item from=$shippingItem.shipment_item}-->
+							<!--▼商品 -->
+							<div class="cartconfirmBox">
+								<!--{if $item.productsClass.main_image|strlen >= 1}-->
+									<a href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$item.productsClass.main_image|sfNoImageMainList|h}-->" target="_blank">
+										<img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$item.productsClass.main_list_image|sfNoImageMainList|h}-->" style="max-width: 80px;max-height: 80px;" alt="<!--{$item.productsClass.name|h}-->" class="photoL" /></a>
+								<!--{else}-->
+									<img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$item.productsClass.main_list_image|sfNoImageMainList|h}-->" style="max-width: 80px;max-height: 80px;" alt="<!--{$item.productsClass.name|h}-->" class="photoL" />
+								<!--{/if}-->
+								<div class="cartconfirmContents">
+									<p>
+										<em><!--{$item.productsClass.name|h}--></em><br />
+										<!--{if $item.productsClass.classcategory_name1 != ""}-->
+												<span class="mini"><!--{$item.productsClass.class_name1}-->：<!--{$item.productsClass.classcategory_name1}--></span><br />
+										<!--{/if}-->
+										<!--{if $item.productsClass.classcategory_name2 != ""}-->
+												<span class="mini"><!--{$item.productsClass.class_name2}-->：<!--{$item.productsClass.classcategory_name2}--></span>
+										<!--{/if}-->
+									</p>
+									<ul>
+										<li><span class="mini">数量：</span><!--{$item.quantity}--></li>
+										<!--{* XXX デフォルトでは購入小計と誤差が出るためコメントアウト*}-->
+										<li class="result"><span class="mini">小計：</span><!--{$item.total_inctax|n2s}-->円</li>
+									</ul>
+								</div>
+							</div>
+							<!--▲商品 -->
+						<!--{/foreach}-->
+					</div>
+					<!--▲カートの中の商品一覧ここまで -->
+					<!--{/if}-->
+					<!-- /.formBox -->
+				<!--{/foreach}-->
+			</div>
+		</div>
+		<div class="subblock mg_t60">
+			<h2 class="ttl_form_default">ご請求先</h2>
+			<div>
+				<p>〒<!--{$arrForm.order_zip01|h}-->-<!--{$arrForm.order_zip02|h}--><br />
+					<!--{$arrPref[$arrForm.order_pref]}--><!--{$arrForm.order_addr01|h}--><!--{$arrForm.order_addr02|h}--></p>
+				<p class="deliv_name"><!--{$arrForm.order_name01|h}--> <!--{$arrForm.order_name02|h}--> 様</p>
+				<p><!--{$arrForm.order_tel01}-->-<!--{$arrForm.order_tel02}-->-<!--{$arrForm.order_tel03}--></p>
+				<!--{if $arrForm.order_fax01 > 0}-->
+					<p><!--{$arrForm.order_fax01}-->-<!--{$arrForm.order_fax02}-->-<!--{$arrForm.order_fax03}--></p>
+				<!--{/if}-->
+				<p><!--{$arrForm.order_email|h}--></p>
+			</div>
+		</div>
+		<div class="subblock mg_t60">
+			<h2 class="ttl_form_default">配送希望指定</h2>
+			<div>
+				<!--{foreach item=shippingItem from=$arrShipping}-->
+				<p>配送希望日：<!--{$shippingItem.shipping_date|default:"最短"|h}--></p>
+				<p>配送希望時間：<!--{$shippingItem.shipping_time|default:"指定なし"|h}--></p>
+				<p>*予約商品の場合は指定できません。</p>
+				<!--{/foreach}-->
+			</div>
+		</div>
+		<div class="subblock mg_t60">
+			<h2 class="ttl_form_default">配送方法・お支払い方法</h2>
+			<div>
+				<p><!--{$arrDeliv[$arrForm.deliv_id]|h}--><br>
+				<!--{if $arrForm.deliv_plan != ""}-->発送予定日：<!--{$arrForm.deliv_plan|h}--><br><!--{/if}-->
+				<!--{$arrForm.payment_method|h}--> <!--{if $arrForm.charge != 0}--> / <span>※Charge ：&yen;<!--{$arrForm.charge|n2s}--></span><!--{/if}--></p>
+			</div>
+		</div>
+		<div class="subblock mg_t60">
+			<h2 class="ttl_form_default">利用 / 獲得予定ポイント</h2>
+			<div>
+				<!--{if $tpl_login == 1 && $smarty.const.USE_POINT !== false}-->
+				<p>ご注文前のポイント：<!--{$tpl_user_point|n2s|default:0}-->pt<br>
+				<!--{if $arrForm.birth_point > 0}-->
+				お誕生月ポイント：+<!--{$arrForm.birth_point|n2s|default:0}-->pt<br>
+				<!--{/if}-->
+				獲得予定ポイント：+<!--{$arrForm.add_point|n2s|default:0}-->pt<br>
+				ポイントの付与は商品発送後1ヶ月となります。</p>
+				<!--{/if}-->
+			</div>
+		</div>
+		<!--★インフォメーション★-->
+
+		<div class="btn_area">
+			<ul class="btn_btm">
+				<!--{if $use_module}-->
+				<!--{if $arrForm.payment_id == 6}-->
+					<li class="mg_b15"><a rel="external" href="javascript:void(fnCheckSubmit());" class="btn_n btn_cart_black">注文完了</a></li>
+				<!--{elseif $arrForm.payment_id == 5}-->
+					<li class="mg_b15"><a rel="external" href="javascript:void(fnCheckSubmit());" class="btn_n btn_cart_black">お支払い情報の入力へ</a></li>
+				<!--{elseif $arrForm.payment_id == 7}-->
+					<li class="mg_b15"><a rel="external" href="javascript:void(fnCheckSubmit());" class="btn_n btn_cart_black">お支払い情報の入力へ</a></li>
+				<!--{else}-->
+					<li class="mg_b15"><a rel="external" href="javascript:void(fnCheckSubmit());" class="btn_n btn_cart_black">お支払い情報の入力へ</a></li>
+				<!--{/if}-->
+				<!--{else}-->
+				<li class="mg_b15"><a rel="external" href="javascript:void(fnCheckSubmit());" class="btn_n btn_cart_black">注文完了</a></li>
+				<!--{/if}-->
+				<!--{if $isAdminLogin == true}-->
+				<li><a rel="external" href="/cart/?admin=on&admin_date=<!--{$adminDate}-->" class="btn_n btn_cart_white">戻る</a></li>
+				<!--{else}-->
+				<li><a rel="external" href="/cart/" class="btn_n btn_cart_white">戻る</a></li>
+				<!--{/if}-->
+			</ul>
+		</div>
+		<div class="mg_t30" id="now_execute" style="display: none">
+			<p class="ico_loader"><img src="/user_data/packages/sphone/images/ico_loader.svg"></p>
+			<p class="fontRed alignC"><strong>ただ今、処理中です。<br>
+			今しばらくお待ちください。</strong></p>
+		</div>
+	</form>
+</div>
+</section>
+
+
+
+<!--▲コンテンツここまで -->

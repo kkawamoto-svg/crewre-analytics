@@ -1,0 +1,39 @@
+<section class="lp_default">
+	<header>
+		<img data-src="/user_data/lp/images/20231223/pc1.jpg" src="" class="fade_in lazyload">
+		<div class="default_bloc lp_mg_tb_default">
+			<h1 class="lp_default_tit">【Christmas gifts | オリジナルスマホ壁紙配布のご案内】</h1>
+            <p><font>
+                平素よりcrewreをご愛顧いただきありがとうございます。<br><br>
+                この度、crewreオリジナルのスマートフォン用壁紙(全2種)を配布いたします。<br>
+                crewの皆さまへ感謝の気持ちを込めて、ささやかなクリスマスプレゼントです。<br><br>
+                <br>
+                画像下にあるURLからダウンロードしてお使いいただけます。<br>
+                少しでも楽しんでいただけましたら幸いです。<br><br>
+                素敵なクリスマスをお過ごしください。<br><br>
+                <br>
+                <p class="alignC">
+                <img data-src="/user_data/lp/images/20231223/cr2.png" src="" class="fade_in lazyload">
+                </p>
+                <p class="alignC">
+                <a href="https://crewre.jp/user_data/lp/images/20231223/christmas2.jpg" class="btn_white w_full">【画像ダウンロードはこちら】</a>
+                </p>
+                <br><br>
+                <p class="alignC">
+                <img data-src="/user_data/lp/images/20231223/cr1.png" width="450px" class="fade_in lazyload">
+                </p>
+                <p class="alignC">
+                <a href="https://crewre.jp/user_data/lp/images/20231223/christmas1.jpg" class="btn_white w_full">【画像ダウンロードはこちら】</a>
+                </p>
+                <br><br>
+                </font></p>
+		</div>
+	</header>
+	<div>
+		<div class="default_bloc lp_mg_tb_default">
+			<p class="alignC">
+				<a href="/" class="btn_white w_full">top page</a>
+			</p>
+		</div>
+	</div>
+</section>

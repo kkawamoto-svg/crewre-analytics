@@ -1,0 +1,7 @@
+<section>
+    <h1><!--{$arrNews.news_title|h}--></h1>
+    <div>
+        <p><!--{$arrNews.news_date|date_format:"%Y/%m/%d"}--></p>
+        <!--{$arrNews.news_comment|h}-->
+    </div>
+</section>

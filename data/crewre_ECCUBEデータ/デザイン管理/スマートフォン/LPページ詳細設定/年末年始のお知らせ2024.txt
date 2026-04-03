@@ -1,0 +1,35 @@
+<section class="lp_default">
+	<header>
+		<img data-src="/user_data/lp/images/news/年末年始のお知らせ.jpg" src="" class="fade_in lazyload">
+		<div class="default_bloc lp_mg_tb_default">
+			<h1 class="lp_default_tit">【年末年始の休業のお知らせ】</h1>
+            <p><font>
+                平素よりcrewreをご愛顧いただきありがとうございます。<br>
+                年末年始の休業についてですが、誠に勝手ながら下記の期間において休業とさせていただきます。<br>
+                休業中は商品の発送、お問い合わせなどのカスタマーサポートが休止となります。<br>
+                <br>
+                <b>■営業日について</b><br><br>
+                【休業期間】<br>
+                2024年12月28日(土) ～ 2025年1月5日(日)<br><br>
+                <b>■お問合せ対応について</b>	<br><br>
+                ご対応は営業日のAM10:00～PM17：00までさせて頂きます。<br>
+                休業日に頂戴したご注文・お問合せは翌営業日以降に順次対応させていただきます。<br>
+                <br>
+                尚、営業開始の2025年1月6日(月)より順次ご対応させていただきますが、混雑が予想されますため、発送や回答にお時間がかかる場合がございます。<br>
+                よくあるご質問はストアサイトのショッピングガイドよりご確認いただけますので、そちらも合わせてご利用いただけますと幸いです。<br>
+                大変ご不便をおかけいたしますが、予めご了承いただきますようお願い申し上げます。<br>
+                </font></p>
+			<br><br>
+            <p class="alignC">
+                <a href="https://crewre.jp/user_data/shopping_guide.php" class="btn_black w_full"><b>ショッピングガイドはこちらから</b></a>
+			</p>
+		</div>
+	</header>
+	<div>
+		<div class="default_bloc lp_mg_tb_default">
+			<p class="alignC">
+				<a href="/" class="btn_white w_full">top page</a>
+			</p>
+		</div>
+	</div>
+</section>

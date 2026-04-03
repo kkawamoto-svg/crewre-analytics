@@ -1,0 +1,112 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	jQuery("#form1").validationEngine({
+		promptPosition: "topLeft",
+		autoHidePrompt: true,
+		autoHideDelay: 2000
+	});
+});
+</script>
+<section id="undercolumn" class="default_bloc contact_form btn_style">
+    <h2 class="tit_default_s">会員登録</h2>
+	<div class="n_box">
+
+		<form name="form1" id="form1" method="post" action="?">
+			<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+			<input type="hidden" name="mode" value="confirm" />
+
+			<dl class="form_entry">
+				<dt>メールアドレス<span class="attention_text">必須</span></dt>
+				<dd>
+					<!--{assign var=key value="email"}-->
+					<!--{if $arrErr[$key]}-->
+						<div class="attention"><!--{$arrErr[$key]}--></div>
+					<!--{/if}-->
+					<input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: disabled;" class="w_full text top validate[required,custom[email]]" placeholder="(例)sample@crewre.jp">
+				</dd>
+				<dt>パスワード<span class="attention_text">必須</span></dt>
+				<dd>
+					<!--{assign var=key value="password"}-->
+					<!--{if $arrErr[$key]}-->
+						<div class="attention"><!--{$arrErr[$key]}--></div>
+					<!--{/if}-->
+					<input type="password" name="<!--{$key}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="w_full text top validate[required,custom[password],minSize[4]]" placeholder="半角英数6文字以上">
+				</dd>
+				<!--{if $smarty.const.SMS_REGIST == true}-->
+				<dt>電話番号<span class="attention_text">必須</span></dt>
+				<dd>
+					<!--{assign var=key1 value="tel01"}-->
+					<!--{assign var=key2 value="tel02"}-->
+					<!--{assign var=key3 value="tel03"}-->
+					<!--{if $arrErr[$key1] OR $arrErr[$key2] OR $arrErr[$key3]}-->
+					<div class="attention"><!--{$arrErr[$key1]}--><!--{$arrErr[$key2]}--><!--{$arrErr[$key3]}--></div>
+					<!--{/if}-->
+					<div class="input_flex input_tel">
+						<input type="tel" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h|default:$tpl_tel01}-->" maxlength="<!--{$arrForm[$key1].length}-->" class="w_third text top validate[required,custom[onlyNumberSp]]" placeholder="000" />&nbsp;-&nbsp;
+						<input type="tel" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h|default:$tpl_tel02}-->" maxlength="<!--{$arrForm[$key2].length}-->" class="w_third text top validate[required,custom[onlyNumberSp]]" placeholder="0000" />&nbsp;-&nbsp;
+						<input type="tel" name="<!--{$key3}-->" value="<!--{$arrForm[$key3].value|h|default:$tpl_tel03}-->" maxlength="<!--{$arrForm[$key3].length}-->" class="w_third text top validate[required,custom[onlyNumberSp]]" placeholder="0000" />
+					</div>
+					<!--{if $smarty.const.SMS_REGIST == true}-->
+					<p><span class="attention mini">※SMSによる認証を行いますので、必ずSMS送受信が可能な携帯電話番号を入力してください。</span></p>
+					<!--{/if}-->
+				</dd>
+				<!--{/if}-->
+				<dt>生年月日</dt>
+				<dd>
+					<!--{assign var=key1 value="year"}-->
+					<!--{assign var=key2 value="month"}-->
+					<!--{assign var=key3 value="day"}-->
+					<!--{assign var=errBirth value="`$arrErr.$key1``$arrErr.$key2``$arrErr.$key3`"}-->
+					<!--{if $errBirth}-->
+						<div class="attention"><!--{$errBirth}--></div>
+					<!--{/if}-->
+					<ul class="select_row">
+						<li class="select_n w_third">
+							<select name="<!--{$key1}-->" style="<!--{$errBirth|sfGetErrorColor}-->">
+								<!--{html_options options=$arrYear selected=$arrForm[$key1].value|default:''}-->
+							</select>
+						</li>
+						<li class="select_n w_third">
+							<select name="<!--{$key2}-->" style="<!--{$errBirth|sfGetErrorColor}-->">
+								<!--{html_options options=$arrMonth selected=$arrForm[$key2].value|default:''}-->
+							</select>
+						</li>
+						<li class="select_n w_third">
+							<select name="<!--{$key3}-->" style="<!--{$errBirth|sfGetErrorColor}-->">
+								<!--{html_options options=$arrDay selected=$arrForm[$key3].value|default:''}-->
+							</select>
+						</li>
+					</ul>
+				</dd>
+			</dl>
+
+			<div class="btn_area addmargin">
+				<p><input type="submit" value="確認ページへ" class="btn_cart_black" alt="確認ページへ" name="confirm" id="confirm" /></p>
+			</div>
+		</form>
+	</div>
+</section>
+
+
+

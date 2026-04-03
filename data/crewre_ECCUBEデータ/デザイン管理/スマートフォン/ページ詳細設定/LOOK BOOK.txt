@@ -1,0 +1,15 @@
+<header class="category_header">
+<h2 style="font-size: 1.8rem; font-weight: 400;"><a href="javascript:;">collection</a></h2>
+</header>
+<div class="default_bloc">
+<!--*2023Start*-->
+<div class="collection_list_block">
+<h3>2023</h3>
+<ul>
+<li><a href="https://crewre.jp/lp/col_2023autumn.php"><img src="/user_data/collection/23autumn_collection.png" alt="">autumn</a></li>
+</ul>
+</div>
+<!--*2023END*-->
+
+
+</div>

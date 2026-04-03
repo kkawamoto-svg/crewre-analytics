@@ -1,0 +1,45 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+<!--{strip}-->
+<!--{if count($arrProducts) > 0}-->
+<section id="index_cs" class="index_cs">
+	<h2 class="ttl_center font_lato">COMING SOON</h2>
+	
+	<div class="index_cs_slide_area">
+		<!--slide start-->
+		<div class="swiper-container index_cs_slider">
+			<div class="swiper-wrapper">
+				<!--{foreach from=$arrProducts item=product name=product}-->
+				<div class="swiper-slide"><a href="/products/detail.php?product_id=<!--{$product.product_id}--><!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$product.image}-->" class="swiper-lazy"></a></div>
+				<!--{/foreach}-->
+			</div>
+			<div class="swiper-pagination"></div>
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
+		</div>
+		<!--slide end -->
+	</div>
+	
+	<p class="btn_more font_lato"><a href="/products/list.php?plan=1<!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->"><i class="fas fa-angle-right"></i>MORE</a></p>
+</section>
+<!--{/if}-->
+<!--{/strip}-->

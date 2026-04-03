@@ -1,0 +1,40 @@
+<section id="mypage_block">
+	<header>
+		<h2 class="tit_default">MY PAGE</h2>
+	</header>
+	<div id="mypagecolumn">
+		<!--{include file=$tpl_navi}-->
+		<div id="mycontents_area">
+			<h3 class="tit_bg_gray">Llife LIMITED PRE ORDER</h3>
+			<!--{include file=`$smarty.const.TEMPLATE_REALDIR`frontparts/bloc/camp01.tpl}-->
+			<!--{if $regist_flg == false}-->
+			<form name="form1" id="form1" method="post" action="?">
+				<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+				<input type="hidden" name="mode" value="regist" />
+				<div class="cart_btn_area">
+					<ul>
+						<li class="alignC">
+							<div class="mg_b30" style="width: 300px;">
+								<input type="text" name="camp_id" value="<!--{$arrForm.camp_id.value}-->" placeholder="認証コード入力">
+								<!--{if $arrErr.camp_id != ""}-->
+								<p class="mg_t10 red"><!--{$arrErr.camp_id}--></p>
+								<!--{/if}-->
+							</div>
+							<input type="submit" class="btn_gray_norm bghover w_half" value="認証する" />
+						</li>
+					</ul>
+				</div>
+			</form>
+			<!--{else}-->
+			<div class="cart_btn_area alignC">
+				<p class="mg_b30">認証が完了しました。</p>
+				<ul>
+					<li>
+						<a href="/lp/popup2022.php" class="btn_gray_norm bghover w_half">商品一覧を見る</a>
+					</li>
+				</ul>
+			</div>
+			<!--{/if}-->
+		</div>
+	</div>
+</section>

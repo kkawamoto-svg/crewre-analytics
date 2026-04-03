@@ -1,0 +1,58 @@
+<!--{*
+/*
+ * This file is part of PostCarrier for EC-CUBE
+ *
+ * Copyright(c) 2010-2017 IPLOGIC CO.,LTD. All Rights Reserved.
+ *
+ * http://www.iplogic.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+<script type="text/javascript">
+    function fnPostCarrierMailCustomerSubmit(){
+        var form = document.postcarrier_mailcustomer_input_form;
+        if(!form.email.value){
+            alert('メールアドレスが入力されていません');
+        }
+        else if(window.confirm('本当に停止してもよろしいでしょうか？')){
+            form.mode.value = 'stop';
+            form.submit();
+        }
+    }
+</script>
+<div class="block_outer">
+  <div id="login_area">
+    <h2>メルマガ配信停止</h2>
+    <form name="postcarrier_mailcustomer_input_form" id="postcarrier_mailcustomer_input_form" method="post" action="<!--{$smarty.server.PHP_SELF|escape}-->">
+      <input type="hidden" name="mode" value="input"/>
+      <div class="bloc_body block_body">
+        <dl class="formlist">
+          <dt>メールアドレス</dt>
+          <dd>
+            <input type="text" name="email" class="box240" style="ime-mode: disabled;" />
+          </dd>
+        </dl>
+        <p class="btn">
+          <a href="javascript:fnPostCarrierMailCustomerSubmit()">
+            <span onmouseover="document.postcarrier_mailcustomer_stop.src='<!--{$smarty.const.HTTPS_URL}--><!--{$smarty.const.USER_DIR}-->mdl_postcarrier/images/stop_on.gif';" onmouseout="document.postcarrier_mailcustomer_stop.src='<!--{$smarty.const.HTTPS_URL}--><!--{$smarty.const.USER_DIR}-->mdl_postcarrier/images/stop_off.gif';"> 
+              <img name="postcarrier_mailcustomer_stop" src="<!--{$smarty.const.HTTPS_URL}--><!--{$smarty.const.USER_DIR}-->mdl_postcarrier/images/stop_off.gif" alt="停止">
+	    </span>
+	  </a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

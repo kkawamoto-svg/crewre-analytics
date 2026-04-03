@@ -1,0 +1,49 @@
+<section class="lp_default">
+	<header>
+		<img data-src="/user_data/lp/images/news/news_popup.jpg" src="" class="fade_in lazyload">
+		<div class="default_bloc lp_mg_tb_default">
+			<h1 class="lp_default_tit">【crewre pop up event 開催のお知らせ】</h1>
+            <p><font>
+                ブランド誕生1周年を記念して、crewre初のポップアップイベントを開催いたします。<br>
+                <br>
+コートやニット、小物等を含む「crewre 2024 winter collecton」の様々な商品をいち早くお手に取ってご覧いただけるほか、ご来場者さま限定で後日先行販売を実施いたします。<br>
+ディレクター・こすぱっしょんゆりえも常時在廊し、2024 winter collectionのビジュアルポスターや製作過程でのこだわりを記したパネル等をご覧いただきながら、最新コレクションをお楽しみいただける特別な機会となっております。<br>
+                <br>
+本イベントでは、その場で商品をご購入いただくのではなく、イベント終了後にご来場者さまのみの先行販売を実施する仕組みとなっております。<br>
+また、完全事前予約制となっており、定員を上回るご応募があった場合には抽選を実施させていただきます。<br>
+下記の概要等をよくお読みの上、専用応募フォームからお申し込みください。<br>
+                <br>
+スタッフ一同、crewの皆さまとお会いできますことを心より楽しみにしております。<br>
+<br>
+                <b>＜crewre pop up event＞</b><br>
+開催期間：2024年10月19日(土)、10月20日(日)<br>
+営業時間：10:00〜19:00 (多少前後する場合がございます)<br>
+住所：東京都目黒区青葉台3-18-3 THE WORKS 201 Brandze Studio<br>
+アクセス：東急田園都市線「池尻大橋」駅 徒歩8分 / 日比谷線「中目黒」駅 徒歩13分<br>
+                <br>
+来場者特典：<br>
+・crewre 2024 winter collecton商品の先行購入 (イベント当日ではなく、後日となります)<br>
+・ご来場者さま全員にcrewreオリジナルポストカードをプレゼント<br>
+                <br>
+                <b>＜応募方法＞</b><br>
+①8月28日(水) 21:00 〜 9月4日(水) 23:59の期間に、下記応募フォームよりお申し込みください。<br>
+②応募締切より2週間以内に、メールにて詳細をご連絡いたします。<br>
+※応募多数により抽選となった場合には、当選者さまのみにご連絡させていただきます。<br>
+                <br>
+                <b>＜応募フォーム＞</b><br>
+                <a href="https://crewre-popup.paperform.co"><u>https://crewre-popup.paperform.co</u></a><br>
+<br>    
+※ご応募にはcrewre online storeの会員登録が必須となっております。<br>
+※ペアでのご来場をご希望の方は、応募フォーム内にその旨をご入力いただき、必ずお2人とも別々でお申し込みください。両者からのご応募を確認できなかった場合には、ペアでのご来場をお断りさせていただく可能性がございます。<br>
+                </font></p>
+			<br><br>
+		</div>
+	</header>
+	<div>
+		<div class="default_bloc lp_mg_tb_default">
+			<p class="alignC">
+				<a href="/" class="btn_white w_full">top page</a>
+			</p>
+		</div>
+	</div>
+</section>

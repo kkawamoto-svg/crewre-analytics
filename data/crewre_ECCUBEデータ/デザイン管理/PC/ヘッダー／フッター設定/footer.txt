@@ -1,0 +1,41 @@
+<div id="footer_nav">
+	<div id="footer_top">
+		<img src="<!--{$TPL_URLPATH}-->images/logo_footer.png" alt="">
+	</div>
+	<div id="footer_bottom">
+		<nav id="foot_nav01">
+			<ul>
+				<li><a href="/mypage/<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">log in / my page</a></li>
+				<li><a href="/contact/<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">contact form</a></li>
+				<li><a href="/user_data/shopping_guide.php<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">shopping guide</a></li>
+				<li><a href="/user_data/company.php<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">company</a></li>
+				<li><a href="/guide/privacy.php<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">privacy policy</a></li>
+			</ul>
+		</nav>
+		<div id="foot_nav02">
+			<p id="footer_copy">©crewre online store all rights reserved.</p>
+		</div>
+	</div>
+	<!--{* ▼FooterBottom COLUMN*}-->
+	<!--{if $arrPageLayout.FooterBottomNavi|@count > 0}-->
+		<div id="footerbottomcolumn">
+			<!--{* ▼上ナビ *}-->
+			<!--{foreach key=FooterBottomNaviKey item=FooterBottomNaviItem from=$arrPageLayout.FooterBottomNavi}-->
+				<!-- ▼<!--{$FooterBottomNaviItem.bloc_name}--> -->
+				<!--{if $FooterBottomNaviItem.php_path != ""}-->
+					<!--{include_php file=$FooterBottomNaviItem.php_path items=$FooterBottomNaviItem}-->
+				<!--{else}-->
+					<!--{include file=$FooterBottomNaviItem.tpl_path items=$FooterBottomNaviItem}-->
+				<!--{/if}-->
+				<!-- ▲<!--{$FooterBottomNaviItem.bloc_name}--> -->
+			<!--{/foreach}-->
+			<!--{* ▲上ナビ *}-->
+		</div>
+	<!--{/if}-->
+	<!--{* ▲FooterBottom COLUMN*}-->
+</div>
+<form name="login_form_footer" id="login_form_footer" method="post" action="<!--{$smarty.const.HTTPS_URL}-->frontparts/login_check.php">
+<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+<input type="hidden" name="mode" value="logout" />
+<input type="hidden" name="url" value="<!--{$smarty.server.HTTPS_HOST}--><!--{$smarty.server.REQUEST_URI}-->" />
+</form>

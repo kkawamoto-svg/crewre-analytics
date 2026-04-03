@@ -1,0 +1,41 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+<script type="text/javascript">
+	$(document).ready(function (){
+		$(".iframe").colorbox({iframe:true, width:"585px", height:"90%"});
+	});
+</script>
+<!--{strip}-->
+    <!--{if count($arrLookProducts) > 0}-->
+		<h2 class="slider_tit"><!--{if $tpl_catid}-->LOOK BOOK by <span class="fontS"><!--{$arrSNAPCAT[$tpl_catid]}--></span><!--{else}-->LOOK BOOK<!--{/if}--></h2>
+			
+		<div class="index_carousel mg_t20 img_hover">
+			<ul class="bxslider">
+				<!--{foreach from=$arrLookProducts item=snap name=snap}-->
+				<li><a href="/contents/lookbook_detail.php?cid=<!--{$snap.lookbook_id}--><!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->" class="iframe"><img src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$snap.photo_list_img_path}-->" alt=""></a></li>
+				<!--{/foreach}-->
+			</ul>
+		</div>
+
+		<p class="btn_more mg_t20"><a href="/contents/lookbook_list.php<!--{if $tpl_catid}-->?snap_category_id=<!--{$tpl_catid}--><!--{/if}--><!--{if $isAdminLogin}--><!--{if $tpl_catid}-->&<!--{else}-->?<!--{/if}-->admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">...MORE</a></p>
+    <!--{/if}-->
+<!--{/strip}-->

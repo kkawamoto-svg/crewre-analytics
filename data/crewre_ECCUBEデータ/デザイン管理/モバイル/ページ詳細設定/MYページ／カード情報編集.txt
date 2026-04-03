@@ -1,0 +1,200 @@
+<!--{*
+/*
+ * Copyright(c) 2013 GMO Payment Gateway, Inc. All rights reserved.
+ * http://www.gmo-pg.com/
+ * Update: 2013/04/04
+ */
+*}-->
+<!--{strip}-->
+<!--{assign var=key value="js_urlpath"}-->
+<script src="<!--{$arrForm[$key].value|h}-->/ext/js/token.js"></script>
+<!--{assign var=key value="ShopID"}-->
+<script type="text/javascript">
+    var send = true;
+
+    function fnCheckSubmit() {
+        if (send) {
+            send = false;
+            document.form2.submit();
+            return false;
+        } else {
+            alert("只今、処理中です。しばらくお待ち下さい。");
+            return false;
+        }
+    }
+
+    function execPurchase(response) {
+        if (response.resultCode != 000) {
+            window.alert("カード登録処理中にエラーが発生しました");
+            window.location.assign(window.location.href);
+        } else {
+            document.getElementById("CardNo").value = '';
+            document.getElementById("Expire_year").value = '';
+            document.getElementById("Expire_month").value = '';
+            document.getElementById("card_name1").value = '';
+            document.getElementById("card_name2").value = '';
+
+            var elements = document.getElementsByName("token");
+            elements[0].value = response.tokenObject.token;
+
+            fnCheckSubmit();
+        }
+    }
+
+    function doPurchase() {
+        if ("<!--{$enable_token}-->" == "") {
+            fnCheckSubmit();
+            return;
+        }
+
+        var cardno = document.getElementById("CardNo").value;
+        if (cardno == "") {
+            alert("※ カード番号が入力されていません。");
+            return;
+        }
+
+        var pat = /^\d*$/;
+        if (!pat.test(cardno)) {
+            alert("※ カード番号は数値で入力してください。");
+            return;
+        }
+
+        if (cardno.length < 7) {
+            alert("※ カード番号は7桁以上を入力してください。");
+            return;
+        }
+
+        var date = new Date();
+        var year = date.getFullYear();
+        year = String(year);
+        year = year.substring(0,2);
+        var mm = document.getElementById("Expire_month").value;
+        if (mm == "") {
+            alert("※ 有効期限：月が入力されていません。");
+            return;
+        }
+        var yy = document.getElementById("Expire_year").value;
+        if (yy == "") {
+            alert("※ 有効期限：年が入力されていません。");
+            return;
+        }
+        var expire = year + yy + mm;
+
+        var card_name1 = document.getElementById("card_name1").value;
+        if (card_name1 == "") {
+            alert("※ カード名義人名：名が入力されていません。");
+            return;
+        }
+        var card_name2 = document.getElementById("card_name2").value;
+        if (card_name2 == "") {
+            alert("※ カード名義人名：姓が入力されていません。");
+            return;
+        }
+        var holdername = card_name1.concat(card_name2);
+
+        var btnAdd, btnDel, classBtnAdd, classBtnDel;
+        btnAdd = document.getElementById("btnAdd");
+        classBtnAdd = document.getElementById("btnAdd").getAttribute('class');
+        btnAdd.setAttribute("class", classBtnAdd + " disabled");
+
+        btnDel = document.getElementById("btnDel");
+        if (btnDel != null) {
+            classBtnDel = btnDel.getAttribute('class');
+            btnDel.setAttribute("class", classBtnDel + " disabled");
+        }
+
+        Multipayment.init("<!--{$arrForm[$key].value|h}-->");
+        Multipayment.getToken(
+            {
+                cardno: cardno,
+                expire: expire,
+                securitycode: '',
+                holdername: holdername
+            }, execPurchase
+        );
+    }
+</script>
+<br>
+■現在登録されているカード情報<br>
+<form name="form1" id="form1" method="post" action="./change_card.php">
+<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+<input type="hidden" name="mode" value="delete" />
+<!--{if !$arrData}-->
+登録されているカード情報はありません。<br>
+<!--{else}-->
+    <!--{if $arrErr}-->
+        <font color="#FF0000">
+            <!--{assign var=key value="CardSeq"}-->
+                <!--{$arrErr[$key]}-->
+            <!--{assign var=key value="error"}-->
+                <!--{$arrErr[$key]}-->
+            <br>
+        </font>
+    <!--{/if}-->
+    <!--{if $tpl_is_success}-->
+        <font color="#FF0000">
+                正常に更新されました。<br>
+        </font>
+    <!--{/if}-->
+    <br>
+                <!--{assign var=key1 value="CardSeq"}-->
+                <!--{foreach from=$arrData item=data}-->
+                <!--{if $data.DeleteFlag != '1'}-->
+                選択:
+                    <input type="radio" name="CardSeq" id="CardSeq" value="<!--{$data.CardSeq|h}-->" <!--{if $arrForm[$key1].value==$data.CardSeq}-->checked="checked"<!--{/if}--> <!--{if $tpl_plg_target_seq==$data.CardSeq}-->checked="checked"<!--{/if}--> />
+<br>
+
+                    カード番号:<br><!--{$data.CardNo|h}--><br>
+                    有効期限: <!--{$data.Expire|substr:0:2|h}-->年<!--{$data.Expire|substr:2:2|h}-->月<br>
+                    <!--{if $data.HolderName != ''}-->カード名義：<!--{$data.HolderName}--><!--{/if}--><br>
+                    <br>
+                <!--{/if}-->
+                <!--{/foreach}-->
+    <br>
+    <input type="submit" id="btnDel" value="選択した情報を削除">
+<!--{/if}-->
+</form>
+<hr>
+■カード情報を新規登録<br>
+<form name="form2" id="form2" method="post" action="./change_card.php">
+<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+<input type="hidden" name="mode" value="regist" />
+<input type="hidden" name="token" value="" />
+下記項目にご入力ください。全ての項目が入力必須です。<br>
+入力後、一番下の「登録する」ボタンをクリックしてください。<br>
+<!--{assign var=key value="error2"}-->
+<font color="#FF0000"><!--{$arrErr[$key]}--></font>
+<br>
+カード番号：<br>
+                    <!--{assign var=key1 value="CardNo"}-->
+                    <font color="#FF0000"><!--{$arrErr[$key1]}--></font>
+                    <input type="text" id="<!--{$key1}-->" name="<!--{$key1}-->" value="" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->"  size="16"  />
+<br>
+カード有効期限：<br>
+                    <!--{assign var=key1 value="Expire_month"}-->
+                    <!--{assign var=key2 value="Expire_year"}-->
+                    <font color="#FF0000"><!--{$arrErr[$key1]}--></font>
+                    <font color="#FF0000"><!--{$arrErr[$key2]}--></font>
+                    <select id="<!--{$key1}-->" name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
+                    <option value="">--</option>
+                    <!--{html_options options=$arrMonth}-->
+                    </select>月
+                    &nbsp;/&nbsp;
+                    20<select id="<!--{$key2}-->" name="<!--{$key2}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->">
+                    <option value="">-</option>
+                    <!--{html_options options=$arrYear}-->
+                    </select>年
+<br>
+                    <!--{assign var=key1 value="card_name1"}-->
+                    <!--{assign var=key2 value="card_name2"}-->
+                    <font color="#FF0000"><!--{$arrErr[$key1]}--></font>
+                    <font color="#FF0000"><!--{$arrErr[$key2]}--></font>
+                    カード名義 名:<input type="text" id="<!--{$key1}-->" name="<!--{$key1}-->" value="" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="20" />
+                    <br>
+                    カード名義 姓:<input type="text" id="<!--{$key2}-->" name="<!--{$key2}-->" value="" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" size="20" />
+                    <br>
+                    <font color="#FF0000">カードに記載の名前をご記入下さい。ご本人名義のカードをご使用ください。</font>半角英文字入力（例：TARO YAMADA）<br>
+<br>
+<input type="button" id="btnAdd" value="カード情報を登録" onclick="doPurchase();" />
+</form>
+<!--{/strip}-->

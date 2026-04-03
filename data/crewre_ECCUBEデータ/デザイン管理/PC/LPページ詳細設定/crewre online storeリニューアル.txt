@@ -1,0 +1,28 @@
+<section class="lp_default">
+	<header>
+		<img data-src="/user_data/lp/images/news/ecリニューアル.jpg" src="" class="fade_in lazyload">
+		<div class="default_bloc lp_mg_tb_default">
+			<h1 class="lp_default_tit">【online store リニューアルのお知らせ】</h1>
+            <p><font>
+                平素よりcrewreをご愛顧いただきありがとうございます。<br>
+                <br>
+                この度、お客様により一層快適にご利用いただけるよう、online storeを全面リニューアルいたします。<br>
+                <br>
+                誠に恐れ入りますが、今回のリニューアルに伴い、会員情報の再登録が必要となります。<br>
+                1月下旬頃にご案内をお出しいたしますので、会員登録の手続きをお願いいたします。<br>
+                <br>
+                ※システム変更に伴い、過去の購入履歴は引き継がれません。何卒ご容赦ください。<br>
+                <br>
+                リニューアルを機に、より洗練された機能性で、お客様により良い体験をお届けできるよう努めてまいります。<br>
+                今後ともcrewreをよろしくお願いいたします。<br>
+                </font></p>
+		</div>
+	</header>
+	<div>
+		<div class="default_bloc lp_mg_tb_default">
+			<p class="alignC">
+				<a href="/" class="btn_white w_full">top page</a>
+			</p>
+		</div>
+	</div>
+</section>

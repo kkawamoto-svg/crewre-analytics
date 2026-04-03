@@ -1,0 +1,98 @@
+<!--{*
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+<section id="mypage_block">
+	<header>
+		<h2 class="tit_default">会員情報の変更</h2>
+	</header>
+	<div id="mypagecolumn">
+		<!--{include file=$tpl_navi}-->
+		<div id="mycontents_area">
+			<h3 class="tit_bg_gray"><!--{$tpl_subtitle|h}--></h3>
+
+			<form name="form1" id="form1" method="post" action="?">
+				<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+				<input type="hidden" name="mode" value="confirm" />
+				<input type="hidden" name="customer_id" value="<!--{$arrForm.customer_id.value|h}-->" />
+				<table summary="会員登録内容変更 " class="mypage_table th_white">
+					<!--{include file="`$smarty.const.TEMPLATE_REALDIR`frontparts/form_personal_input.tpl" flgFields=3 emailMobile=true prefix=""}-->
+				</table>
+				<div class="cart_btn_area mg_t40">
+					<ul>
+						<li>
+							<input type="submit" class="btn_gray_norm bghover w_half" value="確認ページへ" name="refusal" id="refusal" />
+						</li>
+					</ul>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+<script>
+	// 郵便番号入力呼び出し.
+	eccube.getAddress = function(php_url, tagname1, tagname2, input1, input2) {
+		var zip1 = document.form1[tagname1].value;
+		var zip2 = document.form1[tagname2].value;
+
+		if(zip1.length === 3 && zip2.length === 4) {
+			$.get(
+				php_url,
+				{zip1: zip1, zip2: zip2, input1: input1, input2: input2},
+				function(data) {
+					var arrData = data.split("|");
+					if (arrData.length > 1) {
+						eccube.putAddress(input1, input2, arrData[0], arrData[1], arrData[2]);
+					} else {
+						window.alert(data);
+					}
+				}
+			);
+		} else {
+			window.alert("郵便番号を正しく入力して下さい。");
+		}
+	};
+
+	// 郵便番号から検索した住所を渡す.
+	eccube.putAddress = function(input1, input2, state, city, town) {
+		if(state !== "") {
+			// 項目に値を入力する.
+			document.form1[input1].selectedIndex = state;
+			document.form1[input2].value = city + town;
+		}
+	};
+	$(function() {
+		//郵便番号入力をチェック
+		$('input[name=zip01]').on('change',function(){
+			var zip02 = $('input[name=zip02]').val();
+			if(zip02 !== ''){
+				eccube.getAddress('/input_zip.php', 'zip01', 'zip02', 'pref', 'addr01'); return false;
+			}
+		});
+		$('input[name=zip02]').on('change',function(){
+			var zip01 = $('input[name=zip01]').val();
+			if(zip01 !== ''){
+				eccube.getAddress('/input_zip.php', 'zip01', 'zip02', 'pref', 'addr01'); return false;
+			}
+		});	
+	});
+</script>

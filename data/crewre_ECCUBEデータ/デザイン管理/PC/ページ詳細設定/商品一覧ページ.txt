@@ -1,0 +1,398 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+
+<script type="text/javascript">
+	// カテゴリを変更
+	function fnChangeCategory(catid) {
+		eccube.setValue('category_id', catid);
+		eccube.setValue('pageno', 1);
+		eccube.submitForm();
+	}
+	// タイプを変更
+	function fnChangePlan(planid) {
+		eccube.setValue('plan', planid);
+		eccube.setValue('pageno', 1);
+		eccube.submitForm();
+	}
+	// 並び順を変更
+	function fnChangeOrderby(orderby) {
+		eccube.setValue('orderby', orderby);
+		eccube.setValue('pageno', 1);
+		eccube.submitForm();
+	}
+	// 表示件数を変更
+	function fnChangeDispNumber(dispNumber) {
+		eccube.setValue('disp_number', dispNumber);
+		eccube.setValue('pageno', 1);
+		eccube.submitForm();
+	}
+	// 並び順を変更
+	function fnChangeStockby(stockby) {
+		eccube.setValue('stockby', stockby);
+		eccube.setValue('pageno', 1);
+		eccube.submitForm();
+	}
+	// 表示タイプを変更
+	function fnChangeColormode(colormode) {
+		eccube.setValue('colormode', colormode);
+		eccube.setValue('pageno', 1);
+		eccube.submitForm();
+	}
+	// カラータイプを変更
+	function fnChangeColor(color) {
+		eccube.setValue('color', color);
+		eccube.setValue('pageno', 1);
+		eccube.submitForm();
+	}
+
+	$(document).ready(function (){
+
+		$(".inline").colorbox({
+			inline:true,
+			width:"400px",
+			height:"480px",
+			onComplete : function() {
+				let H = $('#inline_content').height();
+				console.log(H);
+				$(this).colorbox.resize({
+					height:H+115
+				});
+			}
+		});
+
+		//ログイン
+		var $login_email = $('#header_login_form input[name=login_email]');
+		var $login_pw = $('#header_login_form input[name=login_pass]');
+
+		$('#header_login_form').submit(function() {
+			if ($login_email.val() && $login_pw.val()) {
+				return true;
+			}else{
+				alert('メールアドレス/パスワードを入力して下さい。');
+				return false;
+			}
+		});
+	});
+//]]></script>
+<form name="form1" id="form1" method="get" action="?">
+	<!--{* ▼検索条件 *}-->
+	<input type="hidden" name="category_id" value="<!--{$arrSearchData.category_id|h}-->" />
+	<input type="hidden" name="maker_id" value="<!--{$arrSearchData.maker_id|h}-->" />
+	<input type="hidden" name="name" value="<!--{$arrSearchData.name|h}-->" />
+	<input type="hidden" name="plan" value="<!--{$arrSearchData.plan|h}-->" />
+	<input type="hidden" name="colormode" value="<!--{$arrSearchData.colormode|h}-->" />
+	<input type="hidden" name="color" value="<!--{$arrSearchData.color|h}-->" />
+	<input type="hidden" name="season_id" value="<!--{$arrSearchData.season_id|h}-->" />
+	<!--{if $isAdminLogin}-->
+	<input type="hidden" name="admin" value="on" />
+	<input type="hidden" name="admin_date" value="<!--{$adminDate|h}-->" />
+	<!--{/if}-->
+	<!--{* ▲検索条件 *}-->
+	<!--{* ▼ページナビ関連 *}-->
+	<input type="hidden" name="orderby" value="<!--{$orderby|h}-->" />
+	<input type="hidden" name="disp_number" value="<!--{$disp_number|h}-->" />
+	<input type="hidden" name="stockby" value="<!--{$stockby|h}-->" />
+	<input type="hidden" name="pageno" value="<!--{$tpl_pageno|h}-->" />
+	<!--{* ▲ページナビ関連 *}-->
+	<input type="hidden" name="rnd" value="<!--{$tpl_rnd|h}-->" />
+</form>
+<section id="list_items">
+	<header>
+		<h1 class="tit_default"><!--{if $smarty.get.category_id == 2}-->
+			<img src="/user_data/packages/default/images/logo_llife.png" style="width:11%">
+			<!--{else}-->
+			<!--{strip}--><!--{$tpl_subtitle}--><!--{/strip}-->
+			<!--{/if}--><span class="fontM"><!--{$tpl_linemax}--> items</span></h1>
+
+		<div id="sort_trigger" style="display: none;">
+			<div> <a href="javascript:void(0)" class="sort_active">SORT+</a></div>
+			<div class="cross"> <a href="javascript:void(0)"> <span></span> <span></span> </a> </div>
+		</div>
+	</header>
+	<div id="sort_area" style="display:none;">
+		<nav id="sort_select">
+			<div class="open_sort">
+				<!--{if $mainCategoryId != ''}-->
+				<p><!--{$arrMainCategory.$mainCategoryId.name}--></p>
+				<!--{else}-->
+				<p>カテゴリ</p>
+				<!--{/if}-->
+				<ul>
+					<li><a href="javascript:fnChangeCategory(0);">ALL</a></li>
+					<!--{foreach from=$arrMainCategory item=pcat name=pcatLoop}-->
+					<!--{if $pcat.category_id != 7 AND $pcat.category_id != 9 AND $pcat.category_id != 30}-->
+					<li><a href="javascript:fnChangeCategory(<!--{$pcat.category_id}-->);"><!--{$pcat.name}--></a></li>
+					<!--{/if}-->
+					<!--{/foreach}-->
+				</ul>
+			</div>
+			<!--{if $arrSubCategory != ''}-->
+			<div class="open_sort">
+				<!--{if $subCategoryId != ''}-->
+				<p><!--{$arrSubCategory.$subCategoryId.name}--></p>
+				<!--{else}-->
+				<p>サブカテゴリ</p>
+				<!--{/if}-->
+				<ul>
+					<li><a href="javascript:fnChangeCategory(<!--{$mainCategoryId}-->);">ALL</a></li>
+					<!--{foreach from=$arrSubCategory item=ccat name=ccatLoop}-->
+					<li><a href="javascript:fnChangeCategory(<!--{$ccat.category_id}-->);"><!--{$ccat.name}--></a></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+			<!--{/if}-->
+			<div class="open_sort">
+				<!--{if $stockby == 'stock_only'}--><p>在庫有のみ</p>
+				<!--{else}--><p>在庫の有無</p><!--{/if}-->
+				<ul>
+					<li><a href="javascript:fnChangeStockby('');">指定なし</a></li>
+					<li><a href="javascript:fnChangeStockby('stock_only');">在庫有のみ</a></li>
+				</ul>
+			</div>
+			<div class="open_sort"><!--{strip}-->
+				<!--{if $arrSearchData.plan == 1}--><p>COMINGSOON</p>
+				<!--{elseif $arrSearchData.plan == 2}--><p>RESERVATION</p>
+				<!--{elseif $arrSearchData.plan == 3}--><p>NEW</p>
+				<!--{elseif $arrSearchData.plan == 4}--><p>NOW ON</p>
+				<!--{elseif $arrSearchData.plan == 5}--><p>SALE</p>
+				<!--{elseif $arrSearchData.plan == 6}--><p>RESTOCK</p>
+				<!--{else}-->
+				<p>商品タイプ</p>
+				<!--{/if}--><!--{/strip}-->
+				<ul>
+					<li><a href="javascript:fnChangePlan(0);">指定なし</a></li>
+					<li><a href="javascript:fnChangePlan(3);">NEW</a></li>
+					<li style="display: none"><a href="javascript:fnChangePlan(4);">NOW ON</a></li>
+					<li style="display: none"><a href="javascript:fnChangePlan(6);">RE STOCK</a></li>
+					<li><a href="javascript:fnChangePlan(2);">RESERVE</a></li>
+					<li><a href="javascript:fnChangePlan(1);">COMINGSOON</a></li>
+					<li><a href="javascript:fnChangePlan(5);">SALE</a></li>
+					
+				</ul>
+			</div>
+			<div class="open_sort"><!--{strip}-->
+				<!--{if $arrSearchData.colormode == 1}--><p>商品単位表示</p>
+				<!--{else}-->
+				<p>表示形式</p>
+				<!--{/if}--><!--{/strip}-->
+				<ul>
+					<li><a href="javascript:fnChangeColormode(0);">指定なし</a></li>
+					<li><a href="javascript:fnChangeColormode(1);">商品単位表示</a></li>
+				</ul>
+			</div>
+			<div class="open_sort"><!--{strip}-->
+				<!--{if $orderby == 'date'}--><p>新着順</p>
+				<!--{elseif $orderby == 'price'}--><p>低価格順</p>
+				<!--{elseif $orderby == 'price_high'}--><p>高価格順</p>
+				<!--{elseif $orderby == 'rank'}--><p>日間売れ筋順</p>
+				<!--{elseif $orderby == 'rank'}--><p>週間売れ筋順</p>
+				<!--{else}--><p>表示順</p><!--{/if}--><!--{/strip}-->
+				<ul>
+					<li><a href="javascript:fnChangeOrderby('');">指定なし</a></li>
+					<li><a href="javascript:fnChangeOrderby('date');">新着順</a></li>
+					<li><a href="javascript:fnChangeOrderby('price');">低価格順</a></li>
+					<li><a href="javascript:fnChangeOrderby('price_high');">高価格順</a></li>
+					<li><a href="javascript:fnChangeOrderby('rank_daily');">日間売れ筋順</a></li>
+					<li><a href="javascript:fnChangeOrderby('rank');">週間売れ筋順</a></li>
+				</ul>
+			</div>
+			<div class="open_sort"><!--{strip}-->
+				<!--{if $disp_number == 20 OR $disp_number == ''}--><p>20件</p>
+				<!--{elseif $disp_number == 40}--><p>40件</p>
+				<!--{elseif $disp_number == 60}--><p>60件</p>
+				<!--{else}--><p>表示件数</p><!--{/if}--><!--{/strip}-->
+				<ul>
+					<li><a href="javascript:void(0)" onClick="javascript:fnChangeDispNumber(20);">20件</a></li>
+					<li><a href="javascript:void(0)" onClick="javascript:fnChangeDispNumber(40);">40件</a></li>
+					<li><a href="javascript:void(0)" onClick="javascript:fnChangeDispNumber(60);">60件</a></li>
+				</ul>
+			</div>
+		</nav>
+		<nav id="sort_color" style="display: none">
+			<p>カラー</p>
+			<ul>
+				<li<!--{if $arrSearchData.color == 1}--> class="colorselected"<!--{/if}--> id="color01"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(1)">&nbsp;</a></li>
+				<li<!--{if $arrSearchData.color == 5}--> class="colorselected"<!--{/if}--> id="color05"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(5)">&nbsp;</a></li>
+				<li<!--{if $arrSearchData.color == 9}--> class="colorselected"<!--{/if}--> id="color09"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(9)">&nbsp;</a></li>
+				<li<!--{if $arrSearchData.color == 6}--> class="colorselected"<!--{/if}--> id="color06"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(6)">&nbsp;</a></li>
+				<li<!--{if $arrSearchData.color == 10}--> class="colorselected"<!--{/if}--> id="color10"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(10)">&nbsp;</a></li>
+				<li<!--{if $arrSearchData.color == 11}--> class="colorselected"<!--{/if}--> id="color11"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(11)">&nbsp;</a></li>
+				<li<!--{if $arrSearchData.color == 4}--> class="colorselected"<!--{/if}--> id="color04"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(4)">&nbsp;</a></li>
+				<li<!--{if $arrSearchData.color == 8}--> class="colorselected"<!--{/if}--> id="color08"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(8)">&nbsp;</a></li>
+				<li<!--{if $arrSearchData.color == 7}--> class="colorselected"<!--{/if}--> id="color07"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(7)">&nbsp;</a></li>
+				<li<!--{if $arrSearchData.color == 3}--> class="colorselected"<!--{/if}--> id="color03"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(3)">&nbsp;</a></li>
+				<li<!--{if $arrSearchData.color == 2}--> class="colorselected"<!--{/if}--> id="color02"><a href="javascript:void(0)" onClick="javascript:fnChangeColor(2)">&nbsp;</a></li>
+				<li><a href="javascript:void(0)" onClick="javascript:fnChangeColor(0)">指定なし</a></li>
+			</ul>
+		</nav>
+	</div>
+
+	<!--{foreach from=$arrProducts item=arrProduct name=arrProducts}-->
+	<!--{if $smarty.foreach.arrProducts.first}-->
+	<div class="item_list">
+		<ul>
+		<!--{/if}-->	
+			<li>
+				<a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrProduct.product_id|u}-->&c=<!--{$arrProduct.c}--><!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">
+					<div class="list_pict">
+						<div>
+							<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" class="lazyload fade_in">
+							<!--{if $arrProduct.status1 == 1 OR $arrProduct.status2 == 1 OR $arrProduct.status3 ==1}-->
+							<span class="over_img"><img data-src="<!--{$TPL_URLPATH}-->images/img_coming.png" class="lazyload fade_in"></span>
+							<!--{elseif $arrProduct.status1 == 4 OR $arrProduct.status2 == 4 OR $arrProduct.status3 == 4}-->
+							<span class="over_img"><img data-src="<!--{$TPL_URLPATH}-->images/img_pre.png" class="lazyload fade_in"></span>
+							<!--{elseif $arrProduct.stock == 0 || $arrProduct.plan_status == 7}-->
+							<span class="over_img"><img data-src="<!--{$TPL_URLPATH}-->images/img_soldout.png" class="lazyload fade_in"></span>
+							<!--{/if}-->
+						</div>
+					</div>
+				</a>
+				<ul class="list_color_tip">
+					<!--{assign var=colortip value=`$arrProduct.has_color`}-->
+					<!--{foreach from=$colortip item=ctip name=colorTips}-->
+					<li><a href="/products/detail.php?product_id=<!--{$arrProduct.product_id|u}-->&c=<!--{$ctip}-->" class="color_<!--{$ctip}-->"></a></li>
+					<!--{if $smarty.foreach.colorTips.last}-->
+						<!--{if $tpl_login == true}-->
+						<li class="list_favorite favorite_btn" data-favorite="<!--{$arrProduct.product_id|u}-->">
+							<!--{if $arrProduct.c_favorite == 1}-->
+							<a href="javascript:;"><img src="/user_data/packages/default/images/ico_favorite_on.png" alt=""></a>
+							<!--{else}-->
+							<a href="javascript:;"><img src="/user_data/packages/default/images/ico_favorite_off.png" alt=""></a>
+							<!--{/if}-->
+						</li>
+						<!--{else}-->
+						<li class="list_favorite">
+							<a href="#inline_content" class="inline"><img src="<!--{$TPL_URLPATH}-->images/ico_favorite_off.png" alt=""/></a>
+						</li>
+						<!--{/if}-->
+					<!--{/if}-->
+					<!--{/foreach}-->
+				</ul>
+				<p><!--{$arrProduct.name|h}--><br>
+					<!--{strip}-->
+					<!--{if $arrProduct.max_price == $arrProduct.min_price}-->
+						<!--{if $arrProduct.min_price == $arrProduct.norm_price}-->
+						<span>&yen; <!--{$arrProduct.norm_price|n2s}--></span>
+						<!--{else}-->
+						<span><strike>&yen; <!--{$arrProduct.norm_price|n2s}--></strike> <span class="red">&yen; <!--{$arrProduct.min_price|n2s}--> <!--{$arrProduct.max_rate}-->%OFF</span></span>
+						<!--{/if}-->
+					<!--{else}-->
+						<span>&yen; <!--{$arrProduct.max_price|n2s}--> ～ &yen; <!--{$arrProduct.min_price|n2s}--></span>
+					<!--{/if}--><!--{/strip}-->
+				</p>
+				<!--{assign var=status value=`$arrProduct.status`}-->
+				<!--{assign var=status1 value=`$arrProduct.status1`}-->
+				<!--{assign var=status2 value=`$arrProduct.status2`}-->
+				<!--{assign var=status3 value=`$arrProduct.status3`}-->
+				<!--{if $status != ""}-->
+				<ul class="item_icon">
+					<!--{if $status1 != ""}--><li class="item_icon<!--{$status1}-->"><!--{$arrSTATUS[$status1]}--></li><!--{/if}-->
+					<!--{if $status2 != ""}--><li class="item_icon<!--{$status2}-->"><!--{$arrSTATUS[$status2]}--></li><!--{/if}-->
+					<!--{if $status3 != ""}--><li class="item_icon<!--{$status3}-->"><!--{$arrSTATUS[$status3]}--></li><!--{/if}-->
+				</ul>
+				<!--{/if}-->
+			</li>
+	<!--{if $smarty.foreach.arrProducts.last}-->
+		</ul>
+	</div>
+		<!--{if $tpl_nowPage == 1 && $tpl_maxPage == 1}-->
+		<!--{else}-->
+		<nav>
+			<div class="paging"><!--{$tpl_strnavi}--></div>
+		</nav>
+		<!--{/if}-->
+	<!--{/if}-->
+	<!--{foreachelse}-->
+		<!--{include file="frontparts/search_zero.tpl"}-->
+	<!--{/foreach}-->
+</section>
+<!--{if $recentCheckedItem != ''}-->
+<section id="top_snap" style="display: none;">
+	<header class="tit_default">
+		<h1>RECENT CHECK</h1>
+	</header>
+	<div class="item_list_s">
+		<ul>
+			<!--{foreach from=$recentCheckedItem item=recentitem name=recentLoop}-->
+			<!--{if $smarty.foreach.recentLoop.index < 5 }-->
+			<li> <a href="/products/detail.php?product_id=<!--{$recentitem.product_id}--><!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">
+				<div class="list_pict">
+					<div>
+						<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$recentitem.main_list_image|sfNoImageMainList|h}-->" class="lazyload fade_in">
+						<!--{if $recentitem.plan_status == 1 OR $recentitem.plan_status == 8}--><span class="over_img"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$TPL_URLPATH}-->images/img_coming.png" alt="COMMING SOON" class="lazyload"></span>
+						<!--{elseif $recentitem.stock == 0}--><span class="over_img"><img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$TPL_URLPATH}-->images/img_soldout.png" alt="COMMING SOON" class="lazyload"></span><!--{/if}-->
+					</div>
+				</div>
+				</a>
+			</li>
+			<!--{/if}-->
+			<!--{/foreach}-->
+		</ul>
+	</div>
+</section>
+<!--{/if}-->
+<!--{strip}-->
+<div style="display:none">
+	<section id="inline_content">
+		<h1 class="tit_mini alignC mg_b30">お気に入りに登録するにはログインが必要です。</h1>
+		<form name="header_login_form" id="header_login_form" method="post" action="<!--{$smarty.const.HTTPS_URL}-->frontparts/login_check.php">
+			<input type="hidden" name="mode" value="login" />
+			<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+			<input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
+			<ul id="float_login">
+				<li>
+					<input type="text" class="gray_input" name="login_email" value="<!--{$tpl_login_email|h}-->" style="ime-mode: disabled;" placeholder="e-mail">
+				</li>
+				<li>
+					<input type="password" class="gray_input" name="login_pass" placeholder="password">
+					<p class="mg_t10"><a href="<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->" onclick="eccube.openWindow('<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->','forget','600','400',{scrollbars:'no',resizable:'no'}); return false;" target="_blank">パスワードを忘れた方</a></p>
+				</li>
+				<li class="mg_b30 mg_t20">
+					<input class="btn_gray_norm bghover" type="submit" value="log in">
+				</li>
+				<li>
+					<p class="alignC mg_b10">会員登録がお済みでない方はご登録ください。</p>
+					<a href="/entry/kiyaku.php" class="btn_white_norm bghover">会員登録</a>
+				</li>
+			</ul>
+		</form>
+	</section>
+</div>
+<!--{/strip}-->
+<div id="favorite_block_outer">
+	<div id="favorite_block_inner">
+		<iframe id="favorite_iframe" src="" allowtransparency="true"></iframe>
+	</div>
+	<p class="btn_outer_close"><a href="javascript:;"><span></span><span></span></a></p>
+</div>
+<script>
+	$('.favorite_btn').on('click',function(){
+		let pid = $(this).data('favorite');
+		$('#favorite_iframe').attr('src', '/products/favorite.php?product_id='+pid);
+		$('#favorite_block_outer').fadeIn('fast');
+	});
+	$('#favorite_block_outer').on('click',function(){
+		$('#favorite_block_outer').fadeOut('fast',function(){
+			$('#favorite_iframe').attr('src', '');
+		});
+	});
+</script>

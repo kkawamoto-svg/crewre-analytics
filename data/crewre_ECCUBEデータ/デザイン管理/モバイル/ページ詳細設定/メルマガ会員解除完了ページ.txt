@@ -1,0 +1,34 @@
+<!--{*
+/*
+ * This file is part of PostCarrier for EC-CUBE
+ *
+ * Copyright(c) 2010-2013 IPLOGIC CO.,LTD. All Rights Reserved.
+ *
+ * http://www.iplogic.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+
+    <!--{if $status=="2"}-->
+      メルマガ会員を解除致しました。<br />
+      配信停止が反映されるまでの間に、行き違いでメールマガジンが発送される場合があります。ご了承下さいませ。<br />
+    <!--{/if}-->
+    <!--{if $status=="1"}-->
+      メルマガ会員解除の受付が完了いたしました。<br />
+      現在<font color="#FF0000">仮停止</font>の状態です。<br />
+        ご入力いただいたメールアドレス宛てに、ご連絡が届いておりますので、メルマガ会員解除完了登録をお願いいたします。<br />
+    <!--{/if}-->
+今後ともご愛顧賜りますようよろしくお願い申し上げます。

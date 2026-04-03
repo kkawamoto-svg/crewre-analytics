@@ -1,0 +1,272 @@
+<!--{*
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+
+<section id="mypagecolumn" class="default_bloc">
+	<div class="undercolumn_inner">
+	<header>
+<!--		<h1 class="tit_default">MY PAGE</h1>-->
+		<h2 class="tit_default">ご注文詳細</h2>
+	</header>
+
+    <div id="order_history">
+        <div>
+            <ul>
+                <li>受注番号：<!--{$tpl_arrOrderData.order_id}--><li>
+				<li>ご注文日：<!--{$tpl_arrOrderData.create_date|sfDispDBDate}--></li>
+				<li>お支払い方法：<!--{$arrPayment[$tpl_arrOrderData.payment_id]|h}--></li>
+				<!--{if $smarty.const.MYPAGE_ORDER_STATUS_DISP_FLAG}-->
+				<li>ご注文状況：<!--{strip}-->
+                    <!--{if $tpl_arrOrderData.status != $smarty.const.ORDER_PENDING}-->
+                        <!--{$arrCustomerOrderStatus[$tpl_arrOrderData.status]|h}-->
+                    <!--{else}-->
+				<!--{$arrCustomerOrderStatus[$tpl_arrOrderData.status]|h}-->
+					<!--{/if}--><!--{/strip}--></li>
+                <!--{/if}-->
+				<!--{if $tpl_arrOrderData.deliv_plan != ""}-->
+				<li>発送予定日：<!--{$tpl_arrOrderData.deliv_plan|h}--></li>
+				<!--{/if}-->
+			</ul>
+        </div>
+		<!--{if $enableDelivFlg == true}-->
+		<div class="mg_t40">
+			<h3 class="ttl_form_default_short">現在配送日時の指定が可能です</h3>
+			<div class="subblock_inner">
+				<form name="form1" id="form1" method="post" action="?order_id=<!--{$order_id}-->">
+					<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME|h}-->" value="<!--{$transactionid|h}-->" />
+					<input type="hidden" name="mode" value="confirm" />
+
+					<!--{foreach item=shipping name=shippingDate from=$arrShipping}-->
+					<!--{assign var=shippingId value="`$shipping.shipping_id`"}-->
+					<!--{assign var=key value="deliv_date-`$shippingId`"}-->
+					<input type="hidden" name="shipId[]" value="<!--{$shippingId}-->" />
+					<ul class="form_entry form_list delivdate<!--{$key}-->">
+						<li class="select_deliv_date">
+							<p>お届け日　：</p>
+							<div class="select_n w_half">
+								<select name="<!--{$key}-->" id="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="<!--{$key}-->">
+									<option value="" selected="">最短</option>
+									<!--{html_options options=$arrDelivDate[$shippingId] selected=$shipping.shipping_date}-->
+								</select>
+							</div>
+						</li>
+						<!--{assign var=key value="deliv_time_id-`$shippingId`"}--> 
+						<li class="select_deliv_date">
+							<p>お届け時間：</p>
+							<div class="select_n w_half">
+								<select name="<!--{$key}-->" id="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="<!--{$key}-->">
+									<option value="" selected="">指定なし</option>
+									<!--{html_options options=$arrDelivTime[$shippingId] selected=$shipping.time_id}-->
+								</select>
+							</div>
+						</li>
+					</ul>
+					<!--{/foreach}-->
+					<input type="submit" class="btn_gray mg_t20" value="配送日時を指定する" name="confirm">
+				</form>
+			</div>
+		</div>
+		<!--{/if}-->
+        <!--{foreach item=shippingItem name=shippingItem from=$arrShipping}-->
+		<div class="mg_t40">
+			<h3 class="ttl_small">配送先情報 <!--{if $isMultiple}--><!--{$smarty.foreach.shippingItem.iteration}--><!--{/if}--></h3>
+			<div>
+				<ul>
+					<!--{if $isMultiple}-->
+							<!--{foreach item=item from=$shippingItem.shipment_item}-->
+							<li>品番：<!--{$item.productsClass.master_id|h}--></li>
+								<li>商品名：
+										<!--{$item.productsClass.name|h}--><br />
+										<!--{if $item.productsClass.classcategory_name1 != ""}-->
+											<!--{$item.productsClass.class_name1}-->：<!--{$item.productsClass.classcategory_name1}--><br />
+										<!--{/if}-->
+										<!--{if $item.productsClass.classcategory_name2 != ""}-->
+											<!--{$item.productsClass.class_name2}-->：<!--{$item.productsClass.classcategory_name2}-->
+										<!--{/if}-->
+								</li>
+					<li>単価：<!--{$item.price|sfCalcIncTax:$tpl_arrOrderData.order_tax_rate:$tpl_arrOrderData.order_tax_rule|n2s}-->円</li>
+					<li>数量：<!--{$item.quantity}--><!--{* XXX 購入小計と誤差が出るためコメントアウト
+								小計<!--{$item.total_inctax|n2s}-->円*}--></li>
+							<!--{/foreach}-->
+					<!--{/if}-->
+
+					<li>お名前<!--{$shippingItem.shipping_name01|h}--><!--{$shippingItem.shipping_name02|h}-->（<!--{$shippingItem.shipping_kana01|h}--><!--{$shippingItem.shipping_kana02|h}-->）</li>
+					<!--{if $smarty.const.FORM_COUNTRY_ENABLE}-->
+						<li>国：<!--{$arrCountry[$shippingItem.shipping_country_id]|h}--></li>
+						<li>ZIPCODE：<!--{$shippingItem.shipping_zipcode|h}--></li>
+					<!--{/if}-->
+					<li>郵便番号：〒<!--{$shippingItem.shipping_zip01}-->-<!--{$shippingItem.shipping_zip02}--></li>
+					<li>ご住所：<!--{$arrPref[$shippingItem.shipping_pref]}--><!--{$shippingItem.shipping_addr01|h}--><!--{$shippingItem.shipping_addr02|h}--></li>
+					<li>お電話番号：<!--{$shippingItem.shipping_tel01}-->-<!--{$shippingItem.shipping_tel02}-->-<!--{$shippingItem.shipping_tel03}--></li>
+									<!--{if $shippingItem.shipping_fax01 > 0}-->
+					<li>FAX：<!--{$shippingItem.shipping_fax01}-->-<!--{$shippingItem.shipping_fax02}-->-<!--{$shippingItem.shipping_fax03}--></li>
+									<!--{/if}-->
+					<li>配送希望日：<!--{$shippingItem.shipping_date|default:'指定なし'|h}--></li>
+					<li>配送希望時間：<!--{$shippingItem.shipping_time|default:'指定なし'|h}--></li>
+				</ul>
+			</div>
+		</div>
+        <!--{/foreach}-->
+
+        <div class="mg_t40">
+            <!--▼カートの中の商品一覧 -->
+            <div class="cart_items">
+                <!--▼商品 -->
+                <!--{foreach from=$tpl_arrOrderDetail item=orderDetail}-->
+                    <div class="cart_item_inner">
+						<ul class="cart_item_info">
+							<li class="item_photo"><img src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$orderDetail.product_c_image|sfNoImageMainList|h}-->" alt="<!--{$orderDetail.product_name|h}-->"></li>
+							<li class="item_info">
+								<p><!--{$orderDetail.master_id|h}--><br>
+								<a<!--{if $orderDetail.enable}--> href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$orderDetail.product_id|u}-->"<!--{/if}--> rel="external"><!--{$orderDetail.product_name|h}--></a><!--←商品名--><br>
+								<!--{strip}-->
+								<!--{if $orderDetail.classcategory_name1 != ""}-->
+									<!--{$orderDetail.classcategory_name1|h}-->
+								<!--{/if}-->
+								<!--{if $orderDetail.classcategory_name2 != ""}-->
+									 / <!--{$orderDetail.classcategory_name2|h}--><br>
+								<!--{else}-->
+								<br>
+								<!--{/if}-->
+								<!--{/strip}-->
+								<!--→金額-->
+								<!--{assign var=price value=`$orderDetail.price`}-->
+								<!--{assign var=quantity value=`$orderDetail.quantity`}-->
+								商品単価:&yen;<!--{$price|n2s|h}--><!--←金額--></p>
+								<!--{assign var=tax_rate value=`$orderDetail.tax_rate`}-->
+                            	<!--{assign var=tax_rule value=`$orderDetail.tax_rule`}-->
+								<p>数量：<!--{$quantity|h}--><br>
+								税込価格：&yen;<!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|sfMultiply:$quantity|n2s}--></p>
+							</li>
+						</ul>
+                    </div>
+                <!--{/foreach}-->
+                <!--▲商品 -->
+
+            </div><!--{* /.cartinarea *}-->
+            <!--▲ カートの中の商品一覧 -->
+
+            <div class="total_area mg_t30">
+                <div>
+					<span>小計</span>
+					<span>&yen;<!--{$tpl_arrOrderData.subtotal|n2s}--></span>
+				</div>
+                <!--{if $tpl_arrOrderData.use_point > 0}-->
+				<div>
+					<span>ポイント値引き：</span>
+					<span>&minus;&yen;<!--{$tpl_arrOrderData.use_point|n2s}--></span>
+				</div>
+                <!--{/if}-->
+                <!--{if $tpl_arrOrderData.discount != '' && $tpl_arrOrderData.discount > 0}-->
+				<div><span>値引き（ポイント利用）：</span><span>&minus;&yen;<!--{$tpl_arrOrderData.discount|n2s}--></span></div>
+                <!--{/if}-->
+				<div><span>送料：</span><span>&yen;<!--{$tpl_arrOrderData.deliv_fee|n2s}--></span></div>
+				<div><span>手数料：</span><span>&yen;<!--{$tpl_arrOrderData.charge|n2s}--></span></div>
+				<div><span>合計：</span><span>&yen;<!--{$tpl_arrOrderData.payment_total|n2s}--></span></div>
+				<div><span>獲得予定ポイント：</span><span>&yen;<!--{$tpl_arrOrderData.add_point|n2s|default:0}-->Pt</span></div>
+            </div>
+        </div><!-- /.formBox -->
+
+        <!--▼メール一覧 -->
+		<!--{if count($tpl_arrMailHistory) > 0}-->
+		 <div class="mg_t40">
+            <!--▼カートの中の商品一覧 -->
+            <div>
+                <!--▼商品 -->
+				<h2 class="ttl_small">MAIL</h2>
+				<!--{section name=cnt loop=$tpl_arrMailHistory}-->
+				<div class="norm_letterspacing">
+					<p>送信日時：<!--{$tpl_arrMailHistory[cnt].send_date|sfDispDBDate|h}--><br>
+					<a href="javascript:;" onclick="getMailDetail(<!--{$tpl_arrMailHistory[cnt].send_id}-->)" rel="external"><!--{$tpl_arrMailHistory[cnt].subject|h}--></a></p>
+				</div>
+				<!--{/section}-->
+			 </div>
+		</div>
+		<!--{/if}-->
+		<!-- /.formBox -->
+        <!--▲メール一覧 -->
+		<p class="mg_t30"><a rel="external" class="btn_cart_white" href="./<!--{$smarty.const.DIR_INDEX_PATH}-->">戻る</a></p>
+
+    </div><!-- /.form_area -->
+</div>
+</section>
+<div class="mypage_navi">
+    <div>
+        <!--{if $tpl_navi != ""}-->
+            <!--{include file=$tpl_navi}-->
+        <!--{else}-->
+            <!--{include file=`$smarty.const.TEMPLATE_REALDIR`mypage/navi.tpl}-->
+        <!--{/if}-->
+    </div>
+</div>
+
+
+<script>
+    function getMailDetail(send_id) {
+        eccube.showLoading();
+        $.ajax({
+            type: "GET",
+            url: "<!--{$smarty.const.ROOT_URLPATH}-->mypage/mail_view.php",
+            data: "mode=getDetail&send_id=" + send_id,
+            cache: false,
+            dataType: "json",
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert(textStatus);
+                eccube.hideLoading();
+            },
+            success: function(result){
+                var dialog = $("#mail-dialog");
+
+                //件名をセット
+                $("#mail-dialog-title").remove();
+                dialog.find(".dialog-content").append(
+                    $('<h3 id="mail-dialog-title">').text(result[0].subject)
+                );
+
+                //本文をセット
+                $("#mail-dialog-body").remove();
+                dialog.find(".dialog-content").append(
+                    $('<div id="mail-dialog-body">')
+                        .html(result[0].mail_body.replace(/\n/g,"<br />"))
+                        .css('font-family', 'monospace')
+                );
+
+                //ダイアログをモーダルウィンドウで表示
+                $.colorbox({
+					inline: true,
+					href: dialog,
+					width:"90%", 
+					height:"90%",
+				onOpen: function(){
+                    dialog.show();
+                }, onComplete: function(){
+                    eccube.hideLoading();
+                }, onClosed: function(){
+                    dialog.hide();
+                }});
+            }
+        });
+    }
+</script>
+
+<!--{include file="`$smarty.const.SMARTPHONE_TEMPLATE_REALDIR`frontparts/dialog_modal.tpl" dialog_id="mail-dialog" dialog_title="メール詳細"}-->

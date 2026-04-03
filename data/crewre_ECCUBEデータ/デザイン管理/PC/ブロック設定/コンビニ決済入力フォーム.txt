@@ -1,0 +1,90 @@
+<!--{*
+ * templates/default/bloc/yfc_cvs.tpl
+ * Copyright(c)2014, Yamato Financial Co.,Ltd. All rights reserved.
+ *}-->
+<script type="text/javascript">//<![CDATA[
+var send = true;
+
+function fnCheckSubmit(mode) {
+    $('#payment_form_body').slideToggle();
+    $('#payment_form_loading').slideToggle();
+
+    if(send) {
+        send = false;
+        fnModeSubmit(mode,'','');
+        return false;
+    } else {
+        alert("只今、処理中です。しばらくお待ち下さい。");
+        return false;
+    }
+}
+
+//]]>
+</script>
+
+        <div id="payment_form_loading" style="<!--{if !$tpl_is_loding}-->display:none;<!--{/if}-->">
+            <div class="information">
+                <p>決済処理中です。そのまま、お待ち下さい。</p>
+            </div>
+            <table summary="">
+                <tr>
+                <td class="alignC">
+                    <img src="<!--{$smarty.const.MDL_YFCAPI_MEDIAFILE_URL}-->loading.gif" />
+                </td>
+                </tr>
+            </table>
+        </div>
+        <div id="payment_form_body" style="<!--{if $tpl_is_loding}-->display:none;<!--{/if}-->">
+            <div class="information">
+                <p>下記項目をご選択ください。<br />
+                入力後、一番下の「決済する」ボタンをクリックしてください。</p>
+                <!--{assign var=key1 value="payment"}-->
+                <!--{assign var=key2 value="cvs"}-->
+                <p class="attention"><!--{$arrErr[$key1]}--><!--{$arrErr[$key2]}--></p>
+            </div>
+            <table summary="コンビニ選択">
+                <colgroup width="20%"></colgroup>
+                <colgroup width="80%"></colgroup>
+                <tr>
+                    <th class="alignC">選択<span class="attention">※</span></th>
+                    <th class="alignC">お支払いをするコンビニの種類</th>
+                </tr>
+                <!--{foreach from=$arrPaymentInfo.conveni item=data key=id name=cvsloop}-->
+                <tr>
+                    <th class="alignC">
+                        <input type="radio" id="cvs_id_<!--{$data|h}-->" name="<!--{$key2}-->" value="<!--{$data|h}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" <!--{$data|sfGetChecked:$arrForm[$key2].value}--> />
+                    </th>
+                    <td>
+                        <label for="cvs_id_<!--{$data|h}-->">
+                            <!--{$arrCVS[$data]|h}-->
+                            <img style="vertical-align: bottom;" src="<!--{$smarty.const.MDL_YFCAPI_MEDIAFILE_URL}-->cvs_logo_<!--{$data|h}-->.jpg" />
+                        </label>
+                    </td>
+                </tr>
+                <!--{/foreach}-->
+            </table>
+
+            <table>
+                <tr>
+                    <td>
+                        以上の内容で間違いなければ、下記「決済する」ボタンをクリックしてください。<br />
+                        <span class="attention">※画面が切り替るまで少々時間がかかる場合がございますが、そのままお待ちください。</span>
+                    </td>
+                </tr>
+            </table>
+            <div class="cart_btn_area mg_t60">
+                <ul>
+                    <li>
+                        <input type="submit" onclick="return fnCheckSubmit('return');" value="戻る" class="btn_white_norm w_half" alt="戻る" border="0" name="back" id="back"/>
+                    </li>
+                    <li>
+                    <!--{if $tpl_btn_next}-->
+                        <input type="submit" onclick="return fnCheckSubmit('next');" value="次へ" alt="次へ" border="0" name="next" id="next" class="btn_gray_norm w_half" />
+                    <!--{else}-->
+                        <input type="submit" onclick="return fnCheckSubmit('next');" value="決済完了ページ" alt="決済完了ページ" class="btn_gray_norm w_half" name="next" id="next" />
+                    <!--{/if}-->
+                    </li>
+                </ul>
+            </div>
+
+       </div><!--{* /payment_form_body *}-->

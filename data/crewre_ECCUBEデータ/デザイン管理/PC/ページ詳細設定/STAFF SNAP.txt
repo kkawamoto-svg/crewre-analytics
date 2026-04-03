@@ -1,0 +1,184 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+<script type="text/javascript">
+	// カテゴリを変更
+	function fnChangeCategory(catid, name) {
+		eccube.setValue('season_id', catid);
+		eccube.setValue('pageno', 1);
+		$('#s_cat ul').fadeOut();
+		$('#s_cat p').html(name);
+		//eccube.submitForm();
+	}
+	// タイプを変更
+	function fnChangeHeight(height, name) {
+		eccube.setValue('snap_height', height);
+		eccube.setValue('pageno', 1);
+		$('#s_height ul').fadeOut();
+		$('#s_height p').html(name);
+		//eccube.submitForm();
+	}
+	function fnSubmit(){
+		eccube.submitForm();
+	}
+//]]></script>
+<form name="form1" id="form1" method="get" action="?">
+	<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+	<!--{if $isAdminLogin}-->
+	<input type="hidden" name="admin" value="on" />
+	<input type="hidden" name="admin_date" value="<!--{$adminDate|h}-->" />
+	<!--{/if}-->
+	<!--{* ▼検索条件 *}-->
+	<input type="hidden" name="season_id" value="<!--{$tpl_catid}-->" />
+	<input type="hidden" name="snap_height" value="<!--{$tpl_height|h}-->" />
+	<input type="hidden" name="snap_model_id" value="<!--{$tpl_model|h}-->" />
+	<input type="hidden" name="pageno" value="<!--{$tpl_pageno|h}-->" />
+	<!--{* ▲ページナビ関連 *}-->
+	<input type="hidden" name="rnd" value="<!--{$tpl_rnd|h}-->" />
+</form>
+<section id="list_items">
+	<header class="mg_b40 flex_between">
+		<h1 class="tit_default" style="margin-bottom: 0;">snap</h1>
+	</header>
+	<div id="sort_area">
+		<nav id="sort_select">
+			<div class="open_sort" id="s_cat">
+				<!--{if $tpl_catid != ""}-->
+				<p><!--{$arrSNAPCAT[$tpl_catid]}--></p>
+				<!--{else}-->
+				<p>season</p>
+				<!--{/if}-->
+				<ul>
+					<li><a href="javascript:fnChangeCategory(0, 'season');">all</a></li>
+					<!--{foreach from=$arrSNAPCAT key=snapCatKey item=snapcat name=snapCatLoop}-->
+					<li><a href='javascript:fnChangeCategory("<!--{$snapCatKey}-->", "<!--{$snapcat|h}-->");'><!--{$snapcat}--></a></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+			<div class="open_sort" id="s_height">
+				<!--{if $snap_height != ''}-->
+				<p><!--{$snap_height}--></p>
+				<!--{else}-->
+				<p>height</p>
+				<!--{/if}-->
+				<ul>
+					<li><a href="javascript:fnChangeHeight('0','height');">all</a></li>
+					<li><a href="javascript:fnChangeHeight('100_155', '〜155cm');">〜155cm</a></li>
+					<li><a href="javascript:fnChangeHeight('156_158', '156cm〜158cm');">156cm〜158cm</a></li>
+					<li><a href="javascript:fnChangeHeight('159_161', '159cm〜161cm');">159cm〜161cm</a></li>
+					<li><a href="javascript:fnChangeHeight('162_164', '162cm〜164cm');">162cm〜164cm</a></li>
+					<li><a href="javascript:fnChangeHeight('165_200', '165cm〜');">165cm〜</a></li>
+				</ul>
+			</div>
+			<p class="btn_sort_submit">
+				<a href="javascript:;" onclick="fnSubmit(); return false;">search</a>
+			</p>
+		</nav>
+	</div>
+	<div class="item_list">
+	<!--{foreach from=$arrCoordinate item=snap name=snap}-->
+		<!--{if $smarty.foreach.snap.first}-->
+		<ul class="code_list">
+		<!--{/if}-->	
+			<li>
+				<a class="snap_btn snapindex<!--{$smarty.foreach.snap.index}-->" href="javascript:;" data-snap="<!--{$snap.coordinate_id}-->" data-snapindex="<!--{$smarty.foreach.snap.index}-->">
+					<div class="list_pict">
+						<div>
+							<img data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$snap.photo_list_img_path}-->" src="<!--{$TPL_URLPATH}-->images/pl.gif" class="lazyload fade_in">
+						</div>
+					</div>
+					<p><!--{$snap.name_en}--><!--{if $snap.height != "" OR $snap.department != ""}--><br><span><!--{if $snap.height != ""}--><!--{$snap.height}-->cm<!--{/if}--><!--{if $snap.department !=''}--> 
+				<!--{assign var=dept value=$snap.department}-->
+				 / <!--{$arrDEPARTMENT[$dept]}-->
+				<!--{/if}--><!--{if $snap.comment != ""}--><br><!--{$snap.comment}--><!--{/if}--></span><!--{/if}--></p>
+				</a>
+			</li>
+	<!--{if $smarty.foreach.snap.last}-->
+		</ul>
+	</div>
+	<nav>
+		<div class="paging"><!--{$tpl_strnavi}--></div>
+	</nav>
+	<!--{/if}-->
+	<!--{foreachelse}-->
+		<!--{include file="frontparts/search_zero.tpl"}-->
+	<!--{/foreach}-->
+</section>
+<div id="snap_block_outer">
+	<div id="snap_block_inner">
+		<iframe id="snap_iframe" src="" allowtransparency="true"></iframe>
+	</div>
+	<p class="btn_snap_r">
+		<a href="javascript:;"><img src="<!--{$TPL_URLPATH}-->images/ico_arrow_bk_R.png" alt=""></a>
+	</p>
+	<p class="btn_snap_l">
+		<a href="javascript:;"><img src="<!--{$TPL_URLPATH}-->images/ico_arrow_bk_L.png" alt=""></a>
+	</p>
+	<p class="btn_outer_close"><a href="javascript:;"><span></span><span></span></a></p>
+</div>
+<script>
+	let now;
+	$('.snap_btn').on('click',function(){
+		let pid = $(this).data('snap');
+		now = $(this).data('snapindex');
+		next = now + 1;
+		prev = now - 1;
+		$('#snap_iframe').attr('src', '/contents/coordinate_detail.php?cid='+pid);
+		$('#snap_block_outer').fadeIn('fast');
+		if(typeof $('.snapindex' + next).data('snap') === 'undefined'){
+			$('.btn_snap_r').hide();
+		}
+		if(typeof $('.snapindex' + prev).data('snap') === 'undefined'){
+			$('.btn_snap_l').hide();
+		}
+	});
+	$('.btn_snap_r').on('click', function(){
+		now = now + 1;
+		let next = now + 1;
+		$('#snap_iframe').attr('src', '');
+		pid = $('.snapindex' + now).data('snap');
+		$('#snap_iframe').attr('src', '/contents/coordinate_detail.php?cid='+pid);
+		if(typeof $('.snapindex' + next).data('snap') === 'undefined'){
+			$('.btn_snap_r').hide();
+		}else{
+			$('.btn_snap_r').show();
+		}
+		$('.btn_snap_l').show();
+	});
+	$('.btn_snap_l').on('click', function(){
+		now = now - 1;
+		let prev = now - 1;
+		$('#snap_iframe').attr('src', '');
+		pid = $('.snapindex' + now).data('snap');
+		$('#snap_iframe').attr('src', '/contents/coordinate_detail.php?cid='+pid);
+		if(typeof $('.snapindex' + prev).data('snap') === 'undefined'){
+			$('.btn_snap_l').hide();
+		}else{
+			$('.btn_snap_l').show();
+		}
+		$('.btn_snap_r').show();
+	});
+	$('.btn_outer_close').on('click',function(){
+		$('#snap_block_outer').fadeOut('fast',function(){
+			$('#snap_iframe').attr('src', '');
+		});
+	});
+</script>

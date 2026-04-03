@@ -1,0 +1,277 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+<script type="text/javascript">//<![CDATA[
+	$(function() {
+		$('#select_cat').change(function() {
+			var val = $(this).val();
+			eccube.setValue('season_id', val);
+			eccube.setValue('pageno', 1);
+			//eccube.submitForm();
+		});
+		$('#select_model').change(function() {
+			var val = $(this).val();
+			eccube.setValue('snap_model_id', val);
+			eccube.setValue('pageno', 1);
+			//eccube.submitForm();
+		});
+		$('#select_height').change(function() {
+			var val = $(this).val();
+			eccube.setValue('snap_height', val);
+			eccube.setValue('pageno', 1);
+			//eccube.submitForm();
+		});
+		function fnSubmit(){
+			eccube.submitForm();
+		}
+		var timer = null;
+		var pageNum = <!--{if $tpl_pageno != ""}--><!--{$tpl_pageno}--><!--{else}-->1<!--{/if}-->;
+		var loading = false;
+
+		//画像表示に必要な項目
+		var S3img = '<!--{$smarty.const.IMAGE_SAVE_S3_URL}-->';
+		var adminmode = '<!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->';
+		var tplpath ='<!--{$TPL_URLPATH}-->';
+		var cCount = <!--{$arrCoordinate|@count}-->;
+
+		function scrollfunc() {
+			clearTimeout(timer);
+			timer = setTimeout(function () {
+					var contentH = $('body').height();
+					var scrollPos = $(window).scrollTop() + $(window).height();
+					if(scrollPos > contentH*0.8 && loading == false){
+						loading = true;
+						var postData = new Object;
+						postData['<!--{$smarty.const.TRANSACTION_ID_NAME}-->'] = "<!--{$transactionid}-->";
+						postData['mode'] = 'json';
+						<!--{if $isAdminLogin}-->
+						postData['admin'] = 'on';
+						postData['admin_date'] = <!--{$adminDate|h}-->;
+						<!--{/if}-->
+						<!--{if $tpl_catid != ""}-->postData['season_id'] = <!--{$tpl_catid}-->;<!--{/if}-->
+						<!--{if $tpl_height != ""}-->postData['snap_height'] = <!--{$tpl_height|h}-->;<!--{/if}-->
+						<!--{if $tpl_model != ""}-->postData['snap_model_id'] = <!--{$tpl_model|h}-->;<!--{/if}-->
+						postData['pageno'] = pageNum + 1;
+						$.ajax({
+							type: "POST",
+							url: "<!--{$smarty.const.HTTPS_URL}-->contents/coordinate_list.php",
+							data: postData,
+							cache: false,
+							dataType: "json"
+						}).done(function(data) {
+							if(data.result == 'end'){
+								loading = true;
+								//console.log('end');
+							}else{
+								$.each(data, function(index, value){
+									if(value.comment != ""){
+										var comment = "<br>"+value.comment;
+									}else{
+										var comment = "";
+									}
+									cCount++;
+									var txt = '<li><p class="img"><a href="javascript:;" class="snap_btn snapindex'+cCount+'" data-snap="'+value.coordinate_id+'" data-snapindex="'+cCount+'"><img src="' + S3img + value.photo_list_img_path + '"></a></p><div class="txt_area"><p class="name">' + value.name_en + '</p><p class="favorite" style="display:none"><img src="<!--{$TPL_URLPATH}-->images/icon_heart01.png" alt=""/></p></div></li>';
+									$('#snap_list').append(txt);
+									$(".iframe").colorbox({iframe:true, width:"90%", height:"80%"});
+								})
+								pageNum = pageNum + 1;
+								loading = false;
+							}
+						}).fail(function () {
+							loading = true;
+						});
+					}
+				}, 100);
+		}
+		document.addEventListener("scroll", scrollfunc, { passive: true });
+
+		//ソートクリック処理
+		$('.tit_list_item').on('click', function(){
+			$('#list_category_list').fadeToggle('fast');
+		});
+	});
+//]]></script>
+<style>
+	#sort_area select {
+		font-size: 1rem;
+	}
+	#sort_btn {
+		width: 13px;
+		position: absolute;
+		top:0px;
+		right: 20px;
+		transform: rotate(-45deg);
+		transform-origin:50% 50% 0;
+		transition: 0.1s;
+	}
+	#sort_btn img {
+		vertical-align: bottom;
+	}
+	.sort_btn_active {
+		transform: rotate(0deg) !important;
+		transition: 0.1s;
+	}
+</style>
+<header class="category_header">
+	<h2 class="tit_list_item"><a href="javascript:;">snap</a></h2>
+</header>
+<div class="category_list">
+	<form name="form1" id="form1" method="get" action="?">
+		<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+		<!--{if $isAdminLogin}-->
+		<input type="hidden" name="admin" value="on" />
+		<input type="hidden" name="admin_date" value="<!--{$adminDate|h}-->" />
+		<!--{/if}-->
+		<!--{* ▼検索条件 *}-->
+		<input type="hidden" name="season_id" value="<!--{$tpl_catid}-->" />
+		<input type="hidden" name="snap_height" value="<!--{$tpl_height|h}-->" />
+		<input type="hidden" name="snap_model_id" value="<!--{$tpl_model|h}-->" />
+		<input type="hidden" name="pageno" value="<!--{$tpl_pageno|h}-->" />
+		<!--{* ▲ページナビ関連 *}-->
+		<input type="hidden" name="rnd" value="<!--{$tpl_rnd|h}-->" />
+	</form>
+	<!--{foreach from=$arrCoordinate item=snap name=snap}-->
+	<!--{if $smarty.foreach.snap.first}-->
+	<ul id="snap_list" class="snap_list font_lato">
+	<!--{/if}-->
+		<li>
+			<p class="img">
+				<a class="snap_btn snapindex<!--{$smarty.foreach.snap.iteration}-->" href="javascript:;" data-snap="<!--{$snap.coordinate_id}-->" data-snapindex="<!--{$smarty.foreach.snap.iteration}-->">
+					<img data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$snap.photo_list_img_path}-->" src="<!--{$TPL_URLPATH}-->images/pl.gif" class="lazyload fade_in">
+				</a>
+			</p>
+			<div class="txt_area">
+                <p class="name"><!--{$snap.name_en}--></p>
+                <p class="body_length">
+					<!--{if $snap.height != "" OR $snap.department != ""}--><!--{if $snap.height != ""}--><!--{$snap.height}-->cm<!--{/if}--><!--{if $snap.department !=''}--> 
+					<!--{assign var=dept value=$snap.department}-->
+					/ <!--{$arrDEPARTMENT[$dept]}--><!--{if $snap.comment != ""}--><br><!--{$snap.comment}--><!--{/if}-->
+					<!--{/if}--><!--{/if}-->
+				</p>
+                <p class="favorite" style="display:none"><img src="<!--{$TPL_URLPATH}-->images/icon_heart01.png" alt=""/></p>
+            </div>
+		</li>
+	<!--{if $smarty.foreach.snap.last}-->
+	</ul>
+	<!--{/if}-->
+	<!--{foreachelse}-->
+		<!--{include file="frontparts/search_zero.tpl"}-->
+	<!--{/foreach}-->
+</div>
+<div id="list_category_list">
+	<div id="list_category_list_inner">
+		<p class="tit_list_item"><a href="javascript:;">filter</a></p>
+		<nav class="list_category_list_form">
+			<dl>
+				<dd class="btn_style">
+					<div class="select_n w_full">
+						<select name="category_id" id="select_cat">
+							<option label="season" value="">season</option>
+							<!--{foreach from=$arrSNAPCAT key=snapCatKey item=snapcat name=snapCatLoop}-->
+							<option label="<!--{$snapcat}-->" value="<!--{$snapCatKey}-->"<!--{if $tpl_catid == $snapCatKey}--> selected="selected"<!--{/if}-->><!--{$snapcat}--></option>
+							<!--{/foreach}-->
+						</select>
+					</div>
+				</dd>
+			</dl>
+			<dl>
+				<dd class="btn_style">
+					<div class="select_n w_full">
+						<select name="snap_height" id="select_height">
+							<option label="height" value="">height</option>
+							<option label="〜155cm" value="100_155"<!--{if $tpl_height == "100_155"}--> selected="selected"<!--{/if}-->>〜155cm</option>
+							<option label="156cm〜158cm" value="156_158"<!--{if $tpl_height == "156_158"}--> selected="selected"<!--{/if}-->>156cm〜158cm</option>
+							<option label="159cm〜161cm" value="159_161"<!--{if $tpl_height == "159_161"}--> selected="selected"<!--{/if}-->>159cm〜161cm</option>
+							<option label="162cm〜164cm" value="162_164"<!--{if $tpl_height == "162_164"}--> selected="selected"<!--{/if}-->>162cm〜164cm</option>
+							<option label="165cm〜" value="164_200"<!--{if $tpl_height == "164_200"}--> selected="selected"<!--{/if}-->>165cm〜</option>
+						</select>
+					</div>
+				</dd>
+			</dl>
+			<p class="btn_sort_submit">
+				<a href="javascript:;" onclick="fnSubmit(); return false;">search</a>
+			</p>
+		</nav>
+	</div>
+</div>
+<div id="snap_block_outer">
+	<div id="snap_block_bg"></div>
+	<div id="snap_block_inner">
+		<iframe id="snap_iframe" src="" allowtransparency="true"></iframe>
+	</div>
+	<p class="btn_snap_r">
+		<a href="javascript:;"><img src="<!--{$TPL_URLPATH}-->images/ico_arrow_bk_R.png" alt=""></a>
+	</p>
+	<p class="btn_snap_l">
+		<a href="javascript:;"><img src="<!--{$TPL_URLPATH}-->images/ico_arrow_bk_L.png" alt=""></a>
+	</p>
+	<p class="btn_outer_close"><a href="javascript:;"><span></span><span></span></a></p>
+</div>
+<script>
+	$(function(){
+		let now;
+		$(document).on('click','.snap_btn',function(){
+			let pid = $(this).data('snap');
+			now = $(this).data('snapindex');
+			next = now + 1;
+			prev = now - 1;
+			$('#snap_iframe').attr('src', '/contents/coordinate_detail.php?cid='+pid);
+			$('#snap_block_outer').fadeIn('fast');
+			if(typeof $('.snapindex' + next).data('snap') === 'undefined'){
+				$('.btn_snap_r').hide();
+			}
+			if(typeof $('.snapindex' + prev).data('snap') === 'undefined'){
+				$('.btn_snap_l').hide();
+			}
+		});
+		$(document).on('click','.btn_snap_r', function(){
+			now = now + 1;
+			let next = now + 1;
+			$('#snap_iframe').attr('src', '');
+			pid = $('.snapindex' + now).data('snap');
+			$('#snap_iframe').attr('src', '/contents/coordinate_detail.php?cid='+pid);
+			if(typeof $('.snapindex' + next).data('snap') === 'undefined'){
+				$('.btn_snap_r').hide();
+			}else{
+				$('.btn_snap_r').show();
+			}
+			$('.btn_snap_l').show();
+		});
+		$(document).on('click','.btn_snap_l', function(){
+			now = now - 1;
+			let prev = now - 1;
+			$('#snap_iframe').attr('src', '');
+			pid = $('.snapindex' + now).data('snap');
+			$('#snap_iframe').attr('src', '/contents/coordinate_detail.php?cid='+pid);
+			if(typeof $('.snapindex' + prev).data('snap') === 'undefined'){
+				$('.btn_snap_l').hide();
+			}else{
+				$('.btn_snap_l').show();
+			}
+			$('.btn_snap_r').show();
+		});
+		$(document).on('click','.btn_outer_close, #snap_block_bg',function(){
+			$('#snap_block_outer').fadeOut('fast',function(){
+				$('#snap_iframe').attr('src', '');
+			});
+		});
+	});
+</script>

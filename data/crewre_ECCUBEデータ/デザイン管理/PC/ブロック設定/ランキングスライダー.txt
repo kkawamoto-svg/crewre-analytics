@@ -1,0 +1,30 @@
+<!--{if count($arrProducts) > 0}-->
+<section id="top_ranking_slider">
+	<header class="mg_b40 flex_between">
+		<h1 class="tit_default">RANKING</h1>
+	</header>
+	<div id="ranking_slider_outer" class="fade_in">
+		<div id="ranking_slider">
+			<div class="swiper-wrapper">
+				<!--{foreach from=$arrProducts item=rankitem name=rankLoop}-->
+				<!--{if $smarty.foreach.rankLoop.index < 15 }-->
+				<div class="swiper-slide">
+					<a href="/products/detail.php?product_id=<!--{$rankitem.product_id}--><!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">
+						<div class="list_pict">
+							<div>
+								<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$rankitem.main_list_image|sfNoImageMainList|h}-->" class="swiper-lazy">
+								<!--{if $rankitem.status == 1 OR $rankitem.status == 8}--><span class="over_img"><img data-src="<!--{$TPL_URLPATH}-->images/list_comingsoon.png" class="swiper-lazy"></span>
+								<!--{elseif $rankitem.stock == 0}--><span class="over_img"><img data-src="<!--{$TPL_URLPATH}-->images/list_soldout.png" class="swiper-lazy"></span><!--{/if}-->
+							</div>
+						</div>
+					</a>
+					NO.<!--{$smarty.foreach.rankLoop.iteration}-->
+				</div>
+				<!--{/if}-->
+				<!--{/foreach}-->
+			</div>
+			<div class="default-swiper-pagination"></div>
+		</div>
+	</div>
+</section>
+<!--{/if}-->

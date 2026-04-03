@@ -1,0 +1,91 @@
+<!--{*
+ * templates/sphone/bloc/yfc_cvs.tpl
+ * Copyright(c)2014, Yamato Financial Co.,Ltd. All rights reserved.
+ *}-->
+<script type="text/javascript">//<![CDATA[
+var send = true;
+
+function submitCall(mode){
+    $('.btn_area').hide();
+    $('#now_execute').show();
+    var num = Math.random();
+    if(num >= 0.5){
+        setTimeout(function(){fnCheckSubmit(mode)}, 2000);
+    }else{
+        fnCheckSubmit(mode);
+    }
+}
+
+function fnCheckSubmit(mode) {
+    if(send) {
+        send = false;
+        fnModeSubmit(mode,'','');
+        return false;
+    } else {
+        alert("只今、処理中です。しばらくお待ち下さい。");
+        return false;
+    }
+}
+
+//]]>
+</script>
+<div id="payment_module_bloc">
+        <section id="payment_form_loading" style="<!--{if !$tpl_is_loding}-->display:none;<!--{/if}-->">
+            <div class="information end">
+                <p>決済処理中です。しばらくお待ち下さい。</p>
+            </div>
+            <div class="bubbleBox hot">
+                <div class="bubble_announce clearfix">
+                    <img src="<!--{$smarty.const.MDL_YFCAPI_MEDIAFILE_URL}-->loading.gif" />
+                </div>
+            </div>
+        </section>
+
+        <section id="payment_form_body" style="<!--{if $tpl_is_loding}-->display:none;<!--{/if}-->">
+            <h3 class="alignC mg_t30">お支払いをするコンビニの種類</h3>
+            <div class="information end">
+                <p>下記項目をご選択ください。<br />
+                入力後、一番下の「次へ」ボタンをクリックしてください。</p>
+                <!--{assign var=key1 value="payment"}-->
+                <!--{assign var=key2 value="cvs"}-->
+                <p class="attention"><!--{$arrErr[$key1]}--><!--{$arrErr[$key2]}--></p>
+            </div>
+                <ul class="form_entry form_entry_cvs">
+
+                <!--{foreach from=$arrPaymentInfo.conveni item=data key=id name=cvsloop}-->
+                    <li>
+                        <input class="radio_btn data-role-none" type="radio" id="cvs_id_<!--{$data|h}-->" name="<!--{$key2}-->" value="<!--{$data|h}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" <!--{$data|sfGetChecked:$arrForm[$key2].value}--> />
+                        <label for="cvs_id_<!--{$data|h}-->">
+                            <!--{$arrCVS[$data]|h}-->
+                            <img style="vertical-align: bottom;" src="<!--{$smarty.const.MDL_YFCAPI_MEDIAFILE_URL}-->cvs_logo_<!--{$data|h}-->.jpg" />
+                        </label>
+                    </li>
+                <!--{/foreach}-->
+                </ul>
+
+
+            <div class="btn_area">
+                <ul class="btn_btm">
+
+                        <li>
+                        <!--{if $tpl_btn_next}-->
+                            <a rel="external" href="javascript:void(submitCall('next'));" class="btn_gray"/>次へ</a>
+                        <!--{else}-->
+                            <a rel="external" href="javascript:void(submitCall('next'));" class="btn_gray"/>ご注文完了ページへ</a>
+                        <!--{/if}-->
+                        </li>
+
+                        <!--{if !$tpl_btn_next}-->
+                        <li class="mg_t15">
+                            <a rel="external" href="javascript:void(submitCall('return'));" class="btn_back btn_lgray"/>戻る</a>
+                        </li>
+                        <!--{/if}-->
+                </ul>
+            </div>
+            <div class="mg_t20" id="now_execute" style="display: none">
+				<p class="fontRed alignC"><strong>只今決済処理中です。<br>
+				そのままの画面でお待ち下さい。<br>通信中にページのリロードを行うと<br>決済が正常に行われない場合がございます。</strong></p>
+			</div>
+
+       </section><!--{* /payment_form_body *}-->
+</div>

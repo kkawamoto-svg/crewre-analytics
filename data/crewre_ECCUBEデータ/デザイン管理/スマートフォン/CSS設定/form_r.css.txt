@@ -1,0 +1,430 @@
+input, button, textarea, select {
+  	-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+/* iOSでのデフォルトスタイルをリセット */
+input[type="submit"],
+input[type="button"] {
+	border-radius: 0;
+	-webkit-box-sizing: content-box;
+	-webkit-appearance: button;
+	-moz-appearance: button;
+	appearance: button;
+	border: none;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	cursor: pointer;
+	font-size: 1.1rem;
+	font-family: 'Inter Tight', 'expressway', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+}
+input[type="submit"]::-webkit-search-decoration,
+input[type="button"]::-webkit-search-decoration {
+  display: none;
+}
+input[type="submit"]::focus,
+input[type="button"]::focus {
+  outline-offset: -2px;
+}
+select {
+	font-size: 1rem;
+}
+input::-webkit-input-placeholder {
+  color: #cacaca;
+}
+
+input:-ms-input-placeholder {
+  color: #cacaca;
+}
+
+input::placeholder {
+  color: #cacaca;
+}
+
+/* IE */
+input:-ms-input-placeholder {
+  color: #cacaca;
+}
+
+/* Edge */
+input::-ms-input-placeholder {
+  color: #cacaca;
+}
+
+select.sp_default_select {
+    height: 3.5em;
+    width: 100%;
+	border-radius: 0px;
+    border: solid 1px #ccc;
+    background: url(../images/select_btn.gif) no-repeat right 5px center;
+	background-size:contain;
+	background-color: #FFF;
+    padding-right: 25px;
+    padding-left: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"]
+ {
+	border: 1px solid #ccc;
+	background: var(--default_input_color);
+	font-size: 100%;
+	padding: 5px 10px;
+	height: 40px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	font-size: 1.2rem;
+	letter-spacing: 1px;
+	border-radius: 0;
+}
+textarea {
+	border-radius: 0;
+}
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    border: solid 2px #ccc;
+	margin: 0;
+}
+input[type="radio"] {
+	width: 16px;/*radioボタンの横幅*/
+	height: 16px;/*radioボタンの縦幅*/
+	border-radius: 8px;
+	position: relative;
+	vertical-align: -3px;
+	margin: 0 5px 0 0;
+}
+input[type="radio"]::before, input[type="radio"]::after{
+	content: "";
+	display: block;
+	border-radius: 50%;
+	position: absolute;
+	transform: translateY(-50%);
+	top: 50%;
+}
+input[type="radio"]::before {
+	background-color: #fff;
+	border: 2px solid #c2c1c1;
+	height: 16px;/*radioボタンの横幅*/
+	width: 16px;/*radioボタンの縦幅*/
+	left: 0px;
+}
+input[type="radio"]::after {
+	background-color: var(--default_gray);
+	opacity: 0;/*チェックされてないradioボタンは非表示*/
+	height: 8px;/*radioボタンチェック時の中点の高さ*/
+	width: 8px;/*radioボタンチェック時の中点の横幅*/
+	left: 4px;/*radioボタンチェック時の中点の位置*/
+}
+input[type="radio"]:checked::after {
+	opacity: 1;/*チェックされたradioボタンは表示*/
+}
+input[type="radio"]:checked, input[type="checkbox"]:checked {
+	background-color: #333 !important;	
+}
+
+input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0px 1000px var(--super_light_gray) inset;
+}
+.gray_input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px var(--super_light_gray) inset;
+}
+input.gray_input {
+	background-color: var(--super_light_gray);
+	border: 1px solid var(--super_light_gray);
+}
+.select_n {
+	overflow: hidden;
+	width: 100%;
+	position: relative;
+	background-color: var(--default_input_color);
+	height: 40px;
+}
+#list_category_list .select_n{
+	background-color: transparent !important;
+	border-bottom: 1px solid #666562;
+}
+.select_n select {
+	width: 100%;
+	height: 40px;
+	padding-right: 1em;
+	cursor: pointer;
+	text-indent: 0.01px;
+	text-overflow: ellipsis;
+	border: none;
+	outline: none;
+	background: transparent;
+	background-image: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	padding: 12px 38px 12px 8px;
+	color: #666666;
+	height: 100%;
+	font-size: 1.2rem;
+}
+.select_n select::-ms-expand {
+    display: none;
+}
+.select_n::before {
+	position: absolute;
+    top: 0.8em;
+    right: 0.5em;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    padding: 0;
+    content: '';
+    background: url(../images/icon_arrow_under.png) no-repeat center !important;
+	background-size: auto 10px !important;
+    pointer-events: none;
+}
+#list_category_list .select_n::before {
+	position: absolute;
+    top: 0.8em;
+    right: 0.5em;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    padding: 0;
+    content: '';
+    background: url(../images/ico_arrow_bk_bottom.png) no-repeat center !important;
+	background-size: auto 10px !important;
+    pointer-events: none;
+}
+.select_row {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+.select_row li {
+	width: 31%;
+	margin-right: 1.5%;
+}
+textarea {
+	width: 100%;
+	border: 1px solid #cccccc;
+	padding: 10px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background: var(--default_input_color);
+}
+.w_full {
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.w_semi {
+	width: 70%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.w_half {
+	width: 40%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.w_third {
+	width: 28%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.w_mini {
+	width: 22%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.form_entry dt {
+	margin-bottom: 12px;
+	font-weight: 400;
+	font-size: 1.2rem;
+}
+.form_entry dd {
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: #CCC 1px solid;
+}
+.form_entry label {
+	line-height: 23px;
+}
+.form_add_addr {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: space-between;
+}
+.form_add_addr li {
+	margin-right: 1.5%;
+	width: 13%;
+}
+.form_add_addr li label {
+	line-height: 29px;
+	width: 100%;
+	display: block;
+}
+.form_add_addr li:first-child {
+	width: 70%;
+}
+.form_add_addr li:last-child {
+	margin-right: 0px;
+}
+.form_list li {
+	margin-bottom: 15px;
+}
+.form_list li:last-child {
+	margin-bottom: 0px;
+}
+.point_input {
+	background-color: #FFF !important;
+}
+.select_deliv_date {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+.select_deliv_date p {
+	line-height: 28px;
+	margin-bottom: 0;
+    padding-top: 3px;
+}
+input.disabled_input {
+	background-color: #D1D1D1;
+	pointer-events : none;
+}
+a.btn_black_mini, input[type="submit"].btn_black_mini {
+    width: 100%;
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    padding: 3px;
+    display: block;
+    background: var(--light_gray);
+    cursor: pointer;
+    -webkit-transition: opacity 0.5s ease-in;
+    -moz-transition: opacity 0.5s ease-in;
+    border: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+	font-size: 1.0rem;
+	letter-spacing: 1px;
+	zoom: 0.8;
+	font-weight: 400;
+	font-family: 'Inter Tight', 'expressway', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+}
+a.btn_white_mini, input[type="submit"].btn_white_mini {
+    width: 100%;
+	color: var(--default_gray);
+    text-decoration: none;
+    text-align: center;
+    padding: 3px;
+    display: block;
+    background: #FFF;
+    cursor: pointer;
+    -webkit-transition: opacity 0.5s ease-in;
+    -moz-transition: opacity 0.5s ease-in;
+    border: 1px solid var(--btn_gray);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+	font-size: 1.0rem;
+	letter-spacing: 1px;
+	zoom: 0.8;
+	font-weight: 400;
+	font-family: 'Inter Tight', 'expressway', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+}
+a.btn_cart_black, input[type="submit"].btn_cart_black, input[type="button"].btn_cart_black{
+	width: 100%;
+	height: 40px;
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    padding: 3px;
+	line-height: 36px;
+    display: block;
+    background: var(--btn_gray);
+    cursor: pointer;
+    -webkit-transition: opacity 0.5s ease-in;
+    -moz-transition: opacity 0.5s ease-in;
+    border: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+	font-size: 1.1rem !important;
+	font-weight: 400;
+	letter-spacing: 2px;
+	font-family: 'Inter Tight', 'expressway', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+}
+a.btn_cart_white{
+	width: 100%;
+	height: 40px;
+    text-decoration: none;
+    text-align: center;
+    padding: 3px;
+	line-height: 34px;
+    display: block;
+    background: #fff;
+    cursor: pointer;
+    -webkit-transition: opacity 0.5s ease-in;
+    -moz-transition: opacity 0.5s ease-in;
+    border: 1px solid var(--default_gray);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+	font-size: 1.05rem !important;
+	font-weight: 400;
+	font-family: 'Inter Tight', 'expressway', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+}
+input[type="submit"].btn_cart_white{
+	width: 100%;
+	height: 40px;
+    text-decoration: none;
+    text-align: center;
+    padding: 3px;
+	line-height: 34px;
+    display: block;
+    background: #fff;
+    cursor: pointer;
+    -webkit-transition: opacity 0.5s ease-in;
+    -moz-transition: opacity 0.5s ease-in;
+    border: 1px solid var(--default_gray);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+	font-size: 1.1rem !important;
+	font-weight: 400;
+}
+.kiyaku_text {
+	height: 40vh;
+	background-color: #FFF !important;
+	font-size: 1.1rem;
+	padding: 25px;
+}
+.margin_none {
+	margin-bottom: 0 !important;
+}
+.inline_select {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+
+

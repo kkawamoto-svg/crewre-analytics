@@ -1,0 +1,21 @@
+<!--{*
+ * Copyright(c) 2012 GMO Payment Gateway, Inc. All rights reserved.
+ * http://www.gmo-pg.com/
+ * Updated: 2013/07/12
+ *}-->
+<form name="form1" id="form1" method="post" action="<!--{$tpl_url}-->">
+<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" >
+<input type="hidden" name="mode" value="next" >
+<input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->" >
+<!--{foreach from=$arrForm item=data key=key}-->
+<!--{if $key != "register_card"}-->
+<input type="hidden" name="<!--{$key}-->" value="<!--{$data.value|h}-->" >
+<!--{/if}-->
+<!--{/foreach}-->
+
+<!--{if $tpl_form_bloc_path != ""}-->
+<!--{include file=$tpl_form_bloc_path}-->
+<!--{/if}-->
+
+</form>
+<br>

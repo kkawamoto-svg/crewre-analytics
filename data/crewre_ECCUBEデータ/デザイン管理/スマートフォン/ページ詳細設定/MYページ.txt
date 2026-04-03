@@ -1,0 +1,207 @@
+<!--{*
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+<section id="mypagecolumn">
+	<header class="default_bloc">
+		<h1 class="tit_default">my page</h1>
+	</header>
+	<div id="mypage_top" class="default_bloc">
+		<!--{if $CustomerName1 != "" AND $CustomerName2 != ""}-->
+		<p id="mypage_top_name">
+			<!--{$CustomerName1|h}--> <!--{$CustomerName2|h}--><span>様</span>
+		</p>
+		<ul id="mypage_top_point">
+			<li>ご利用可能ポイント：</li>
+			<li><!--{$CustomerTotalPoint|n2s|default:"0"|h}--><span>ポイント</span></li>
+		</ul>
+		<div id="mypage_top_reserve_point">
+			<p><strong>実ポイント：<!--{$estimatePoint}--> pt</strong><br>
+			※実ポイントは商品発送1ヶ月後にご利用可能ポイントとなります。</p>
+		</div>
+		<ul class="mypage_btn_double">
+			<li>
+				<a href="/mypage/change.php">会員情報の変更</a>
+			</li>
+			<li>
+				<a href="/mypage/change_card.php">カード情報の編集</a>
+			</li>
+		</ul>
+		<!--{else}-->
+		<div class="btn_area">
+			<ul>
+				<li>
+					<a rel="external" href="/mypage/change.php" class="btn_n btn_gray"><p>会員情報の変更</p></a>
+				</li>
+			</ul>
+		</div>
+		<!--{/if}-->
+	</div>
+	<!--{if $objNavi->now_page < 2 && $arrFavorite != ""}-->
+	<form name="form0" id="form0" method="post" action="?">
+		<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+		<input type="hidden" name="order_id" value="" />
+		<input type="hidden" name="mode" value="cart" />
+		<input type="hidden" name="product_class_id" value="" />
+		<input type="hidden" name="classcategory_id1" value="" />
+		<input type="hidden" name="classcategory_id2" value="" />
+	</form>
+	<div id="mypage_top_favorite">
+		<h2 class="tit_sub_default default_bloc">お気に入り</h2>
+		<ul class="mypage_favorite_list">
+		<!--{foreach from=$arrFavorite item=favorite}-->
+			<!--{assign var=product_id value="`$favorite.product_id`"}-->
+			<!--{assign var=product_class_id value="`$favorite.product_class_id`"}-->
+			<li>
+				<div class="favorite_thumb">
+					<a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$product_id|u}-->&c=<!--{$favorite.classcategory_id1}-->">
+						<img src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$favorite.c_list_image|sfNoImageMainList|h}-->" alt="<!--{$favorite.name|h}-->" />
+					</a>
+				</div>
+				<div class="favorite_text">
+					<ul class="list_color_tip">
+						<li><a href="/products/detail.php?product_id=<!--{$product_id|u}-->&c=<!--{$favorite.classcategory_id1}-->" class="color_<!--{$favorite.classcategory_id1}-->"></a></li>
+					</ul>
+					<p class="favorite_product_name"><!--{$favorite.name|h}--></p>
+					<p>
+						color：<!--{$favorite.c_name|h}--><br>
+						size：<!--{$favorite.s_name|h}-->
+					</p>
+					<ul class="favorite_price">
+						<li>&yen;<!--{$favorite.price02|n2s}--></li>
+						<li class="favorite_list_btn" data-favorite="<!--{$product_id|u}-->">
+							<a href="javascript:;"><img src="/user_data/packages/default/images/ico_favorite_on.png" alt=""></a>
+						</li>
+					</ul>
+					<div class="btn_favorite">
+						<!--{if $customer_rank == 1 && $favorite.status == 5 && $favorite.stock > 0}-->
+						<a href="javascript:void" onclick="setParamSubmitDetail(<!--{$favorite.product_class_id}-->,<!--{$favorite.classcategory_id1}-->,<!--{$favorite.classcategory_id2}-->)">
+							add to cart
+						</a>
+						<!--{elseif $favorite.plan_status == 1}-->
+							<a class="iframe" href="/products/products_mail.php?page=/products/detail.php?product_id=<!--{$favorite.product_id}-->&product_class_id=<!--{$favorite.product_class_id}-->&form_mode=arrival">
+								入荷お知らせ
+							</a>
+						<!--{elseif $favorite.plan_status == 2 || $favorite.plan_status == 3 || $favorite.plan_status == 4 || $favorite.plan_status == 5 || $favorite.plan_status == 6 || $favorite.plan_status == NULL}-->
+							<!--{if $favorite.stock > 0 && $favorite.plan_status == 2}-->
+								<a href="javascript:void" onclick="setParamSubmitDetail(<!--{$favorite.product_class_id}-->,<!--{$favorite.classcategory_id1}-->,<!--{$favorite.classcategory_id2}-->)">
+									reserve
+								</a>
+							<!--{elseif $favorite.stock > 0 && $favorite.plan_status != 2}-->
+								<a href="javascript:void" onclick="setParamSubmitDetail(<!--{$favorite.product_class_id}-->,<!--{$favorite.classcategory_id1}-->,<!--{$favorite.classcategory_id2}-->)">
+									add to cart
+								</a>
+							<!--{else}-->
+								<a class="iframe" href="/products/products_mail.php?page=/products/detail.php?product_id=<!--{$favorite.product_id}-->&product_class_id=<!--{$favorite.product_class_id}-->&form_mode=rearrival">
+									再入荷お知らせ
+								</a>
+							<!--{/if}-->
+						<!--{elseif $favorite.plan_status == 7}-->
+							<a href="javascript:void(0)">販売終了</a>
+						<!--{/if}-->
+					</div>
+				</div>
+			</li>
+		<!--{/foreach}-->
+		</ul>
+		<div class="btn_area default_bloc">
+			<ul>
+				<li>
+					<a rel="external" href="/mypage/favorite.php" class="btn_n btn_gray"><p>お気に入り一覧</p></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!--{/if}-->
+
+	<!--{if count($arrOrder) > 0}-->
+	<form name="form1" id="form1" method="post" action="?">
+		<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+		<input type="hidden" name="order_id" value="" />
+		<input type="hidden" name="pageno" value="<!--{$objNavi->now_page}-->" />
+	</form>
+	<div id="mypage_top_history">
+		<h2 class="tit_sub_default default_bloc">購入履歴</h2>
+		<ul id="mypage_history_list" class="default_bloc">
+			<!--{foreach from=$arrOrder item=order}-->
+				<li>
+					<p><!--{$order.create_date|sfDispDBDate}--></p>
+					<p>注文番号：<strong><!--{$order.order_id}--></strong></p>
+					<p><!--{if $order.deliv_plan != ""}-->発送予定：<!--{$order.deliv_plan}--><!--{else}-->発送予定：順次発送<!--{/if}--></p>
+					<p><!--{assign var=payment_id value="`$order.payment_id`"}-->
+					<p>お支払い方法：<!--{$arrPayment[$payment_id]|h}--></p>
+					<p>
+						使用ポイント：<!--{$order.use_point}-->pt<br>
+						獲得ポイント：<!--{if $order.status == ORDER_DELIV_FINISHED ||  $order.status == ORDER_RETURN_FINISHED || $order.status == ORDER_CHANGE_FINISHED}-->
+						<!--{$order.add_point}-->pt（獲得済）
+						<!--{elseif $order.status == ORDER_HUZAI || $order.status == ORDER_CANCEL || $order.status == ORDER_ALL_RETURN || $order.status == ORDER_RETURN_FINISHED}-->
+							<strike><!--{$order.add_point}--></strike>pt（取消し）
+						<!--{else}-->
+							<!--{$order.add_point}-->pt（獲得予定）
+						<!--{/if}-->
+					</p>
+					<!--{if $smarty.const.MYPAGE_ORDER_STATUS_DISP_FLAG }-->
+					<!--{assign var=order_status_id value="`$order.status`"}-->
+					<!--{if $order_status_id != $smarty.const.ORDER_PENDING }-->
+					<p>対応状況：<!--{$arrCustomerOrderStatus[$order_status_id]|h}--></p>
+					<!--{else}-->
+					<p>対応状況：<!--{$arrCustomerOrderStatus[$order_status_id]|h}--></p>
+					<!--{/if}-->
+					<p>合計金額：<!--{$order.payment_total|n2s}-->円</p>
+					<!--{/if}-->
+					<p class="btn_mypage_detail"><a href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/history.php?order_id=<!--{$order.order_id}-->">詳細を見る</a></p>
+				</li>
+			<!--{/foreach}-->
+		</ul>
+		<!--{if $objNavi->strnavi !=""}-->
+		<!--{if $tpl_nowPage == 1 && $tpl_maxPage == 1}-->
+		<!--{else}-->
+		<nav class="mg_t30">
+			<div class="paging">
+				<!--{$objNavi->strnavi}-->
+			</div>
+		</nav>
+		<!--{/if}-->
+		<!--{/if}-->
+	</div>
+	<!--{/if}-->
+	<div class="mypage_navi">
+		<div>
+			<!--{if $tpl_navi != ""}-->
+				<!--{include file=$tpl_navi}-->
+			<!--{else}-->
+				<!--{include file=`$smarty.const.TEMPLATE_REALDIR`mypage/navi.tpl}-->
+			<!--{/if}-->
+		</div>
+	</div>
+</section>
+<script type="text/javascript">//<![CDATA[
+	var setParamSubmitDetail = function(product_class_id,classcategory_id1,classcategory_id2,plan_price,product_type_id) {
+        document.form0.product_class_id.value = product_class_id;
+		document.form0.classcategory_id1.value = classcategory_id1;
+		document.form0.classcategory_id2.value = classcategory_id2;
+        document.form0.submit();
+    };
+	$(document).ready(function (){
+		$(".iframe").colorbox({iframe:true, width:"90%", height:"90%"});
+	});
+//]]></script>

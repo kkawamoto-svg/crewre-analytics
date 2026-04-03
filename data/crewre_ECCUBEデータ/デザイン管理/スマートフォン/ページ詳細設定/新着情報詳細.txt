@@ -1,0 +1,9 @@
+<!--{include file="`$smarty.const.SMARTPHONE_TEMPLATE_REALDIR`popup_header.tpl" subtitle=""}-->
+<section style="padding: 7%;">
+    <h1 style="margin-bottom:10px"><!--{$arrNews.news_title|h}--></h1>
+    <div>
+        <p style="margin-bottom:10px"><!--{$arrNews.news_date|date_format:"%Y/%m/%d"}--></p>
+        <!--{$arrNews.news_comment|h}-->
+    </div>
+</section>
+<!--{include file="`$smarty.const.TEMPLATE_REALDIR`popup_footer.tpl"}-->

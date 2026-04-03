@@ -1,0 +1,89 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+
+<div id="undercolumn">
+    <div id="undercolumn_shopping">
+        <header class="mg_b40">
+			<h1 class="tit_default">注文完了</h1>
+		</header>
+		<div id="cart_flow" class="cart_flow1">
+			<ul>
+				<li class="cart_active_line"><span class="flow_active_icon"></span></li>
+				<li class="cart_active_line"><span class="flow_active_icon"></span></li>
+				<li class="cart_active_line"><span class="flow_active_icon"></span><span class="flow_active_icon"></span></li>
+			</ul>
+		</div>
+
+        <p class="mg_t80 font_lato alignC txt_thanks">thank you</p>
+        <p class="mg_b80 alignC">ご注文完了いたしました。</p>
+
+        <!-- ▼その他決済情報を表示する場合は表示 -->
+        <!--{if $arrOther.title.value}-->
+            <p><span class="attention">■<!--{$arrOther.title.name}-->情報</span><br />
+                <!--{foreach key=key item=item from=$arrOther}-->
+                    <!--{if $key != "title"}-->
+                        <!--{if $item.name != ""}-->
+                            <!--{$item.name}-->：
+                        <!--{/if}-->
+                            <!--{$item.value|nl2br}--><br />
+                    <!--{/if}-->
+                <!--{/foreach}-->
+            </p>
+        <!--{/if}-->
+        <!-- ▲コンビに決済の場合には表示 -->
+
+        <div id="complete_area" class="mg_b30">
+            <p class="mg_b20">ただいま、ご注文の確認メールをお送りさせていただきました。<br>
+            万一、ご確認メールが届かない場合は、トラブルの可能性もありますので大変お手数ではございますがカスタマーセンターまでお問い合わせくださいませ。<br>
+            今後ともご愛顧賜りますようよろしくお願い申し上げます。</p>
+            
+            <div class="shop_information">
+                <p><!--{$arrInfo.shop_name|h}--></p>
+       			 <p>E-mail：<a href="/contact/" rel="external"><!--{$arrInfo.email02|escape:'hexentity'}--></a></p>
+            </div>
+        </div>
+		<!--{if $cart_quantity > 0}-->
+		<hr class="mg_t30">
+        <div class="cart_btn_area mg_t40">
+			<p class="mg_b20 alignC">まだ購入完了していないカートがございます。<br>
+			下記より購入手続きを完了して下さい。</p>
+            <ul>
+                <li>
+                    <a href="<!--{$smarty.const.CART_URL}-->" class="btn_gray_norm w_half">カートページへ</a>
+                </li>
+            </ul>
+        </div>
+		<!--{else}-->
+		<div class="cart_btn_area mg_t60">
+            <ul>
+                <li>
+                    <a href="<!--{$smarty.const.TOP_URL}-->" class="btn_gray_norm w_half">ショッピングを続ける</a>
+                </li>
+            </ul>
+        </div>
+		<!--{/if}-->
+    </div>
+</div>
+
+<!--{* PostCarrier for EC-CUBE: START *}-->
+<!--{ecqubeley_conversion order_id=$ecqubeley_order_id subtotal=$ecqubeley_subtotal}-->
+<!--{* PostCarrier for EC-CUBE: END *}-->

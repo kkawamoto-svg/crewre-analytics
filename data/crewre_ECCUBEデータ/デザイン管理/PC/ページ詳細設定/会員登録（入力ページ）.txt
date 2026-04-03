@@ -1,0 +1,122 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	jQuery("#form1").validationEngine({
+		autoHidePrompt: true,
+		autoHideDelay: 2000
+	});
+});
+</script>
+<section id="undercolumn">
+    <div id="undercolumn_entry">
+		<header class="mg_b40"><h1 class="tit_default"><!--{$tpl_title|h}--></h1></header>
+        <!--{if $smarty.const.CUSTOMER_CONFIRM_MAIL}-->
+            <p>ご登録されますと、まずは仮会員となります。<br />
+                入力されたメールアドレスに、ご連絡が届きますので、本会員になった上でお買い物をお楽しみください。</p>
+        <!--{/if}-->
+        <form name="form1" id="form1" method="post" action="?">
+            <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+            <input type="hidden" name="mode" value="confirm" />
+
+            <table summary="会員登録フォーム" class="w_table">
+				<col width="30%" />
+    			<col width="70%" />
+				<tr>
+					<th>メールアドレス<span class="attention">※</span></th>
+					<td>
+						<!--{assign var=key value="email"}-->
+						<!--{if $arrErr[$key]}-->
+							<div class="attention"><!--{$arrErr[$key]}--></div>
+						<!--{/if}-->
+						<input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: disabled;" class="w_100 validate[required,custom[email]]" placeholder="(例)sample@crewre.jp" />
+					</td>
+				</tr>
+				<tr>
+					<th>パスワード<span class="attention">※</span></th>
+					<td>
+						<!--{assign var=key value="password"}-->
+						<!--{if $arrErr[$key]}-->
+							<div class="attention"><!--{$arrErr[$key]}--></div>
+						<!--{/if}-->
+						<input type="password" name="<!--{$key}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="w_100 validate[required,custom[password],minSize[4]]" placeholder="半角英数6文字以上" />
+						<p style="margin-top: 5px;"><span class="mini">半角英数6文字以上</span></p>
+					</td>
+				</tr>
+				<!--{if $smarty.const.SMS_REGIST == true}-->
+				<tr>
+					<th>電話番号<span class="attention">※</span></th>
+					<td>
+						<!--{assign var=key1 value="tel01"}-->
+						<!--{assign var=key2 value="tel02"}-->
+						<!--{assign var=key3 value="tel03"}-->
+						<input type="tel" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h|default:$tpl_tel01}-->" maxlength="<!--{$arrForm[$key1].length}-->" class="w_short validate[required,custom[onlyNumberSp]]" />&nbsp;-&nbsp;<input type="tel" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h|default:$tpl_tel02}-->" maxlength="<!--{$arrForm[$key2].length}-->" class="w_short validate[required,custom[onlyNumberSp]]" />&nbsp;-&nbsp;<input type="tel" name="<!--{$key3}-->" value="<!--{$arrForm[$key3].value|h|default:$tpl_tel03}-->" maxlength="<!--{$arrForm[$key3].length}-->" class="w_short validate[required,custom[onlyNumberSp]]" />
+						<!--{if $smarty.const.SMS_REGIST == true}-->
+						<div class="attention" style="margin-top: 5px;">※SMSによる認証を行いますので、必ずSMS送受信が可能な携帯電話番号を入力してください。</div>
+						<!--{/if}-->
+						<!--{if $arrErr[$key1] OR $arrErr[$key2] OR $arrErr[$key3]}-->
+						<div class="attention"><!--{$arrErr[$key1]}--><!--{$arrErr[$key2]}--><!--{$arrErr[$key3]}--></div>
+						<!--{/if}-->
+					</td>
+				</tr>
+				<!--{/if}-->
+				<tr>
+					<th>生年月日</th>
+					<td>
+						<!--{assign var=key1 value="year"}-->
+						<!--{assign var=key2 value="month"}-->
+						<!--{assign var=key3 value="day"}-->
+						<!--{assign var=errBirth value="`$arrErr.$key1``$arrErr.$key2``$arrErr.$key3`"}-->
+						<!--{if $errBirth}-->
+							<div class="attention"><!--{$errBirth}--></div>
+						<!--{/if}-->
+						<ul class="select_row">
+							<li class="select_n w_third">
+								<select name="<!--{$key1}-->" style="<!--{$errBirth|sfGetErrorColor}-->" class="boxShort data-role-none">
+									<!--{html_options options=$arrYear selected=$arrForm[$key1].value|default:''}-->
+								</select>
+							</li>
+							<li class="select_n w_third">
+								<select name="<!--{$key2}-->" style="<!--{$errBirth|sfGetErrorColor}-->" class="boxShort data-role-none">
+									<!--{html_options options=$arrMonth selected=$arrForm[$key2].value|default:''}-->
+								</select>
+							</li>
+							<li class="select_n w_third">
+								<select name="<!--{$key3}-->" style="<!--{$errBirth|sfGetErrorColor}-->" class="boxShort data-role-none">
+									<!--{html_options options=$arrDay selected=$arrForm[$key3].value|default:''}-->
+								</select>
+							</li>
+						</ul>
+					</td>
+				</tr>
+            </table>
+            <div class="cart_btn_area mg_t30">
+                <ul>
+                    <li>
+                        <input type="submit" class="btn_gray_norm bghover w_half" value="確認ページへ" name="confirm" id="confirm">
+                    </li>
+                </ul>
+            </div>
+
+        </form>
+    </div>
+</section>

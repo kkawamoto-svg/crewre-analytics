@@ -1,0 +1,41 @@
+<section class="lp_default">
+	<header>
+		<img data-src="/user_data/lp/images/news/一部変更のお知らせ.jpg" src="" class="fade_in lazyload">
+		<div class="default_bloc lp_mg_tb_default">
+			<h1 class="lp_default_tit">【一部原産国変更のお知らせ】</h1>
+            <p><font>
+平素より格別のご愛顧を賜り、誠にありがとうございます。<br>
+このたび受注販売時にご注文いただきました「ウォッシャブルサテンスラックス #Light Gray」につきまして、<br>
+一部商品にて、下記の通り生産国を変更いたします。<br>
+
+──────────────────────────<br>
+■対象数量　：322枚中 112枚<br>
+■変更内容　：生産国を【インドネシア】→【中国】へ切替<br>
+■変更理由　：納期を最優先し、より早期に生産可能な工場で対応することにいたしました<br>
+■品質　　　：同一の生地を使用し、当社基準の検品を実施しております<br>
+──────────────────────────<br>
+
+今回の変更に伴い、試験洗濯・耐久テストの結果、従来品と同等の品質・風合いを確認しております。<br>
+サイズ・色味・着用感に差異はございませんので、どうぞご安心ください。<br>
+<br>
+ご不明点やご要望がございましたら、担当窓口までお気軽にお申し付けください。<br>
+下記、お問い合わせフォームよりご連絡の程お願い申し上げます。<br>
+<br>
+                <a href="https://crewre.jp/contact/" class="btn_black w_full"><u>お問い合わせフォーム</u></a>
+<br><br>    
+今後とも変わらぬご愛顧を賜りますようお願い申し上げます。<br>
+<br>
+<br>
+crewre<br>
+                </font></p>
+			<br><br>
+		</div>
+	</header>
+	<div>
+		<div class="default_bloc lp_mg_tb_default">
+			<p class="alignC">
+				<a href="/" class="btn_white w_full">top page</a>
+			</p>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,158 @@
+<style>
+    .collection_item {
+        font-size: 1.5rem;
+        margin: 0 !important;
+        padding: 50px 0;
+    }
+</style>
+<section class="collection">
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <h2 class="tit_collection" style="margin-bottom: 50px;">2024 winter collection</h2>
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2024winter/top.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2024winter/intro.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2024winter/intro_2.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+        </p>
+            
+            <!--<div style="text-align: center; margin-bottom: 0px;">
+                <img data-src="/user_data/images/collection/2024autumn/intro_PC.jpg" alt="" class="lazyload fade_in" style="width: 50%;">
+            </div>-->
+            <!--<div style="width: 70%;">
+                <img data-src="/user_data/images/collection/2024summer/title_PC.jpg" alt="" class="lazyload fade_in">
+            </div>
+            <div style="width: 50%; display: flex; align-items: center;">
+                <img data-src="/user_data/images/collection/2024spring/copy.svg" alt="" class="lazyload fade_in" style="width: 50%; margin-left: 15%;">
+            </div>-->
+    </header>
+    <div>
+        <ul class="collection_block">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <li><img data-src="/user_data/images/collection/2024winter/look1-1.jpg" alt="" class="lazyload fade_in" ></li>
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=389">アジャスタブルウールロングコート　19,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=396">ミックスヤーンクルーネックニット　12,650円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=397">ウールミックスツィードスラックス　9,900円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+            <!--*アイテムアコーディオンブロックエンド*-->
+
+            <li style="margin-top: 50px; margin-bottom: 50px;"><img data-src="/user_data/images/collection/2024winter/look1-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024winter/look1-3.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024winter/look2-1.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=399">モイストタッチボリュームストール　6,600円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=395">ダブルブレストダウンジャケット　23,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=387">アシンメトリーツータックパンツ　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 50px;"><img data-src="/user_data/images/collection/2024winter/look2-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024winter/look2-3.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024winter/look3-1.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=399">モイストタッチボリュームストール　6,600円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=388">2wayウールリバーショートコート　24,200円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=393">ソフトツイストデニムワイドパンツ　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 50px;"><img data-src="/user_data/images/collection/2024winter/look3-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024winter/look3-3.jpg" alt="" class="lazyload fade_in"></li>
+        </ul>    
+            <!--*<li style="margin: 0px 0;"><img data-src="/user_data/images/collection/2024summer/middle_PC.jpg" alt="" class="lazyload fade_in"></li>-->
+        <ul class="collection_block">
+            <li><img data-src="/user_data/images/collection/2024winter/look4-1.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=389">アジャスタブルウールロングコート　19,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=398">メランジハイネックルーズニット　7,150円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=387">アシンメトリーツータックパンツ　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024winter/look4-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024winter/look4-3.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024winter/look5-1.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=394">マイルドシャギーウールPコート　26,400円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=392">カーヴィシームリブプルオーバー　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=393">ソフトツイストデニムワイドパンツ　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 50px;"><img data-src="/user_data/images/collection/2024winter/look5-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024winter/look5-3.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024winter/look6-1.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=389">アジャスタブルウールロングコート　19,800円</a></li>
+                        <!--*<li><a href="https://crewre.jp/products/detail.php?product_id=390">シャギークルーネックルーズニット　7,150円</a></li>-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=391">ウールライクラップロングスカート　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024winter/look6-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024winter/look6-3.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024winter/look7-1.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                       <li><a href="https://crewre.jp/products/detail.php?product_id=395">ダブルブレストダウンジャケット　23,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=398">メランジハイネックルーズニット　7,150円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=397">ウールミックスツィードスラックス　9,900円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024winter/look7-2.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024winter/look7-3.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024winter/bottom.jpg" alt="" class="lazyload fade_in"></li>
+        </ul>    
+            <!--*<img data-src="/user_data/images/collection/2024winter/bottom.jpg" alt="" class="lazyload fade_in" style="">-->
+       <ul class="collection_block">     
+            <li class="collection_movie">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/Y6sLwvQVkDE?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </li>
+            
+            <li class="collection_txt">
+                <p class="tit_crewre"><img src="/user_data/images/collection/tit_crewre.png?v=2" alt=""></p>
+                <h3>2024 winter collection</h3>
+                <p>producer: Cospashion Yurie</p>
+                <p>photographer: Tomoyuki Ichida<br>
+                    videographer: Yuki Furue<br>
+                    hair&make up: Sayumi Ono<br>
+                    model: Hazuki Onishi</p>
+            </li>
+        </ul>
+    </div>
+</section>
+<script>
+    $('.collection_item_tit').on('click', function () {
+        $(this).next('.collection_item_list').slideToggle();
+        $(this).find('a').toggleClass('ico_rotate');
+    });
+</script>

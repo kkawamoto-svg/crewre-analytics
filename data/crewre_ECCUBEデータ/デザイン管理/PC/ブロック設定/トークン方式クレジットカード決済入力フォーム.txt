@@ -1,0 +1,323 @@
+<!--{*
+ * Copyright(c) 2012 GMO Payment Gateway, Inc. All rights reserved.
+ * http://www.gmo-pg.com/
+ * Updated: 2013/03/29
+ *}-->
+<script type="text/javascript">//<![CDATA[
+var send = true;
+
+function fnCheckSubmit(mode) {
+    $('#payment_form_body').slideToggle();
+    $('#payment_form_loading').slideToggle();
+
+    if(send) {
+        send = false;
+        fnModeSubmit(mode,'','');
+        return false;
+    } else {
+        alert("只今、処理中です。しばらくお待ち下さい。");
+        return false;
+    }
+}
+$(function() {
+            <!--{$tpl_payment_onload}-->
+});
+//]]>
+</script>
+<!--{assign var=key value="js_urlpath"}-->
+<script src="<!--{$arrForm[$key].value|h}-->/ext/js/token.js"></script>
+<script type="text/javascript">
+    function clearSecurityCode() {
+        if ($("#SecurityCode").length) {
+            $("#SecurityCode").val('');
+        }
+    }
+
+    function execPurchase(response) {
+        if (response.resultCode != 000) {
+            window.alert("購入処理中にエラーが発生しました");
+            window.location.assign(window.location.href);
+        } else {
+            $("#CardNo").val('');
+            $("#Expire_year").val('');
+            $("#Expire_month").val('');
+
+            clearSecurityCode();
+
+            //予め購入フォームに用意した token フィールドに、値を設定
+            $("input:hidden[name='token']").val(response.tokenObject.token);
+            $("input:hidden[name='Method']").val($("#Method").val());
+
+            fnCheckSubmit("next");
+        }
+    }
+
+    function doPurchase() {
+        var cardno = $("#CardNo").val();
+        if (cardno == "") {
+            alert("※ カード番号が入力されていません。");
+            clearSecurityCode();
+            return;
+        }
+
+        // カード番号の数値のみチェック
+        var pat = /^\d*$/;
+        if (!pat.test(cardno)) {
+            alert("※ カード番号は数値で入力してください。");
+            clearSecurityCode();
+            return;
+        }
+
+        // カード番号の7桁未満チェック
+        if (cardno.length < 7) {
+            alert("※ カード番号は7桁以上を入力してください。");
+            clearSecurityCode();
+            return;
+        }
+
+        var date = new Date();
+        var year = date.getFullYear();
+        year = String(year);
+        year = year.substring(0,2);
+        var mm = $("#Expire_month").val();
+        if (mm == "") {
+            alert("※ 有効期限：月が入力されていません。");
+            clearSecurityCode();
+            return;
+        }
+        var yy = $("#Expire_year").val();
+        if (yy == "") {
+            alert("※ 有効期限：年が入力されていません。");
+            clearSecurityCode();
+            return;
+        }
+        var expire = year + yy + mm;
+
+        var card_name1 = $("#card_name1").val();
+        if (card_name1 == "") {
+            alert("※ カード名義人名：名が入力されていません。");
+            clearSecurityCode();
+            return;
+        }
+        var card_name2 = $("#card_name2").val();
+        if (card_name2 == "") {
+            alert("※ カード名義人名：姓が入力されていません。");
+            clearSecurityCode();
+            return;
+        }
+        var holdername = card_name1.concat(card_name2);
+
+        var securityCode;
+        var security_code = $("#SecurityCode");
+
+        if (!security_code.length || security_code.val() == "") {
+            <!--{assign var=key value="security_code_check"}-->
+            if ("<!--{$arrForm[$key].value|h}-->" == "1") {
+                alert("※ セキュリティコードが入力されていません。");
+                return;
+            }
+            securityCode = '';
+        } else {
+            securityCode = security_code.val();
+        }
+
+        // Disable button 
+        var btnNext, btnBack, classBtnNext, classBtnBack;
+        btnNext = document.getElementById("next");
+        btnBack = document.getElementById("back");
+        classBtnNext = document.getElementById("next").getAttribute('class');
+        classBtnBack = document.getElementById("back").getAttribute('class');
+        btnNext.setAttribute("class", classBtnNext + " disabled");
+        btnBack.setAttribute("class", classBtnBack + " disabled");
+
+        <!--{assign var=key value="ShopID"}-->
+        Multipayment.init("<!--{$arrForm[$key].value|h}-->");
+        Multipayment.getToken(
+            {
+                cardno: cardno,
+                expire: expire,
+                securitycode: securityCode,
+                holdername: holdername
+            }, execPurchase
+        );
+    }
+</script>
+        <!--{if $tpl_is_td_tran}-->
+        <div id="payment_form_td_tran" style="<!--{if !$tpl_is_td_tran}-->display:none;<!--{/if}-->">
+            <div class="information">
+                <p>本人認証サービス(3-Dセキュア認証)の画面に移動します。</p>
+            </div>
+            <table summary="">
+                <tr>
+                <td class="alignC">
+                    本人認証サービス（3-Dセキュア認証）を続けます。<br />
+                    「次へ」ボタンをクリックして下さい。<br />
+                    <span class="attention">※画面が切り替るまで少々時間がかかる場合がございますが、そのままお待ちください。</span>
+                </td>
+                </tr>
+            </table>
+        </div>
+        <input type="hidden" name="PaReq" value="<!--{$arrTdData.PaReq}-->" />
+        <input type="hidden" name="TermUrl" value="<!--{$arrTdData.TermUrl}-->" />
+        <input type="hidden" name="MD" value="<!--{$arrTdData.MD}-->" />
+        <!--{/if}-->
+
+        <div id="payment_form_loading" style="<!--{if !$tpl_is_loding}-->display:none;<!--{/if}-->">
+            <div class="information">
+                <p>決済処理中です。しばらくお待ち下さい。</p>
+            </div>
+            <table summary="">
+                <tr>
+                <td class="alignC">
+                    <img src="<!--{$smarty.const.MDL_PG_MULPAY_MEDIAFILE_URL}-->loading.gif" />
+                </td>
+                </tr>
+            </table>
+        </div>
+        <div id="payment_form_body" style="<!--{if $tpl_is_loding}-->display:none;<!--{/if}-->">
+            <div class="information">
+                <p>下記項目にご入力ください。「<span class="attention_text">必須</span>」印は入力必須項目です。<br />
+                入力後、一番下の「ご注文完了ページへ」ボタンをクリックしてください。</p>
+                <!--{assign var=key value="payment"}-->
+                <p class="attention"><!--{$arrErr[$key]}--></p>
+            </div>
+            <table summary="クレジットカード番号入力">
+                <colgroup width="20%"></colgroup>
+                <colgroup width="80%"></colgroup>
+                <tr>
+                    <th colspan="2" class="alignC"><!--{$tpl_title|h}-->番号入力</th>
+                </tr>
+                <tr>
+                    <th class="alignR">
+                        カード番号<span class="attention_text">必須</span>
+                    </th>
+                    <td>
+                    <!--{assign var=key1 value="CardNo"}-->
+                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <input type="text" id="<!--{$key1}-->" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="ime-mode: disabled; <!--{$arrErr[$key1]|sfGetErrorColor}-->"  size="16" class="w_full" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="alignR">
+                        カード有効期限<span class="attention_text">必須</span>
+                    </th>
+                    <td>
+                        <!--{assign var=key1 value="Expire_month"}-->
+                        <!--{assign var=key2 value="Expire_year"}-->
+                        <span class="attention"><!--{$arrErr[$key1]}--></span>
+                        <span class="attention"><!--{$arrErr[$key2]}--></span>
+
+                        <div class="inline_select">
+                            <p class="select_n w_half">
+                                <select id="<!--{$key1}-->" name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
+                                <option value="">&minus;&minus;</option>
+                                <!--{html_options options=$arrMonth selected=$arrForm[$key1].value}-->
+                                </select>
+                            </p>
+                            <p>&nbsp;&nbsp;月&nbsp;/&nbsp;20&nbsp;&nbsp;</p>
+                            <p class="select_n w_half">
+                                <select id="<!--{$key2}-->" name="<!--{$key2}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->">
+                                <option value="">&minus;&minus;</option>
+                                <!--{html_options options=$arrYear selected=$arrForm[$key2].value}-->
+                                </select>
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="alignR">
+                        カード名義<span class="attention_text">必須</span>
+                    </th>
+                    <td>
+                        <!--{assign var=key1 value="card_name1"}-->
+                        <!--{assign var=key2 value="card_name2"}-->
+                        <span class="attention"><!--{$arrErr[$key1]}--></span>
+                        <span class="attention"><!--{$arrErr[$key2]}--></span>
+                        名:<input type="text" id="<!--{$key1}-->" name="<!--{$key1}-->" value="" maxlength="<!--{$arrForm[$key1].length}-->" style="ime-mode: disabled; <!--{$arrErr[$key1]|sfGetErrorColor}-->" size="20" class="w_half" />
+                        &nbsp;
+                        姓:<input type="text" id="<!--{$key2}-->" name="<!--{$key2}-->" value="" maxlength="<!--{$arrForm[$key2].length}-->" style="ime-mode: disabled; <!--{$arrErr[$key2]|sfGetErrorColor}-->" size="20" class="w_half" />
+                        <p class="mini"><span class="attention">カードに記載の名前をご記入下さい。ご本人名義のカードをご使用ください。</span>半角英文字入力（例：TARO YAMADA）</p>
+                    </td>
+                </tr>
+                <!--{if $arrPaymentInfo.use_securitycd == '1'}-->
+                <tr>
+                    <th class="alignR">
+                        セキュリティコード<!--{if $arrPaymentInfo.use_securitycd_option != '1'}--><span class="attention_text">必須</span><!--{/if}-->
+                    </th>
+                    <td>
+                        <!--{assign var=key value="SecurityCode"}-->
+                        <span class="attention"><!--{$arrErr[$key]}--></span>
+                        <input type="text" id="<!--{$key}-->" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="ime-mode: disabled; <!--{$arrErr[$key]|sfGetErrorColor}-->"  size="4" class="w_short" />
+                        <p class="mini"><span class="attention">※主にカード裏面の署名欄に記載されている末尾３桁～４桁の数字をご記入下さい。</span>半角入力 (例: 123)</p>
+                    </td>
+                </tr>
+                <!--{/if}-->
+                <tr>
+                    <th class="alignR">
+                        支払い方法<span class="attention_text">必須</span>
+                    </th>
+                    <td>
+                        <!--{assign var=key1 value="Method"}-->
+                        <span class="attention"><!--{$arrErr[$key1]}--></span>
+                        <p class="select_n w_half">
+                            <select id="<!--{$key1}-->" name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
+                            <!--{html_options options=$arrPayMethod selected=$arrForm[$key1].value}-->
+                            </select>
+                        </p>
+                    </td>
+                </tr>
+                <!--{if $arrPaymentInfo.enable_customer_regist && $tpl_pg_regist_card_form}-->
+                <tr>
+                    <th class="alignR">
+                        カード情報登録
+                    </th>
+                    <td>
+                        <!--{assign var=key value="register_card"}-->
+                        <span class="attention"><!--{$arrErr[$key]}--></span>
+                        <input type="hidden" name="<!--{$key}-->" value="1" />
+                        当店では自動でカード登録します。
+                        <p class="mini">カード情報を登録すると次回より入力無しで購入出来ます。<br />カード情報は当店では保管いたしません。<br />委託する決済代行会社にて安全に保管されます。</p>
+                    </td>
+                </tr>
+                <!--{/if}-->
+                <!--{if $tpl_pg_regist_card_max}-->
+                <tr>
+                    <th class="alignR">
+                        カード情報登録
+                    </th>
+                    <td>
+                        <span class="attention">カード情報が既に<!--{$smarty.const.MDL_PG_MULPAY_REGIST_CARD_NUM|h}-->個登録されています。<br />これ以上は新規で登録出来ません。</span>
+                        <p class="mini">新たに登録したい場合は、大変お手数ですが後ほどマイページにて編集して下さい。</p>
+                    </td>
+                </tr>
+                <!--{/if}-->
+            </table>
+
+            <table>
+                <tr>
+                    <td>
+                        以上の内容で間違いなければ、下記「注文を確定する」ボタンをクリックしてください。<br />
+                        <span class="attention">※画面が切り替るまで少々時間がかかる場合がございますが、そのままお待ちください。</span>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="cart_btn_area mg_t40">
+                <ul>
+                    <!--{if !$tpl_btn_next}-->
+                    <li>
+                        <input type="submit" onclick="return fnCheckSubmit('return');" class="btn_white_norm w_half" value="戻る" name="back" id="back"/>
+                    </li>
+                    <!--{/if}-->
+                    <li>
+                        <!--{if $tpl_btn_next}-->
+                        <input type="submit" onclick="return fnCheckSubmit('next');" class="btn_gray_norm w_half" value="次へ" name="next" id="next" />
+                        <!--{else}-->
+                        <input type="submit" onclick="doPurchase(); return false;" class="btn_gray_norm w_half" value="注文を確定する" name="next" id="next" />
+                        <!--{/if}-->
+                    </li>
+                </ul>
+            </div>
+
+       </div><!--{* /payment_form_body *}-->
+

@@ -1,0 +1,103 @@
+<section class="index_list">
+	<!--タイトル-->
+	<h2 class="ttl_center font_lato">ALL ITEM</h2>
+	<!--タイトル-->
+	<ul class="item_listG font_lato">
+		<!--商品ここから-->
+		<li>
+			<p class="img">
+				<a href="/products/detail.php?product_id=212">
+					<!--画像ここから（画像パスはdata-srcに記述。srcはそのままでOKです）-->
+					<img src="/user_data/packages/sphone/images/pl.gif"
+						data-src="https://img.crewre.jp/product/lm22ss09422/color/lm22ss09422_07_s.jpg"
+						class="fade_in lazyload">
+					<!--画像ここまで-->
+				</a>
+			</p>
+			<div class="txt_area">
+				<p class="name">LILY YARN KNIT BLOUSON</p>
+				<p class="price">
+					<span>¥ 15,400</span>
+				</p>
+				<p class="list_status">
+					<span>順次発送商品</span>
+				</p>
+			</div>
+		</li>
+		<!--商品ここまで-->
+
+		<!--商品ここから-->
+		<li>
+			<p class="img">
+				<a href="/products/detail.php?product_id=212">
+					<!--画像ここから（画像パスはdata-srcに記述。srcはそのままでOKです）-->
+					<img src="/user_data/packages/sphone/images/pl.gif"
+						data-src="https://img.crewre.jp/product/lm22ss09422/color/lm22ss09422_35_s.jpg"
+						class="fade_in lazyload">
+					<!--画像ここまで-->
+				</a>
+			</p>
+			<div class="txt_area">
+				<p class="name">LILY YARN KNIT BLOUSON</p>
+				<p class="price">
+					<span>¥ 15,400</span>
+				</p>
+				<p class="list_status">
+					<span>順次発送商品</span>
+				</p>
+			</div>
+		</li>
+		<!--商品ここまで-->
+
+		<!--商品ここから-->
+		<li>
+			<p class="img">
+				<a href="/products/detail.php?product_id=3">
+					<!--画像ここから（画像パスはdata-srcに記述。srcはそのままでOKです）-->
+					<img src="/user_data/packages/sphone/images/pl.gif"
+						data-src="https://img.crewre.jp/product/lm19ss07131/color/lm19ss07131_90_s.jpg"
+						class="fade_in lazyload">
+					<!--画像ここまで-->
+				</a>
+			</p>
+			<div class="txt_area">
+				<p class="name">COMBINATION CHAIN NECKLACE</p>
+				<p class="price">
+					<span>¥ 4,400</span>
+				</p>
+				<p class="list_status">
+					<span>NEW</span>
+				</p>
+			</div>
+		</li>
+		<!--商品ここまで-->
+
+		<!--商品ここから-->
+		<li>
+			<p class="img">
+				<a href="/products/detail.php?product_id=182">
+					<!--画像ここから（画像パスはdata-srcに記述。srcはそのままでOKです）-->
+					<img src="/user_data/packages/sphone/images/pl.gif"
+						data-src="https://img.crewre.jp/product/lm22ss04350/color/lm22ss04350_06_s.jpg"
+						class="fade_in lazyload">
+					<!--ComingSoonやSoldOutの画像設定（SoldOutの場合はimg_soldout.png、ComingSoonの場合はimg_coming.pngを使用、使わない場合は削除）ここから-->
+					<span class="over_img"><img data-src="/user_data/packages/sphone/images/img_soldout.png"
+							class="fade_in lazyload"
+							src="/user_data/packages/sphone/images/pl.gif"></span>
+					<!--ComingSoonやSoldOutの画像設定ここまで-->
+					<!--画像ここまで-->
+				</a>
+			</p>
+			<div class="txt_area">
+				<p class="name">VAJIRA COMBAT JACKET</p>
+				<p class="price">
+					<span>¥ 14,300</span>
+				</p>
+				<p class="list_status">
+					<span>順次発送商品</span>
+				</p>
+			</div>
+		</li>
+		<!--商品ここまで-->
+	</ul>
+</section>

@@ -1,0 +1,168 @@
+<!--{foreach from=$arrProducts item=arrProduct name=arrProducts}-->
+<!--{if $smarty.foreach.arrProducts.first}-->
+<div class="item_list">
+	<ul>
+	<!--{/if}-->	
+		<li class="item_list_inner">
+			<a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrProduct.product_id|u}-->&c=<!--{$arrProduct.c}--><!--{if $isAdminLogin}-->&admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">
+				<div class="list_pict">
+					<div>
+						<img src="<!--{$TPL_URLPATH}-->images/pl.gif" data-src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$arrProduct.main_list_image|sfNoImageMainList|h}-->" class="lazyload fade_in">
+						<!--{if $arrProduct.status1 == 1 OR $arrProduct.status2 == 1 OR $arrProduct.status3 ==1}-->
+						<span class="over_img"><img data-src="<!--{$TPL_URLPATH}-->images/img_coming.png" class="lazyload fade_in"></span>
+						<!--{elseif $arrProduct.status1 == 4 OR $arrProduct.status2 == 4 OR $arrProduct.status3 == 4}-->
+						<span class="over_img"><img data-src="<!--{$TPL_URLPATH}-->images/img_pre.png" class="lazyload fade_in"></span>
+						<!--{elseif $arrProduct.stock == 0}-->
+						<span class="over_img"><img data-src="<!--{$TPL_URLPATH}-->images/img_soldout.png" class="lazyload fade_in"></span>
+						<!--{/if}-->
+					</div>
+				</div>
+			</a>
+			<ul class="list_color_tip">
+				<!--{assign var=colortip value=`$arrProduct.has_color`}-->
+				<!--{foreach from=$colortip item=ctip name=colorTips}-->
+				<li><a href="/products/detail.php?product_id=<!--{$arrProduct.product_id|u}-->&c=<!--{$ctip}-->" class="color_<!--{$ctip}-->"></a></li>
+				<!--{if $smarty.foreach.colorTips.last}-->
+					<!--{if $arrProduct.product_id != 552 && $arrProduct.product_id != 551 && $arrProduct.product_id != 550 && $arrProduct.product_id != 549 && $arrProduct.product_id != 548 && $arrProduct.product_id != 547 && $arrProduct.product_id != 546 && $arrProduct.product_id != 545 && $arrProduct.product_id != 544}-->
+						<!--{if $tpl_login == true}-->
+						<li class="list_favorite favorite_btn" data-favorite="<!--{$arrProduct.product_id|u}-->">
+							<!--{if $arrProduct.c_favorite == 1}-->
+							<a href="javascript:;"><img src="/user_data/packages/default/images/ico_favorite_on.png" alt=""></a>
+							<!--{else}-->
+							<a href="javascript:;"><img src="/user_data/packages/default/images/ico_favorite_off.png" alt=""></a>
+							<!--{/if}-->
+						</li>
+						<!--{else}-->
+						<li class="list_favorite">
+							<a href="#inline_content" class="inline"><img src="<!--{$TPL_URLPATH}-->images/ico_favorite_off.png" alt=""/></a>
+						</li>
+						<!--{/if}-->
+					<!--{/if}-->
+				<!--{/if}-->
+				<!--{/foreach}-->
+			</ul>
+			<p><!--{$arrProduct.name|h}--><br>
+				<!--{strip}-->
+				<!--{if $arrProduct.max_price == $arrProduct.min_price}-->
+					<!--{if $arrProduct.min_price == $arrProduct.norm_price}-->
+					<span>&yen; <!--{$arrProduct.norm_price|n2s}--></span>
+					<!--{else}-->
+					<span><strike>&yen; <!--{$arrProduct.norm_price|n2s}--></strike> <span class="red">&yen; <!--{$arrProduct.min_price|n2s}--> <!--{$arrProduct.max_rate}-->%OFF</span></span>
+					<!--{/if}-->
+				<!--{else}-->
+					<span>&yen; <!--{$arrProduct.max_price|n2s}--> ～ &yen; <!--{$arrProduct.min_price|n2s}--></span>
+				<!--{/if}--><!--{/strip}-->
+			</p>
+			<!--{assign var=status value=`$arrProduct.status`}-->
+			<!--{assign var=status1 value=`$arrProduct.status1`}-->
+			<!--{assign var=status2 value=`$arrProduct.status2`}-->
+			<!--{assign var=status3 value=`$arrProduct.status3`}-->
+			<!--{if $status != ""}-->
+			<ul class="item_icon">
+				<!--{if $status1 != ""}--><li class="item_icon<!--{$status1}-->"><!--{$arrSTATUS[$status1]}--></li><!--{/if}-->
+				<!--{if $status2 != ""}--><li class="item_icon<!--{$status2}-->"><!--{$arrSTATUS[$status2]}--></li><!--{/if}-->
+				<!--{if $status3 != ""}--><li class="item_icon<!--{$status3}-->"><!--{$arrSTATUS[$status3]}--></li><!--{/if}-->
+			</ul>
+			<!--{/if}-->
+		</li>
+<!--{if $smarty.foreach.arrProducts.last}-->
+	</ul>
+</div>
+<!--{if $tpl_nowPage == 1 && $tpl_maxPage == 1}-->
+<!--{else}-->
+<nav>
+	<div class="paging"><!--{$tpl_strnavi}--></div>
+</nav>
+<!--{/if}-->
+<!--{/if}-->
+<!--{foreachelse}-->
+	<!--{include file="frontparts/search_zero.tpl"}-->
+<!--{/foreach}-->
+
+<!--{strip}-->
+<div style="display:none">
+	<section id="inline_content" class="default_bloc_vertical">
+		<h1 class="tit_mini_center_border mg_b30">お気に入り登録にはログインが必要です</h1>
+		<form name="header_login_form" id="header_login_form" method="post" action="javascript:;" onsubmit="return ajaxLogin();">
+			<input type="hidden" name="mode" value="login" />
+			<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+			<input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
+			<ul class="mg_b10list">
+				<li>
+					<input type="text" class="w_full gray_input formL" name="login_email" value="<!--{$tpl_login_email|h}-->" style="ime-mode: disabled;" placeholder="e-mail">
+				</li>
+				<li class="mg_b20">
+					<input type="password" class="w_full gray_input formL" name="login_pass" placeholder="password">
+					<p class="mg_t10"><a href="<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->" onclick="eccube.openWindow('<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->','forget','600','400',{scrollbars:'no',resizable:'no'}); return false;" target="_blank">パスワードを忘れた方</a></p>
+				</li>
+				<li class="mg_b30">
+					<input class="btn_cart_black" type="submit" value="log in">
+				</li>
+				<li>
+					<p class="alignC mg_b10">会員登録がお済みでない方はご登録ください。</p>
+					<a href="/entry/kiyaku.php" class="btn_cart_white">会員登録</a>
+				</li>
+			</ul>
+		</form>
+	</section>
+</div>
+<!--{/strip}-->
+<div id="favorite_block_outer">
+	<div id="favorite_block_inner">
+		<iframe id="favorite_iframe" src="" allowtransparency="true"></iframe>
+	</div>
+	<p class="btn_outer_close"><a href="javascript:;"><span></span><span></span></a></p>
+</div>
+<script type="text/javascript">//<![CDATA[
+	$(function() {
+		$(".inline").colorbox({
+			inline:true,
+			width:"90%",
+			height:"60%",
+			onComplete : function() {
+				let H = $('#inline_content').height();
+				console.log(H);
+				$(this).colorbox.resize({
+					height:H+45
+				});
+			}
+		});
+		$('.favorite_btn').on('click',function(){
+			let pid = $(this).data('favorite');
+			$('#favorite_iframe').attr('src', '/products/favorite.php?product_id='+pid);
+			$('#favorite_block_outer').fadeIn('fast');
+		});
+		$('#favorite_block_outer').on('click',function(){
+			$('#favorite_block_outer').fadeOut('fast',function(){
+				$('#favorite_iframe').attr('src', '');
+			});
+		});
+	});
+	function ajaxLogin() {
+		var postData = new Object;
+		postData['<!--{$smarty.const.TRANSACTION_ID_NAME}-->'] = "<!--{$transactionid}-->";
+		postData['mode'] = 'login';
+		postData['login_email'] = $('input[name=login_email]').val();
+		postData['login_pass'] = $('input[name=login_pass]').val();
+		postData['url'] = $('input[name=url]').val();
+
+		$.ajax({
+			type: "POST",
+			url: "<!--{$smarty.const.HTTPS_URL}-->frontparts/login_check.php",
+			data: postData,
+			cache: false,
+			dataType: "json",
+			error: function(XMLHttpRequest, textStatus, errorThrown){
+				alert(textStatus);
+			},
+			success: function(result){
+				if (result.success) {
+					location.href = result.success;
+				} else {
+					alert(result.login_error);
+				}
+			}
+		});
+	}
+//]]></script>
+

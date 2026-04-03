@@ -1,0 +1,199 @@
+<style>
+    .collection_item {
+        font-size: 1.5rem;
+        margin: 0 !important;
+        padding: 50px 0;
+    }
+</style>
+<section class="collection">
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <h2 class="tit_collection" style="margin-bottom: 50px;">2024 autumn collection</h2>
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2024autumn/top_PC.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2024autumn/message_PC.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+        </p>
+            <div style="text-align: center; margin-bottom: 0px;">
+                <img data-src="/user_data/images/collection/2024autumn/intro_PC.jpg" alt="" class="lazyload fade_in" style="width: 50%;">
+            </div>
+            <!--<div style="width: 70%;">
+                <img data-src="/user_data/images/collection/2024summer/title_PC.jpg" alt="" class="lazyload fade_in">
+            </div>
+            <div style="width: 50%; display: flex; align-items: center;">
+                <img data-src="/user_data/images/collection/2024spring/copy.svg" alt="" class="lazyload fade_in" style="width: 50%; margin-left: 15%;">
+            </div>-->
+    </header>
+    <div>
+        <ul class="collection_block">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <li><img data-src="/user_data/images/collection/2024autumn/look1-1_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=380">ダブルテーラードジャケット　12,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=372">シルクブレンドハイネックトップス　5,940円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=375">ボックスタックキャミワンピース　11,000円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=381">ケープレイヤードVネックベスト　8,800円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+            <!--*アイテムアコーディオンブロックエンド*-->
+
+            <li style="margin-top: 50px; margin-bottom: 50px;"><img data-src="/user_data/images/collection/2024autumn/look1-2_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look1-3_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look2-1_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=385">コットンミックスカノコニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=387">アシンメトリーツータックパンツ　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 50px;"><img data-src="/user_data/images/collection/2024autumn/look2-2_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look2-3_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look2-5_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look3-1_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=386">バックステッチレギュラーシャツ　6,600円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=374">フェイクレザードレープスカート　7,700円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 50px;"><img data-src="/user_data/images/collection/2024autumn/look_3-2_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look3-3_PC.jpg" alt="" class="lazyload fade_in"></li>
+        </ul>    
+            <!--*<li style="margin: 0px 0;"><img data-src="/user_data/images/collection/2024summer/middle_PC.jpg" alt="" class="lazyload fade_in"></li>-->
+        <ul class="collection_block">
+            <li><img data-src="/user_data/images/collection/2024autumn/look4-1_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=381">ケープレイヤードVネックベスト　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=386">バックステッチレギュラーシャツ　6,600円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=387">アシンメトリーツータックパンツ　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look4-2_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look4-3_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look5-1_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=379">フェイクレザージップブルゾン　11,000円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=382">ジョーゼットシェイプワンピース　9,900円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 50px;"><img data-src="/user_data/images/collection/2024autumn/look5-2_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look5-3_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look6-1_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=386">バックステッチレギュラーシャツ　6,600円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=384">サイドシームレスニットパンツ　7,700円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look6-2_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look6-3_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look7-1_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=380">ダブルテーラードジャケット　12,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=375">ボックスタックキャミワンピース　11,000円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look7-2_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look7-3_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look7.5_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look8-1_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=379">フェイクレザージップブルゾン　11,000円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=385">コットンミックスカノコニット　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=383">キュプラブレンドナロースカート　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look8-2_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look8-3_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look9-1_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=381">ケープレイヤードVネックベスト　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=372">シルクブレンドハイネックトップス　5,940円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=387">アシンメトリーツータックパンツ　8,800円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look9-2_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look9-3_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li><img data-src="/user_data/images/collection/2024autumn/look10-1_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <li> model on the left</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=371">ツイーディヘリンボンジャケット　11,000円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=372">シルクブレンドハイネックトップス　5,940円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=374">フェイクレザードレープスカート　7,700円</a></li>
+                        <li> model on the right</li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=373">ビッグポケットハイネックブラウス　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=376">マットサテンカーゴパンツ　9,900円</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li style="margin-top: 50px; margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look10-2_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look10-3_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/look10-4_PC.jpg" alt="" class="lazyload fade_in"></li>
+            <li style="margin-bottom: 70px;"><img data-src="/user_data/images/collection/2024autumn/bottom_PC.jpg" alt="" class="lazyload fade_in"></li>
+        </ul>    
+            <!--*<img data-src="/user_data/images/collection/2024summer/bottom_PC.jpg" alt="" class="lazyload fade_in" style="margin-top: 50px;">    
+            <img data-src="/user_data/images/collection/2024summer/title_bottom_PC.jpg" alt="" class="lazyload fade_in" style="margin-top: 50px; margin-bottom: 150px;">-->
+       <ul class="collection_block">     
+            <li class="collection_movie">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/9vWwXkLzX14?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </li>
+            
+            <li class="collection_txt">
+                <p class="tit_crewre"><img src="/user_data/images/collection/tit_crewre.png?v=2" alt=""></p>
+                <h3>2024 autumn collection</h3>
+                <p>producer: Cospashion Yurie</p>
+                <p>photographer: Tomoyuki Ichida<br>
+                    videographer: Yuki Furue<br>
+                    hair&make up: Sayumi Ono<br>
+                    model: Hazuki Onishi, Dona</p>
+            </li>
+        </ul>
+    </div>
+</section>
+<script>
+    $('.collection_item_tit').on('click', function () {
+        $(this).next('.collection_item_list').slideToggle();
+        $(this).find('a').toggleClass('ico_rotate');
+    });
+</script>

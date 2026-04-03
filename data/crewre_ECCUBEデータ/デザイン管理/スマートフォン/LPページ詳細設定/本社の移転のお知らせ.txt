@@ -1,0 +1,39 @@
+<section class="lp_default">
+	<header>
+		<img data-src="/user_data/lp/images/news/移転.jpg" src="" class="fade_in lazyload">
+		<div class="default_bloc lp_mg_tb_default">
+			<h1 class="lp_default_tit">【本社の移転のお知らせ】</h1>
+            <p><font>
+                平素よりcrewreをご愛顧いただきありがとうございます。<br><br>
+                
+                この度、弊社は業務拡大に伴い本社を下記住所へ移転する運びとなりましたのでお知らせ申し上げます。<br><br>
+                
+                移転先業務開始日：2025/4/1<br>
+                移転先住所：〒153-0064 東京都目黒区下目黒1-8-1　アルコタワー17F<br>
+                移転先電話番号：03-6805-0788<br><br>
+
+                
+                移転に伴い、カスタマーサポートへの返送先が変更となります。<br><br>
+                
+                また交換や返品等で商品をご返送いただく際、到着日が4/1以降になると想定される場合は移転先住所へのご返送のご案内をさせていただきます。<br><br>
+                
+                お客様のご返送処理のタイミングによって商品の返送確認にお時間を頂いてしまう可能性がございます。<br><br>
+                
+                大変恐縮ではございますが予めご了承くださいませ。<br><br>
+                
+                移転当初はなにかとご迷惑ご不便をお掛けすることと存じますが、社員一同より一層業務に励む所存でございますので、今後ともcrewreを何卒よろしくお願い申し上げます。<br>
+                </font></p>
+			<br><br>
+            <p class="alignC">
+                <a href="https://crewre.jp/user_data/shopping_guide.php" class="btn_black w_full"><b>ショッピングガイドはこちらから</b></a>
+			</p>
+		</div>
+	</header>
+	<div>
+		<div class="default_bloc lp_mg_tb_default">
+			<p class="alignC">
+				<a href="/" class="btn_white w_full">top page</a>
+			</p>
+		</div>
+	</div>
+</section>

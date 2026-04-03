@@ -1,0 +1,35 @@
+<footer id="gfooter">
+	<div id="footer_nav">
+		<div id="footer_outer">
+			<nav id="foot_nav01">
+				<ul>
+					<li><a href="/mypage/<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">log in / my page</a></li>
+					<li><a href="/contact/<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">contact form</a></li>
+					<li><a href="/user_data/shopping_guide.php<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">shopping guide</a></li>
+					<li><a href="/user_data/company.php<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">company</a></li>
+					<li><a href="/guide/privacy.php<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->">privacy policy</a></li>
+				</ul>
+			</nav>
+			<div id="footer_top">
+				<img src="<!--{$TPL_URLPATH}-->images/logo_footer.png" alt="">
+			</div>
+		</div>
+		<div id="footer_bottom">
+			<div id="footer_nav_sns_list">
+				<ul>
+					<li id="ico_insta"><a href="https://www.instagram.com/crewre_jp/" target="_blank"><span>Instagram</span></a></li>
+					<li id="ico_youtube"><a href="https://www.youtube.com/@cospashionyurie" target="_blank"><span>You Tube</span></a></li>
+					<li id="ico_line"><a href="https://lin.ee/NLCDklz" target="_blank"><span>LINE</span></a></li>
+				</ul>
+			</div>
+			<div id="foot_nav02">
+				<p id="footer_copy">©crewre online store all rights reserved.</p>
+			</div>
+		</div>
+	</div>
+</footer>
+<form name="login_form_footer" id="login_form_footer" method="post" action="<!--{$smarty.const.HTTPS_URL}-->frontparts/login_check.php">
+<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+<input type="hidden" name="mode" value="logout" />
+<input type="hidden" name="url" value="<!--{$smarty.server.HTTPS_HOST}--><!--{$smarty.server.REQUEST_URI}-->" />
+</form>

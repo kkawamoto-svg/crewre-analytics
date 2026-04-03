@@ -1,0 +1,273 @@
+<!--{*
+ * templates/sphone/bloc/yfc_credit.tpl
+ * Copyright(c)2014, Yamato Financial Co.,Ltd. All rights reserved.
+ *}-->
+<!--{include file="`$smarty.const.MODULE_REALDIR``$smarty.const.MDL_YFCAPI_CODE`/templates/credit_token_js.tpl"}-->
+
+<script type="text/javascript">//<![CDATA[
+var send = true;
+
+function fnCheckMaxRegist() {
+    if($("input:radio[name=card_key]").length == 3) {
+        alert("カードお預かりは３件までとなっております。");
+        $("input:checkbox[name=register_card]").attr("checked", false);
+<!--{if $arrMdlSetting.autoRegist == '1'}-->
+        $("#use_registed_card").attr("checked", true);
+<!--{/if}-->
+        return false;
+    }
+    return true;
+}
+function fnCheckConfirm(mode) {
+    switch(mode){
+        case 'deleteCard':
+            if(!window.confirm('一度削除したカード情報は、元に戻せません。\n削除しても宜しいですか？')){
+                return false;
+            }
+            break;
+    }
+    return true;
+}
+function fnCheckSubmit(mode) {
+    $('.btn_area').hide();
+    $('#now_execute').show();
+<!--{if $tpl_is_luggage_card == true}-->
+    $('.card_delete').hide();
+    $('#now_execute2').show();
+<!--{/if}-->
+    //$('#payment_form_body').slideToggle();
+    //$('#payment_form_loading').slideToggle();
+
+    if(send) {
+        // カード情報がリクエストパラメータに含まれないようにする
+        var formElement = document.form1;
+        formElement.card_no.removeAttribute("name");
+        formElement.card_owner.removeAttribute("name");
+        formElement.card_exp_month.removeAttribute("name");
+        formElement.card_exp_year.removeAttribute("name");
+<!--{if $arrMdlSetting.useSecurityCode}-->
+        formElement.security_code.removeAttribute("name");
+<!--{/if}-->
+
+        fnModeSubmit(mode,'','');
+        send = false;
+        return false;
+    } else {
+        alert("只今、処理中です。しばらくお待ち下さい。");
+        return false;
+    }
+}
+function fnAutoLoadSubmit() {
+    var mode = 'load';
+    send = false;
+    fnModeSubmit('load','','');
+}
+function fnDispTarget() {
+    if($("#use_registed_card:checked").val()) {
+        $(".disp_target").hide();
+        $('#register').val(0);
+    } else {
+        $(".disp_target").show();
+        $('#register').val(1);
+    }
+    return false;
+}
+function submitCall(){
+    $('#execute_btn').hide();
+	$('#now_execute').show();
+    var num = Math.random();
+    if(num >= 0.5){
+        setTimeout(function(){executePay()}, 2000);
+    }else{
+        executePay();
+    }
+}
+$(function() {
+    <!--{$tpl_payment_onload}-->
+});
+//]]>
+</script>
+        <section id="payment_form_loading" style="<!--{if !$tpl_is_loding}-->display:none;<!--{/if}-->">
+            <div class="information end loading_txt">
+                <p>しばらくお待ち下さい。</p>
+            </div>
+            <div class="bubbleBox hot">
+                <div class="bubble_announce clearfix loading_img">
+                    <img src="<!--{$smarty.const.MDL_YFCAPI_MEDIAFILE_URL}-->loading.gif" />
+                </div>
+            </div>
+        </section>
+        <section id="payment_form_body" style="<!--{if $tpl_is_loding}-->display:none;<!--{/if}-->">
+            <h3 class="alignC mg_t30">クレジットカード情報入力</h3>
+            <div class="information end n_box">
+                <p>下記項目にご入力ください。「<span class="attention">※</span>」印は入力必須項目です。<br />
+                        入力後、一番下の「決済する」ボタンをクリックしてください。</p>
+                <!--{assign var=key value="payment"}-->
+                <p class="attention"><!--{$arrErr[$key]}--></p>
+            </div>
+			<!--{if $tpl_is_luggage_card == true}-->
+			<div>
+			<p class="cr_check">
+				 <!--{assign var=key value="use_registed_card"}-->
+                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <!--{assign var=key1 value="cardKey"}-->
+                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <input 
+                        type="checkbox" 
+                        id="<!--{$key}-->" 
+                        name="<!--{$key}-->" 
+                        value="1" <!--{if $arrForm[$key].value != ""}-->checked="checked"<!--{/if}--> 
+<!--{if $arrMdlSetting.autoRegist == '1'}-->
+                        onclick="if(fnCheckMaxRegist()){fnDispTarget();}"
+<!--{else}-->
+                        onclick="fnDispTarget()"
+<!--{/if}--> 
+                    />
+                    <label for="<!--{$key}-->"><strong class="fb">登録カードを利用する</strong></label>
+			</p>
+			<!--{foreach from=$arrResults.cardData item=data name=cardLoop}-->
+			<!--{if $smarty.foreach.cardLoop.first}-->
+			<ul class="card_list">
+			<!--{/if}-->
+				<li><input type="radio" name="card_key" id="<!--{$data.cardKey|h}-->" value="<!--{$data.cardKey|h}-->"
+                        <!--{if $arrForm[$key1].value==$data.cardKey}-->checked="checked"<!--{/if}-->
+                        <!--{if $tpl_plg_target_seq==$data.cardKey}-->checked="checked"<!--{/if}-->
+                    />
+                    <label for="<!--{$data.cardKey|h}-->">
+                    カード番号：<!--{$data.maskingCardNo|h}-->&nbsp;&nbsp;
+                    有効期限：<!--{$data.cardExp|substr:0:2|h}-->/<!--{$data.cardExp|substr:2:2|h}-->
+                    <!--{if $data.subscriptionFlg|h =='1'}-->※予約販売利用有り<!--{/if}--></li>
+			<!--{if $smarty.foreach.cardLoop.last}-->
+			</ul>
+			<!--{/if}-->
+			<!--{/foreach}-->
+			<div class="card_delete mg_b40">
+				<a rel="external" href="javascript:void(fnCheckSubmit('deleteCard'));" class="btn_lgray"/><p>選択したカードを削除する</p></a>
+            </div>
+            <div class="mg_t20" id="now_execute2" style="display: none">
+				<p class="fontRed alignC"><strong>只今処理中です。<br>
+				そのままの画面でお待ち下さい。</strong></p>
+			</div>
+			<!--{/if}-->
+                <dl class="form_entry mg_t20">
+                    
+                    <dt class="disp_target">
+                        カード番号<span class="attention">※</span>
+                    </dt>
+                    <dd class="disp_target">
+                    <!--{assign var=key1 value="card_no"}-->
+                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <input type="tel" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="ime-mode: disabled; <!--{$arrErr[$key1]|sfGetErrorColor}-->"  size="16" class="w_full" />
+                    </dd>
+
+                    <dt class="disp_target">
+                        カード有効期限<span class="attention">※</span>
+                    </dt>
+                    <dd class="disp_target">
+                    <!--{assign var=key1 value="card_exp_month"}-->
+                    <!--{assign var=key2 value="card_exp_year"}-->
+                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <span class="attention"><!--{$arrErr[$key2]}--></span>
+					<div class="inline_select">
+						<p class="select_n w_mini">
+							<select name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" class="w_third data-role-none">
+							<option value="">&minus;&minus;</option>
+							<!--{html_options options=$arrMonth selected=$arrForm[$key1].value|default:''}-->
+							</select>
+						</p>
+						<p>&nbsp;&nbsp;月&nbsp;/&nbsp;20&nbsp;&nbsp;</p>
+						<p class="select_n w_mini">
+							<select name="<!--{$key2}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" class="w_third data-role-none">
+							<option value="">&minus;&minus;</option>
+							<!--{html_options options=$arrYear selected=$arrForm[$key2].value|default:''}-->
+							</select>
+						</p>
+						<p>&nbsp;&nbsp;年</p>
+					</div>
+
+                    <dt class="disp_target">
+                        カード名義<span class="attention">※</span>
+                    </dt>
+                    <dd class="disp_target">
+                        <!--{assign var=key value="card_owner"}-->
+                        <span class="attention"><!--{$arrErr[$key]}--></span>
+                        <input type="email" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="ime-mode: disabled; <!--{$arrErr[$key]|sfGetErrorColor}-->" size="40" class="w_full" />
+                        <p class="mini mg_t10">
+                            <span class="attention">カードに記載の名前をご記入下さい。ご本人名義のカードをご使用ください。</span>半角英文字入力（例：YAMADA TAROU）
+                            <span>
+                            <br />入力例 ○YAMADA TAROU&nbsp;&nbsp;×YAMADATAROU&nbsp;&nbsp;×Yamada Tarou
+                            </span>
+                        </p>
+                    </dd>
+<!--{if $arrMdlSetting.useSecurityCode}-->
+                    <dt>
+                        セキュリティコード<span class="attention">※</span>
+                    </dt>
+                    <dd>
+                        <!--{assign var=key value="security_code"}-->
+                        <span class="attention"><!--{$arrErr[$key]}--></span>
+                        <input type="tel" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="ime-mode: disabled; <!--{$arrErr[$key]|sfGetErrorColor}-->"  size="4" class="w_third mg_b10" />
+                        <p class="mini mg_b10"><span class="attention">主にカード裏面の署名欄に記載されている末尾３桁～４桁の数字をご記入下さい。</span>半角入力 (例: 123)</p>
+						<p class="w_semi"><img src="<!--{$smarty.const.MDL_YFCAPI_MEDIAFILE_URL}-->security_code_info.png" /></p>
+                    </dd>
+<!--{/if}-->
+                    <dt>
+                        支払い方法<span class="attention">※</span>
+                    </dt>
+                    <dd>
+                        <!--{assign var=key1 value="pay_way"}-->
+                        <span class="attention"><!--{$arrErr[$key1]}--></span>
+						<div class="select_n w_half">
+                        <select name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" class="boxShort data-role-none">
+                        <!--{html_options options=$arrPayMethod selected=$arrForm[$key1].value|default:''}-->
+                        </select>
+						</div>
+                    </dd>
+<!--{if $arrMdlSetting.autoRegist == '0'}-->
+                <!--{if $tpl_is_regist_card == true || $tpl_is_reserve == true}-->
+                    <dt class="disp_target">
+                        カード情報登録
+                    </dt>
+                    <dd class="disp_target">
+                    <!--{if $tpl_is_reserve == true}-->
+                        <input type="hidden" id="register" name="register_card" value="1" />
+                        <span class="attention">予約商品販売はカードお預かりが必須になります。</span><br />
+                        カード情報を登録すると次回より入力無しで購入出来ます。<br />
+                        カード情報は当店では保管いたしません。<br />
+                        委託する決済代行会社にて安全に保管されます。<br />
+                    <!--{else}-->
+                        <!--{assign var=key value="register_card"}-->
+                        <span class="attention"><!--{$arrErr[$key]}--></span>
+                        <input onclick="fnCheckMaxRegist();" type="checkbox" id="<!--{$key}-->" name="<!--{$key}-->" value="1" <!--{if $arrForm[$key].value != ""}-->checked<!--{/if}--> />
+                        <label for="<!--{$key}-->"><span class="fb">このカードを登録する。</span></label>
+                        <p class="mini">カード情報を登録すると次回より入力無しで購入出来ます。<br />カード情報は当店では保管いたしません。<br />委託する決済代行会社にて安全に保管されます。</p>
+                    <!--{/if}-->
+                    </dd>
+                <!--{/if}-->
+<!--{/if}-->
+                </dl>
+
+            <p class="mg_b30">
+                以上の内容で間違いなければ、下記「決済する」ボタンをクリックしてください。<br />
+                <span class="attention">※画面が切り替るまで少々時間がかかる場合がございますが、そのままお待ちください。</span>
+            </p>
+
+            <div class="btn_area mg_t10" id="execute_btn">
+                <ul class="btn_btm">
+
+                        <li class="mg_b10">
+							<a rel="external" href="javascript:void(submitCall());" class="btn_n btn_gray"/><p>決済する</p></a>
+                        </li>
+
+                        <li>
+							<a rel="external" href="javascript:void(fnCheckSubmit('return'));" class="btn_n btn_lgray"/><p>戻る</p></a>
+                        </li>
+                </ul>
+            </div>
+			<div class="mg_t20" id="now_execute" style="display: none">
+				<p class="fontRed alignC"><strong>只今決済処理中です。<br>
+				そのままの画面でお待ち下さい。<br>通信中にページのリロードを行うと<br>決済が正常に行われない場合がございます。</strong></p>
+			</div>
+</div>
+       </section><!--{* /payment_form_body *}-->
+

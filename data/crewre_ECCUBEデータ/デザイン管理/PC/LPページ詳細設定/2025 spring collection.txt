@@ -1,0 +1,226 @@
+<style>
+    .collection_item {
+        font-size: 1.5rem;
+        margin: 0 !important;
+        padding: 50px 0;
+    }
+</style>
+<section class="collection">
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <h2 class="tit_collection" style="margin-bottom: 50px;">2025 spring collection</h2>
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025spring/LOOK1_1.jpg" alt="" class="lazyload fade_in" style="width: 100%">
+            <img data-src="/user_data/images/collection/2025spring/LOOK1_2new.jpg" alt="" class="lazyload fade_in" style="width: 85%">
+        </p>
+            
+            <!--<div style="text-align: center; margin-bottom: 0px;">
+                <img data-src="/user_data/images/collection/2024autumn/intro_PC.jpg" alt="" class="lazyload fade_in" style="width: 50%;">
+            </div>-->
+            <!--<div style="width: 70%;">
+                <img data-src="/user_data/images/collection/2024summer/title_PC.jpg" alt="" class="lazyload fade_in">
+            </div>
+            <div style="width: 50%; display: flex; align-items: center;">
+                <img data-src="/user_data/images/collection/2024spring/copy.svg" alt="" class="lazyload fade_in" style="width: 50%; margin-left: 15%;">
+            </div>-->
+    </header>
+    <div>
+        <ul class="collection_block">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=410">ドレープステンカラーコート　17,600円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=413">2wayハイネックボウタイシャツ　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=417">ソフトカーヴィーデニムパンツ　8,800円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+            <!--*アイテムアコーディオンブロックエンド*-->
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025spring/LOOK2_1pc.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+            <img data-src="/user_data/images/collection/2025spring/LOOK2_2pc.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+            <img data-src="/user_data/images/collection/2025spring/LOOK2_3pc.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+        </p>
+            
+            <!--<div style="text-align: center; margin-bottom: 0px;">
+                <img data-src="/user_data/images/collection/2024autumn/intro_PC.jpg" alt="" class="lazyload fade_in" style="width: 50%;">
+            </div>-->
+            <!--<div style="width: 70%;">
+                <img data-src="/user_data/images/collection/2024summer/title_PC.jpg" alt="" class="lazyload fade_in">
+            </div>
+            <div style="width: 50%; display: flex; align-items: center;">
+                <img data-src="/user_data/images/collection/2024spring/copy.svg" alt="" class="lazyload fade_in" style="width: 50%; margin-left: 15%;">
+            </div>-->
+      </header>
+    <div>
+        <ul class="collection_block">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=411">ピーチスキンモッズコート　19,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=445">2wayハニカムサーマルカットソー　4,950円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=443">ヴィンテージライクワイドパンツ　8,800円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025spring/LOOK3_1.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+            <img data-src="/user_data/images/collection/2025spring/LOOK3_2.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+        </p>
+      </header>
+    <div>
+        <ul class="collection_block">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=414">シルクブレンドボートネックロンT　5,940円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=396">ラップレイヤードIラインラップスカート　11,000円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=397">マルチウェイドロップネックレス　5,500円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025spring/LOOK4_1.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+            <img data-src="/user_data/images/collection/2025spring/LOOK4_2.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+        </p>
+      </header>
+    <div>
+        <ul class="collection_block">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=380">ダブルテーラードジャケット　12,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=441">オーバーサイズコットンシャツ　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=412">2wayレイヤードストレートパンツ　9,350円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025spring/LOOK5_1.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+            <img data-src="/user_data/images/collection/2025spring/LOOK5_2.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+        </p>
+      </header>
+    <div>
+        <ul class="collection_block">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=439">レイヤードシアージャケット　12,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=442">フルダルスパンフードシャツ　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=418">バックタックナロースカート　7,700円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=368">マルチウェイドロップネックレス　5,500円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=446">ナイロンレザーショルダーバッグ　16,500円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <header id="winter2023_header" style="margin-bottom: 0px;">
+        <p style="text-align: center;">
+            <img data-src="/user_data/images/collection/2025spring/LOOK6_1.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+            <img data-src="/user_data/images/collection/2025spring/LOOK6_2.jpg" alt="" class="lazyload fade_in" style="width: 90%">
+        </p>
+      </header>
+    <div>
+        <ul class="collection_block">
+            <!--*画像ブロックスタート*-->
+            <!--*data-srcに画像パスを入れてください*-->
+            <!--<li style="margin-bottom: 400px;"><img data-src="/user_data/images/collection/2024summer/walk_top_pc.jpg" alt="" class="lazyload fade_in"></li>-->
+            <!--*画像ブロックエンド*-->
+            <!--*アイテムアコーディオンブロックスタート*-->
+            <li class="collection_item">
+                <p class="collection_item_tit"><a href="javascript:;">item information</a></p>
+                <div class="collection_item_list">
+                    <ul>
+                        <!--*アイテムリストスタート*-->
+                        <!--*リンクはaタグの中身を編集してください*-->
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=439">レイヤードシアージャケット 12,100円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=440">セットインルーズスウェットロンT　6,600円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=414">シルクブレンドボートネックロンT　5,940円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=415">ナイロンドレープマキシスカート　8,800円</a></li>
+                        <li><a href="https://crewre.jp/products/detail.php?product_id=416">2wayウォーターパールネックレス　12,100円</a></li>
+                        <!--*アイテムリストエンド*-->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+       <ul class="collection_block">     
+            <li class="collection_movie">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/qbejC5QxuOY?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </li>
+            
+            <li class="collection_txt">
+                <p class="tit_crewre"><img src="/user_data/images/collection/tit_crewre.png?v=2" alt=""></p>
+                <h3>2025 spring collection</h3>
+                <p>producer: Cospashion Yurie</p>
+                <p>photographer: Tomoyuki Ichida<br>
+                    videographer: Yuki Furue<br>
+                    hair&make up: Moe Hikida<br>
+                    model: Hazuki Onishi</p>
+            </li>
+        </ul>
+     </div>
+</section>
+<script>
+    $('.collection_item_tit').on('click', function () {
+        $(this).next('.collection_item_list').slideToggle();
+        $(this).find('a').toggleClass('ico_rotate');
+    });
+</script>

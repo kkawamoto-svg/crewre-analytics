@@ -1,0 +1,860 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+<script type="text/javascript">//<![CDATA[
+    $(function() {
+		<!--{if count($cartItems) > 0}--> 
+		if($(".inline2").length){
+		   $(".inline2").colorbox({inline:true, width:"90%", height:"90%"});
+		}
+		<!--{foreach from=$cartKeys item=key}-->
+        if ($('input[name=deliv_id<!--{$key}-->]:checked').val() || $('#deliv_id<!--{$key}-->').val()) {
+            showForm(true,<!--{$key}-->);
+        } else {
+            showForm(false,<!--{$key}-->);
+        }
+		if ($('input[name=deliv_check<!--{$key}-->]:checked').val()){
+			delivCheckId($('input[name=deliv_check<!--{$key}-->]:checked').val(),<!--{$key}-->);
+		}
+		$('input[name^=deliv_check<!--{$key}-->]').click(function() {
+			delivCheckId($(this).val(),<!--{$key}-->);
+		});
+		<!--{/foreach}-->
+		
+        $('input[id^=deliv_]').click(function() {
+			var cartkey = $(this).attr('data-cart-key');
+			var delivid = 'deliv_id'+ cartkey;
+            var data = {};
+			data.cart_key = cartkey;
+            data.mode = 'select_deliv';
+            data[delivid] = $(this).val();
+			data.ship_id = $('input[name=deliv_check'+cartkey+']:checked').val();
+            data['<!--{$smarty.const.TRANSACTION_ID_NAME}-->'] = '<!--{$transactionid}-->';
+            $.ajax({
+                type : 'POST',
+                url : location.pathname,
+                data: data,
+                cache : false,
+                dataType : 'json',
+                error : remoteException,
+                success : function(data, dataType) {
+					console.log(data);
+                    if (data.error) {
+                        remoteException();
+                    } else {
+                        // 支払い方法の行を生成
+                        var payment = $('#payment'+data.cart_key);
+                        payment.empty();
+                        for (var i in data.arrPayment) {
+                            // ラジオボタン
+                            var radio = $('<input type="radio" />')
+                                .attr('name', 'payment_id'+data.cart_key)
+                                .attr('id', 'pay_' + i)
+                                .val(data.arrPayment[i].payment_id);
+                            // ラベル
+                            var label = $('<label />')
+                                .attr('for', 'pay_' + i)
+                                .text(data.arrPayment[i].payment_method);
+                            // 行
+                            var li = $('<li />')
+                                .append($('<td />')
+                                .append(radio)
+                                .append(label));
+
+                            li.appendTo(payment);
+                        }
+                        // お届け時間を生成
+                        var deliv_time_id_select = $('select[id^=deliv_time_id]');
+                        deliv_time_id_select.empty();
+                        deliv_time_id_select.append($('<option />').text('指定なし').val(''));
+                        for (var i in data.arrDelivTime) {
+                            var option = $('<option />')
+                                .val(i)
+                                .text(data.arrDelivTime[i])
+                                .appendTo(deliv_time_id_select);
+                        }
+						showForm(true,data.cart_key);
+                    }
+                }
+            });
+        });
+
+		//連打防止
+		$('#confirm').on('click',function(){
+			$('.btn_area').hide();
+			$('#now_execute').show();
+		});
+
+        /**
+         * 通信エラー表示.
+         */
+        function remoteException(XMLHttpRequest, textStatus, errorThrown) {
+            alert('通信中にエラーが発生しました。カート画面に移動します。');
+            location.href = '<!--{$smarty.const.CART_URL}-->';
+        }
+
+        /**
+         * 配送方法の選択状態により表示を切り替える
+         */
+        function showForm(show,cartno) {
+            if (show) {
+                $('#payment'+cartno+', div.delivdate'+cartno).show();
+				$('.select-msg-deliv'+cartno+' span, .select-msg-payment'+cartno+' span').hide();
+            } else {
+                $('#payment'+cartno+', div.delivdate'+cartno).hide();
+                $('.select-msg-deliv'+cartno+' span, .select-msg-payment'+cartno+' span').show();
+            }
+        }
+		
+		/**
+         * 配送方法の選択状態により表示を切り替える
+         */
+		function delivCheckId(ship_val,cartno) {
+			if(ship_val == '-1'){
+				var ship_id = 0
+			}else{
+				var ship_id = ship_val;
+			}
+			$('.deliv_date'+cartno).attr({
+				name:'deliv_date'+cartno+'-'+ship_id,
+				id:'deliv_date'+cartno+'-'+ship_id
+			});
+			$('.deliv_time'+cartno).attr({
+				name:'deliv_time_id'+cartno+'-'+ship_id,
+				id:'deliv_time_id'+cartno+'-'+ship_id
+			});
+			$('input[name=ship_id'+cartno+']').val(ship_id);
+		}
+		<!--{/if}-->
+    });
+//]]></script>
+<!--▼コンテンツここから -->
+<section id="undercolumn" class="default_bloc"> 
+<div class="undercolumn_inner">
+	<header class="mg_b10">
+		<h1 class="tit_default">cart</h1>
+		<div id="cart_flow" class="cart_flow1">
+			<ul>
+				<li><span class="flow_active_icon"></span></li>
+				<li><span></span></li>
+				<li><span></span><span></span></li>
+			</ul>
+		</div>
+	</header>
+	<div class="cart_area n_box">
+		<!--{if $tpl_login && $smarty.const.USE_POINT !== false && $tpl_new_user !== true}-->
+		<div class="information mg_b10" style="display: none;">
+			<p class="point_announce"><span class="user_name"><!--{$tpl_name|h}--> 様</span>の、現在の保有ポイントは「<span class="point"><!--{$tpl_user_point|n2s|default:0}--> pt</span>」です。</p>
+			<p>ポイントは<span class="price">1pt＝<!--{$smarty.const.POINT_VALUE}-->円</span>として使用することができます。</p>
+		</div>
+		<!--{/if}--> 
+		<!--{if count($cartKeys) > 1}-->
+			<div class="cart_attention mg_t30">
+				<p class="red_font">※納期が異なる商品の同時購入はできません。</p> 
+				<p>※お手数ですが、個別に購入手続きをお願い致します。</p>
+			</div>
+		<!--{/if}--> 
+		
+
+		<!--{if strlen($tpl_error) != 0}-->
+		<p class="red"><!--{$tpl_error|h}--></p>
+		<!--{/if}--> 
+
+		<!--{if strlen($tpl_message) != 0}-->
+		<p class="red"><!--{$tpl_message|h|nl2br}--></p>
+		<!--{/if}-->
+		
+		
+
+	<!--{if count($cartItems) > 0}--> 
+		<!--{foreach from=$cartKeys item=key name=cartBlock}-->
+		<!--{if $smarty.foreach.cartBlock.index > 0}-->
+		<div class="cart_block cart_block_not_first">
+		<!--{else}-->
+		<div class="cart_block">
+		<!--{/if}-->
+			<form name="form<!--{$key|h}-->" id="form<!--{$key|h}-->" method="post" action="?">
+				<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME|h}-->" value="<!--{$transactionid|h}-->">
+				<input type="hidden" name="mode" value="confirm">
+				<input type="hidden" name="cart_no" value="">
+				<input type="hidden" name="cartKey" value="<!--{$key|h}-->">
+				<input type="hidden" name="other_deliv_id" value="">
+				<input type="hidden" name="ship_id<!--{$key|h}-->" value="">
+				<!--{if count($cartKeys) > 1}-->
+					<!--{if $key != 9625 AND $key > 101}-->
+					<!--{assign var=purchasing_goods_name value="予約商品（`$arrProductType[$key]`発送予定）"}-->
+					<!--{else}-->
+					<!--{assign var=purchasing_goods_name value=$arrProductType[$key]}-->
+					<!--{/if}-->
+					<h2 class="cart_tit">
+						ご注文商品
+						<span><!--{$purchasing_goods_name|h}--></span>
+					</h2>
+				<!--{/if}-->
+				
+				
+				
+				<!-- デザイン変更のためコメントアウト -->
+				<!--{if false}-->
+				<p class="mg_b10"> 
+					購入合計金額は&yen;<span class="price"><!--{$tpl_total_inctax[$key]|n2s|h}-->です。
+					<!--{if $key != $smarty.const.PRODUCT_TYPE_DOWNLOAD}--> 
+						<!--{if $arrInfo.free_rule > 0}--> 
+							<!--{if !$arrData[$key].is_deliv_free}--> 
+							あと&yen;<span class="price"><!--{$tpl_deliv_free[$key]|n2s|h}-->の購入で送料無料です。
+							<!--{else}--> 
+							現在、<span class="attention">送料無料</span>です。
+							<!--{/if}--> 
+						<!--{/if}--> 
+					<!--{/if}--> 
+				</p>
+				<!--{/if}-->
+				<!-- デザイン変更のためコメントアウト -->
+				
+
+				<div class="cart_items">
+				<!--{foreach from=$cartItems[$key] item=item}-->
+					<div class="cart_item_inner" style="<!--{if $item.error}-->background-color: <!--{$smarty.const.ERR_COLOR|h}-->;<!--{/if}-->">
+						<ul class="cart_item_info">
+							<li class="item_photo"><img src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$item.productsClass.c_image|sfNoImageMainList|h}-->" alt="<!--{$item.productsClass.name|h}-->" /> </li>
+							<li class="item_info">
+								<p class="mg_b15"><!--{$item.productsClass.name|h}--><br>
+									<!--{if $item.price_inctax == $item.price_norm_inctax}-->
+									&yen;<!--{$item.price_inctax|n2s|h}-->
+									<!--{else}-->
+									<strike>&yen;<!--{$item.price_norm_inctax|n2s|h}--></strike> → <span class="red">&yen;<!--{$item.price_inctax|n2s|h}--> <!--{$item.plan_disc}-->%OFF</span>
+									<!--{/if}--> 
+								</p>
+								<!--{if $item.productsClass.classcategory_name1 != ""}-->
+								<p>color：<!--{$item.productsClass.classcategory_name1|h}-->
+								<!--{/if}--> 
+								<!--{if $item.productsClass.classcategory_name2 != ""}-->
+								<br>size：<!--{$item.productsClass.classcategory_name2|h}-->
+								<!--{/if}-->
+								<!--{if $item.productsClass.status == 3}-->
+								<br><span class="red">※ノベルティ商品</span>
+								<!--{/if}-->
+								</p>
+								<div class="cart_quantity">
+									<p>数量：<!--{$item.quantity|h}--></p>
+									<ul class="cart_quantity_box">
+										<!--{if $item.productsClass.status != 3}-->
+										<!--{if $item.quantity > 1}-->
+										<li class="quantity_btn"><a href="?" onclick="eccube.fnFormModeSubmit('form<!--{$key|h}-->','down','cart_no','<!--{$item.cart_no|h}-->'); return false"><strong>-</strong></a></li><!--{/if}-->
+										<li class="quantity_btn"><a href="?" onclick="eccube.fnFormModeSubmit('form<!--{$key|h}-->','up','cart_no','<!--{$item.cart_no|h}-->'); return false"><strong>+</strong></a></li>
+										
+										<!--{/if}-->
+									</ul>
+								</div>
+								<p style="display: none;">小計：&yen;<!--{$item.total_inctax|n2s|h}--></p>
+								
+								<!--{if $item.productsClass.status != 3}-->
+								<p class="alignR cart_delete"><a href="?" onclick="eccube.fnFormModeSubmit('form<!--{$key|h}-->', 'cartDelete', 'cart_no', '<!--{$item.cart_no|h}-->'); return false;">注文削除</a></pp>
+								<!--{/if}-->
+							</li>
+						</ul>
+					</div>
+				<!--{/foreach}-->
+				</div>
+				<div class="cart_total">
+					<ul class="cart_price_total flex_between">
+						<li class="total_txt">合計税込&nbsp;&nbsp;：</li>
+						<li><span><!--{$arrData[$key].total-$arrData[$key].deliv_fee|n2s|h}--></span>円</li>
+					</ul>
+					<!--{if $smarty.const.USE_POINT !== false}--> 
+					<ul class="cart_point_total">
+						<!--{if $arrData[$key].birth_point > 0}--><li>お誕生月ポイント：<!--{$arrData[$key].birth_point|n2s|h}-->pt</li><!--{/if}-->
+						<li>獲得予定ポイント：<!--{$arrData[$key].add_point|n2s|h}-->pt<br>
+							※ポイントの付与は、商品配送後1ヵ月になります。<br>
+							※送料は全国一律300円頂戴いたします。</li>
+						<!--{if $tpl_login}-->
+						<li>現在の保持ポイント ：<!--{$tpl_user_point|n2s|default:0}-->pt<br>(&yen;<!--{$smarty.const.POINT_VALUE}--> = 1pt)</li>
+						<!--{/if}-->
+					</ul>
+					<!--{/if}-->
+				</div>
+				
+			<!--{if $tpl_login == 1 && $tpl_new_user != true && $tpl_black_list_user != true}-->
+				<div>
+					<div class="btn_area">
+						<ul>
+							<li>
+								<a rel="external" href="/" class="btn_n btn_cart_white">
+									<p>online store トップへ</p>
+								</a>
+							</li>
+							<li style="margin-top: 12px;">
+								<a rel="external" href="/mypage/favorite.php" class="btn_n btn_cart_white">
+									<p>お気に入り一覧へ</p>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="subblock_top_border">
+					<h3 class="ttl_form_default">お届け先の指定</h3>
+					<div>
+						<div id="cart_shipping_list">
+							<!--{section name=cnt loop=$arrAddr}-->
+							<!--{assign var=key0 value="deliv_check`$key`"}-->
+							<ul>
+								<li><!--{if $smarty.section.cnt.first}--> 
+									<input type="radio" name="<!--{$key0}-->" id="chk_id_<!--{$smarty.section.cnt.iteration}-->" value="-1" <!--{if $arrForm[$key0].value == "" || $arrForm[$key0].value == -1}--> checked="checked"<!--{/if}-->>
+									<!--{else}--> 
+									<input type="radio" name="<!--{$key0}-->" id="chk_id_<!--{$smarty.section.cnt.iteration}-->" value="<!--{$arrAddr[cnt].other_deliv_id}-->"<!--{if $arrForm[$key0].value == $arrAddr[cnt].other_deliv_id}--> checked="checked"<!--{/if}-->>
+									<!--{/if}-->
+								</li>
+								<li>
+									<label for="chk_id_<!--{$smarty.section.cnt.iteration}-->">
+										<!--{assign var=key1 value=$arrAddr[cnt].pref}--> 
+										<!--{assign var=key2 value=$arrAddr[cnt].country_id}--> 
+										<!--{if $smarty.const.FORM_COUNTRY_ENABLE}--><!--{$arrCountry[$key2]|h}--><br/><!--{/if}--> 
+										<p class="mg_b5"><!--{$arrPref[$key1]|h}--><!--{$arrAddr[cnt].addr01|h}--><!--{$arrAddr[cnt].addr02|h}--></p>
+										<p><!--{$arrAddr[cnt].company_name|h}--> <!--{$arrAddr[cnt].name01|h}--> <!--{$arrAddr[cnt].name02|h}--></p>
+									</label>
+								</li>
+								<li><!--{if !$smarty.section.cnt.first}--> 
+									<a href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/delivery_addr.php" onclick="eccube.openWindow('<!--{$smarty.const.ROOT_URLPATH}-->mypage/delivery_addr.php?page=<!--{$smarty.server.SCRIPT_NAME|h}-->&amp;other_deliv_id=<!--{$arrAddr[cnt].other_deliv_id}-->','new_deiv','600','640'); return false;" class="btn_white_mini">変更</a><!--{/if}--></li>
+								<li class="btn_addr_delete"><!--{if !$smarty.section.cnt.first}--> 
+									<a href="?" onclick="eccube.fnFormModeSubmit('form<!--{$key|h}-->', 'delete_addr', 'other_deliv_id', '<!--{$arrAddr[cnt].other_deliv_id}-->'); return false" class="btn_black_mini">削除</a><!--{/if}--></li>
+							</ul>
+							<!--{/section}-->
+						</div>
+						
+						<!--{if $tpl_addrmax < $smarty.const.DELIV_ADDR_MAX}-->
+							<div class="cart_deliv_add">
+								<ul>
+									<li><a href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/delivery_addr.php" onclick="eccube.openWindow('<!--{$smarty.const.ROOT_URLPATH}-->mypage/delivery_addr.php?page=<!--{$smarty.server.SCRIPT_NAME|h}-->','new_deiv','600','640'); return false;">新しいお届け先を追加する</a></li>
+								</ul>
+							</div>
+						<!--{/if}-->
+						<!--{assign var=key3 value="deliv_id`$key`"}--> 
+						<!--{if $is_single_deliv[$key]}-->
+							<input type="hidden" name="<!--{$key3}-->" value="<!--{$arrForm[$key3].value|h}-->" id="deliv_id<!--{$key}-->" />
+						<!--{else}-->
+							<h3 class="b_title">配送方法の指定</h3>
+						<!--{if $arrErr[$key3] != ''}--><p class="attention"><!--{$arrErr[$key3]}--></p><!--{/if}-->
+							<ul class="form_entry form_list">
+								<!--{foreach from=$arrDeliv[$key] item=itemdeliv name= delivLoop}-->
+								<li><label for="deliv_<!--{$smarty.foreach.delivLoop.iteration}-->">
+									<input type="radio" id="deliv_<!--{$smarty.foreach.delivLoop.iteration}-->" name="<!--{$key3}-->" value="<!--{$itemdeliv.deliv_id}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->" <!--{$itemdeliv.deliv_id|sfGetChecked:$arrForm[$key3].value}--> data-cart-key="<!--{$key}-->"><!--{$itemdeliv.name|h}--><!--{if $itemdeliv.remark != ""}--><!--{$itemdeliv.remark|h|nl2br}--><!--{/if}--></label></li>
+								<!--{/foreach}-->
+							</ul>
+						<!--{/if}-->
+					</div>
+				</div>
+				<!--{if $key <= 1}-->
+				<div class="subblock mg_t60">
+					<h3 class="ttl_form_default select-msg-deliv<!--{$key}-->">お届け時間の指定<span> ※まずはじめに、配送方法を選択ください。</span></h3>
+					<div class="btn_style">
+						<ul class="shipping_time_list delivdate<!--{$key}-->">
+							<li>
+								<!--{assign var=shipid value="ship_id`$key`"}--> 
+								<!--{assign var=key4 value="deliv_date`$key`-`$arrForm[$shipid].value`"}--> 
+								<span class="attention"><!--{$arrErr[$key4]}--></span>
+								<!--{if !$arrDelivDate[$key]}--> 
+								<p>ご指定頂けません。</p> 
+								<!--{else}-->
+								<div class="select_n w_full">
+									<select name="<!--{$key4}-->" id="<!--{$key4}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="deliv_date<!--{$key}-->">
+										<option value="" selected="">最短</option>
+										<!--{html_options options=$arrDelivDate[$key] selected=$arrForm[$key4].value}-->
+									</select>
+								</div>
+								<!--{/if}--> 
+							</li>
+							<li>
+								<!--{assign var=key5 value="deliv_time_id`$key`-`$arrForm[$shipid].value`"}--> 
+								<span class="attention"><!--{$arrErr[$key]}--></span>
+								<div class="select_n w_full">
+									<select name="<!--{$key5}-->" id="<!--{$key5}-->" style="<!--{$arrErr[$key5]|sfGetErrorColor}-->" class="deliv_time<!--{$key}-->">
+										<option value="" selected="">指定なし</option>
+										<!--{html_options options=$arrDelivTime[$key] selected=$arrForm[$key5].value}-->
+									</select>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!--{/if}-->
+				<div class="subblock mg_t60">
+					<h3 class="ttl_form_default select-msg-payment<!--{$key}-->">お支払い方法の指定<span> ※まずはじめに、配送方法を選択ください。</span></h3>
+					<div>
+						<!--{assign var=key6 value="payment_id`$key`"}--> 
+						<!--{if $arrForm[$key6].value == ''}-->
+							<!--{assign var=paymentSelected value="`$tpl_customer_payment_id`"}-->
+						<!--{else}-->
+							<!--{assign var=paymentSelected value="`$arrForm[$key6].value`"}-->
+						<!--{/if}-->
+						<!--{if $arrErr[$key6] != ""}--><p class="attention"><!--{$arrErr[$key6]}--></p><!--{/if}-->
+						<ul id="payment<!--{$key}-->" class="form_entry form_list pay_list">
+							<!--{section name=cnt loop=$arrPayment[$key]}-->
+							<li><label for="pay_<!--{$smarty.section.cnt.iteration}-->"><input type="radio" id="pay_<!--{$smarty.section.cnt.iteration}-->" name="<!--{$key6}-->"  value="<!--{$arrPayment[$key][cnt].payment_id}-->" style="<!--{$arrErr[$key6]|sfGetErrorColor}-->" <!--{$arrPayment[$key][cnt].payment_id|sfGetChecked:$paymentSelected}-->><!--{$arrPayment[$key][cnt].payment_method|h}--><!--{if $arrPayment[$key][cnt].note != ""}--><!--{/if}--></label></li>
+							<!--{/section}-->
+						</ul>
+					</div>
+				</div>
+				
+				<!--{if $smarty.const.USE_POINT !== false}-->
+				<div class="subblock_top_border">
+					<!--{assign var=key8 value="use_point`$key`"}-->
+					<h3 class="ttl_form_default">ポイント使用の指定</h3>
+					<div class="cart_point_area">
+						<p>
+							お客様の現在の保有ポイントは「<!--{$tpl_user_point|default:0|n2s}--> pt」です。<br>
+							ポイントは1pt＝<!--{$smarty.const.POINT_VALUE|n2s}-->円として使用することができます。<br>
+							使用する場合は、「ポイントを使用する」にチェックを入れた後、<br>
+							使用するポイントをご記入ください。
+						</p>
+						<p>
+							今回ご購入合計金額：<!--{$arrPrices[$key].subtotal|n2s}-->円（送料、手数料を含みません。）
+						</p>
+						<!--{if $arrErr[$key8] != ''}--><p class="attention"><!--{$arrErr[$key8]}--></p><!--{/if}-->
+						<ul class="form_entry form_list mg_t30">
+							<!--{assign var=key7 value="point_check`$key`"}-->
+							<li><label for="point_on<!--{$key}-->" class="mg_r20"><input type="radio" id="point_on<!--{$key}-->" name="<!--{$key7}-->" value="1" <!--{$arrForm[$key7].value|sfGetChecked:1}-->>
+								ポイントを使用する</label>
+								<!--{assign var=key8 value="use_point`$key`"}-->
+								<input class="point_input" type="text" id="point_amount<!--{$key}-->" name="<!--{$key8}-->" value="<!--{$arrForm[$key8].value|default:$tpl_user_point}-->" maxlength="<!--{$arrForm[$key8].length}-->" style="<!--{$arrErr[$key8]|sfGetErrorColor}-->" class="w_half" />
+								&nbsp;Pt</li>
+							<li><label for="point_off<!--{$key}-->"><input type="radio" id="point_off<!--{$key}-->" name="<!--{$key7}-->" value="2" <!--{$arrForm[$key7].value|sfGetChecked:2}-->>ポイントを使用しない</label></li>
+						</ul>
+					</div>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						if($("#point_on<!--{$key}-->").prop("checked") == false){
+							$("#point_amount<!--{$key}-->").addClass('disabled_input');
+							$("#point_amount<!--{$key}-->").val(0);
+						};
+						$("#point_on<!--{$key}-->").on('click', function() {
+							$("#point_amount<!--{$key}-->").removeClass('disabled_input');
+							$("#point_amount<!--{$key}-->").val(<!--{$tpl_user_point|default:0}-->);
+						});
+						$("#point_off<!--{$key}-->").on('click', function() {
+							$("#point_amount<!--{$key}-->").addClass('disabled_input');
+							$("#point_amount<!--{$key}-->").val(0);
+						});
+					});
+				</script>
+				<!--{/if}-->
+				<!--{if $smarty.const.USE_COUPON !== false}-->
+				<!--{assign var=key9 value="coupon_check`$key`"}-->
+				<!--{assign var=key10 value="coupon_id_name`$key`"}-->
+					<!--{if $couponEnabledCheck == true}-->
+					<div class="subblock mg_t60">
+						<h3>クーポンを使用</h3>
+						<div>
+							<p><span class="attention">クーポン</span>を使用する事ができます。<br />
+							使用する場合は、「クーポンを使用する」にチェックを入れた後、使用するクーポンIDをご記入ください。</p>
+
+						<!--{if $arrErr[$key10] != ''}--><p class="attention"><!--{$arrErr[$key10]}--></p><!--{/if}-->
+							<ul class="form_entry form_list mg_t10">
+								<li><label for="coupon_on<!--{$key}-->" class="mg_r20"><input type="radio" id="coupon_on<!--{$key}-->" name="<!--{$key9}-->" value="1" <!--{$arrForm[$key9].value|sfGetChecked:1}-->>クーポンを使用する</label>
+									<input type="text" name="<!--{$key10}-->" id="coupon_id_name<!--{$key}-->" value="<!--{$arrForm[$key10].value|default:""}-->" style="<!--{$arrErr[$key10]|sfGetErrorColor}-->" class="w_half" placeholder="クーポンコード">
+								</li>
+								<li><label for="coupon_off<!--{$key}-->"><input type="radio" id="coupon_off<!--{$key}-->" name="<!--{$key9}-->" value="2" <!--{$arrForm[$key9].value|sfGetChecked:2}-->>クーポンを使用しない</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<script type="text/javascript">
+						$(function() {
+							if($("#coupon_on<!--{$key}-->").prop("checked") == false){
+								$("#coupon_id_name<!--{$key}-->").addClass('disabled_input');
+								$("#coupon_id_name<!--{$key}-->").val('');
+							};
+							$("#coupon_on<!--{$key}-->").on('click', function() {
+								$("#coupon_id_name<!--{$key}-->").removeClass('disabled_input');
+							});
+							$("#coupon_off<!--{$key}-->").on('click', function() {
+								$("#coupon_id_name<!--{$key}-->").addClass('disabled_input');
+								$("#coupon_id_name<!--{$key}-->").val('');
+							});
+						});
+					</script>
+					<!--{else}-->
+						<input type="hidden" name="<!--{$key9}-->" value="2">
+					<!--{/if}-->
+				<!--{/if}-->
+					<p class="alignC mg_t30"><a href="/user_data/shopping_guide.php" target="_blank" class="red">&raquo;ご購入の前にショッピングガイドを必ずお読みください。</a></p>
+					<div class="btn_area">
+						<ul>
+							<li class="mg_b10"> 
+								<!--{if strlen($tpl_error) == 0}-->
+								<input type="submit" class="btn_n btn_cart_black" id="confirm" value="購入手続きへ" name="confirm" />
+								<!--{/if}--> 
+							</li>
+							<li class="mg_b10" style="display: none"> 
+								<!--{if $tpl_prev_url != ""}--> 
+								<a href="<!--{$tpl_prev_url|h}-->" class="btn_n btn_gray"><p>戻る</p></a> 
+								<!--{else}-->
+								<a href="/" class="btn_lgray_norm">戻る</a>
+								<!--{/if}--> 
+							</li>
+							<li>
+								<a rel="external" href="<!--{$smarty.const.TOP_URL}-->" class="btn_n btn_cart_white"><p>ショップページへ戻る</p></a>
+							</li>
+						</ul>
+					</div>
+					<div class="mg_t30" id="now_execute" style="display: none">
+						<p class="ico_loader"><img src="/user_data/packages/sphone/images/ico_loader.svg"></p>
+						<p class="fontRed alignC"><strong>ただ今、処理中です。<br>
+							しばらくお待ちください。</strong></p>
+					</div>
+			<!--{elseif $tpl_black_list_user == true}-->
+				<div class="btn_area">
+					<p style="text-align: center;margin: 20px 0;" class="red">
+						お客様のアカウントは<br>
+						現在商品を購入できない状態です。<br>
+						SMS認証サービスの実装に伴い、<br>
+						商品購入の制限をかけさせて頂いております。<br>
+						ご不明点がございます場合、<br>
+						お問い合わせ窓口からお問い合わせください。</p>
+					<ul>
+						<li>
+							<a rel="external" href="/contact/" class="btn_n"><p>お問い合せはこちら</p></a>
+						</li>
+					</ul>
+				</div>
+			<!--{/if}-->
+			</form>
+		</div>
+		<!--{/foreach}-->
+	</div>
+	<!--{if $tpl_login == 1 && $tpl_new_user == true && $tpl_black_list_user != true}-->
+	<div class="alignC mg_t40 mg_b40">
+		<p>先にご注文者情報を入力して下さい</p>
+	</div>
+	<div class="subblock">
+		<form name="form_member" id="form_member" method="post" action="">
+			<div class="contact_form btn_style">
+				<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME|h}-->" value="<!--{$transactionid|h}-->" />
+				<input type="hidden" name="mailmaga_flg" value="1" />
+				<dl class="form_entry">
+					<dt>お名前<span class="attention_text">必須</span></dt>
+					<dd class="namebox">
+						<div class="attention"></div>
+						<!--{assign var=key1 value="name01"}-->
+						<!--{assign var=key2 value="name02"}-->
+						<div class="input_flex inputname">
+							<input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h|default:$tpl_name}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->; ime-mode: active;" class="w_half validate[required]" placeholder="姓">&nbsp;
+							<input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h|default:$tpl_name02}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->; ime-mode: active;" class="w_half validate[required]" placeholder="名">
+						</div>
+						<!--{assign var=key1 value="kana01"}-->
+						<!--{assign var=key2 value="kana02"}-->
+						<div class="input_flex inputname mg_t10">
+							<input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h|default:$tpl_kana01}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->; ime-mode: active;" class="w_half validate[required]" placeholder="姓（カナ）">&nbsp;
+							<input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h|default:$tpl_kana02}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->; ime-mode: active;" class="w_half validate[required]" placeholder="名（カナ）">
+						</div>
+					</dd>
+					<!--{assign var=key1 value="zip01"}-->
+					<!--{assign var=key2 value="zip02"}-->
+					<!--{assign var=key3 value="pref"}-->
+					<!--{assign var=key4 value="addr01"}-->
+					<!--{assign var=key5 value="addr02"}-->
+					<dt>郵便番号<!--{if !$smarty.const.FORM_COUNTRY_ENABLE}--><span class="attention_text">必須</span><!--{/if}--></dt>
+					<dd class="zipbox">
+						<div class="attention"></div>
+						<p class="input_flex">
+							<input type="tel" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h|default:$tpl_zip01}-->" maxlength="<!--{$arrForm[$key1].length}-->" class="w_third validate[required,custom[onlyNumberSp]]">
+							&nbsp;-&nbsp;<input type="tel" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h|default:$tpl_zip02}-->" maxlength="<!--{$arrForm[$key2].length}-->" class="w_third validate[required,custom[onlyNumberSp]]">
+						</p>
+						<p class="zipimg" style="display:none">
+							<a href="<!--{$smarty.const.ROOT_URLPATH}-->input_zip.php" onclick="eccube.getAddress('<!--{$smarty.const.INPUT_ZIP_URLPATH}-->', '<!--{$key1}-->', '<!--{$key2}-->', '<!--{$key3}-->', '<!--{$key4}-->'); return false;" target="_blank">
+								<img src="<!--{$TPL_URLPATH}-->img/button/btn_address_input.jpg" alt="住所自動入力"></a>
+							&nbsp;<span class="mini">Search post code.</span>
+						</p>
+					</dd>
+					<dt>ご住所<span class="attention_text">必須</span></dt>
+					<dd class="addrbox">
+						<div class="attention"></div>
+						<p class="select_n w_half mg_b10">
+							<select name="<!--{$key3}-->">
+								<option value="" selected="selected">都道府県</option>
+								<!--{html_options options=$arrPref selected=$arrForm[$key3].value|h|default:$tpl_pref}-->
+							</select>
+						</p>
+						<p class="mg_b10"><input type="text" name="<!--{$key4}-->" value="<!--{$arrForm[$key4].value|h|default:$tpl_addr01}-->" class="w_full validate[required]" placeholder="市区町村名"></p>
+						<p><input type="text" name="<!--{$key5}-->" value="<!--{$arrForm[$key5].value|h|default:$tpl_addr02}-->" class="w_full validate[required]" placeholder="番地ビル名"></p>
+					</dd>
+
+					<!--{if $smarty.const.SMS_REGIST != true}-->
+					<!--{assign var=key1 value="tel01"}-->
+					<!--{assign var=key2 value="tel02"}-->
+					<!--{assign var=key3 value="tel03"}-->
+					<dt>お電話番号<span class="attention_text">必須</span></dt>
+					<dd class="telbox">
+						<div class="attention"></div>
+						<!--{assign var=key1 value="tel01"}-->
+						<!--{assign var=key2 value="tel02"}-->
+						<!--{assign var=key3 value="tel03"}-->
+						<div class="input_flex">
+							<input type="tel" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h|default:$tpl_tel01}-->" maxlength="<!--{$arrForm[$key1].length}-->" class="w_third validate[required,custom[onlyNumberSp]]">&nbsp;-&nbsp;
+							<input type="tel" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h|default:$tpl_tel02}-->" maxlength="<!--{$arrForm[$key2].length}-->" class="w_third validate[required,custom[onlyNumberSp]]">&nbsp;-&nbsp;
+							<input type="tel" name="<!--{$key3}-->" value="<!--{$arrForm[$key3].value|h|default:$tpl_tel03}-->" maxlength="<!--{$arrForm[$key3].length}-->" class="w_third validate[required,custom[onlyNumberSp]]">
+						</div>
+						<p class="mg_t10">※配送の際、ご確認のためご連絡する場合がございます。<br>
+						※ご連絡が取れやすい電話番号を必ずご記入下さい。</p>
+					</dd>
+					<!--{/if}-->
+				</dl>
+			</div>
+			<div>
+				<input class="btn_n btn_gray" type="submit" value="CONTINUE" name="confirm" />
+			</div>
+		</form>
+	</div>
+	<script>
+		// 郵便番号入力呼び出し.
+		eccube.getAddress = function(php_url, tagname1, tagname2, input1, input2) {
+			var zip1 = document.form_member[tagname1].value;
+			var zip2 = document.form_member[tagname2].value;
+
+			if(zip1.length === 3 && zip2.length === 4) {
+				$.get(
+					php_url,
+					{zip1: zip1, zip2: zip2, input1: input1, input2: input2},
+					function(data) {
+						var arrData = data.split("|");
+						if (arrData.length > 1) {
+							eccube.putAddress(input1, input2, arrData[0], arrData[1], arrData[2]);
+						} else {
+							window.alert(data);
+						}
+					}
+				);
+			} else {
+				window.alert("郵便番号を正しく入力して下さい。");
+			}
+		};
+
+		// 郵便番号から検索した住所を渡す.
+		eccube.putAddress = function(input1, input2, state, city, town) {
+			if(state !== "") {
+				// 項目に値を入力する.
+				document.form_member[input1].selectedIndex = state;
+				document.form_member[input2].value = city + town;
+			}
+		};
+		$(function() {
+			//郵便番号入力をチェック
+			$('input[name=zip01]').on('change',function(){
+				var zip02 = $('input[name=zip02]').val();
+				if(zip02 !== ''){
+					eccube.getAddress('/input_zip.php', 'zip01', 'zip02', 'pref', 'addr01'); return false;
+				}
+			});
+			$('input[name=zip02]').on('change',function(){
+				var zip01 = $('input[name=zip01]').val();
+				if(zip01 !== ''){
+					eccube.getAddress('/input_zip.php', 'zip01', 'zip02', 'pref', 'addr01'); return false;
+				}
+			});
+			
+			//フォームバリデーション
+			$("#form_member").validationEngine('attach', {
+				promptPosition:'topLeft',
+				autoHidePrompt: true,
+				autoHideDelay: 2000,
+				onValidationComplete: function(form, status){
+					if(status !== false){
+						postForm();
+					}
+				}  
+			});
+			
+			var postForm = function(){
+				var postData = new Object;
+				postData['transactionid'] = "<!--{$transactionid|h}-->";
+				postData['name01'] = $('input[name=name01]').val();
+				postData['name02'] = $('input[name=name02]').val();
+				postData['kana01'] = $('input[name=kana01]').val();
+				postData['kana02'] = $('input[name=kana02]').val();
+				postData['zip01'] = $('input[name=zip01]').val();
+				postData['zip02'] = $('input[name=zip02]').val();
+				postData['pref'] = $('select[name=pref]').val();
+				postData['addr01'] = $('input[name=addr01]').val();
+				postData['addr02'] = $('input[name=addr02]').val();
+				<!--{if $smarty.const.SMS_REGIST != true}-->
+				postData['tel01'] = $('input[name=tel01]').val();
+				postData['tel02'] = $('input[name=tel02]').val();
+				postData['tel03'] = $('input[name=tel03]').val();
+				<!--{/if}-->
+				
+				$.ajax({
+					type: "POST",
+					url: "/entry/entry_from_cart.php",
+					data: postData,
+					cache: false,
+					dataType: "json",
+					beforeSend: function(xhr, setting) {
+						$('.member_regist_btn').attr('disabled', true);
+					}
+				}).done(
+					function(result, textStatus, jqXHR){
+						if(result === true){
+							location.reload();
+						}else if(result.black !== "" && result.black !== void 0 && result.black !== 'undefined'){
+							alert(result.black);
+						}else{
+							if(result.regist === void 0){
+								$('.member_regist_btn').attr('disabled', false);
+								$('#form_member input[type=text],#form_member select').removeAttr('style');
+								if(result.name01 === void 0){var fname01 = ''}else{var fname01 = result.name01;$('input[name=name01]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								if(result.name02 === void 0){var fname02 = ''}else{var fname02 = result.name02;$('input[name=name02]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								if(result.kana01 === void 0){var fkana01 = ''}else{var fkana01 = result.kana01;$('input[name=kana01]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								if(result.kana02 === void 0){var fkana02 = ''}else{var fkana02 = result.kana02;$('input[name=kana02]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								if(result.zip01  === void 0){var fzip01 = ''}else{var fzip01 = result.zip01;$('input[name=zip01]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								if(result.zip02  === void 0){var fzip02 = ''}else{var fzip02 = result.zip02;$('input[name=zip02]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								if(result.pref   === void 0){var fpref = ''}else{var fpref = result.pref;$('select[name=pref]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								if(result.addr01 === void 0){var faddr01 = ''}else{var faddr01 = result.addr01;$('input[name=addr01]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								if(result.addr02 === void 0){var faddr02 = ''}else{var faddr02 = result.addr02;$('input[name=addr02]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								<!--{if $smarty.const.SMS_REGIST != true}-->
+								if(result.tel01  === void 0){var ftel01 = ''}else{var ftel01 = result.tel01;$('input[name=tel01]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								if(result.tel02  === void 0){var ftel02 = ''}else{var ftel02 = result.tel02;$('input[name=tel02]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								if(result.tel03  === void 0){var ftel03 = ''}else{var ftel03 = result.tel03;$('input[name=tel03]').css('background-color','<!--{$smarty.const.ERR_COLOR}-->')}
+								<!--{/if}-->
+								$('.namebox div.attention').html('<p>'+fname01+fname02+fkana01+fkana02+'</p>');
+								$('.zipbox div.attention').html('<p>'+fzip01+fzip02+'</p>');
+								$('.addrbox div.attention').html('<p>'+fpref+faddr01+faddr02+'</p>');
+								$('.telbox div.attention').html('<p>'+ftel01+ftel02+ftel03+'</p>');
+							}else{
+								alert(result.regist);
+							}
+						}
+				}).fail(
+				function(jqXHR, textStatus, errorThrown){
+					$('.member_regist_btn').attr('disabled', false);
+					alert(jqXHR, textStatus, errorThrown);
+				});
+			}
+		});
+	</script>
+	<!--{/if}-->
+	<!--{/if}-->
+	<!--{if count($cartItems) < 1}-->
+	<div class="n_box">
+		<p class="empty mg_t20">※ カート内に商品がありません。</p>
+		<div class="btn_area">
+			<ul>
+				<li>
+					<a rel="external" href="<!--{$smarty.const.TOP_URL}-->" class="btn_n btn_cart_white"><p>ショップページへ戻る</p></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!--{/if}-->
+	<div style="display:none">
+		<section id="inline_content2" class="default_bloc_vertical">
+			<h1 class="tit_mini_center_border mg_b30">予約販売について</h1>
+			<div id="pop_up_txt">
+			<p class="mg_b15">・購入してからどのくらいで届きますか？<br>
+			サイト上に掲載されている入荷（配送）予定から入荷次第ご注文順のお届けとなります。入荷予定はあくまでも目安として、ご理解ください。<br>
+			※入荷(配送)予定は、変更となる場合もございます。入荷より1ヶ月以上遅れる場合にはメールにてご連絡致します。</p>
+
+			<p class="mg_b15">・届いた商品のデザインが少し違います。<br>
+			予約商品の写真はサンプル品を撮影している為、実際の商品とは仕様や加工、サイズ等が若干異なる場合もございます。予めご了承ください。<br>
+			使用しているパソコンのモニター設定や、携帯電話のメーカー・機種により実際のカラーと異なって見える場合がございます。予めご了承ください。</p>
+
+			<p class="mg_b15">・他の商品がカートに入らないのですが？<br>
+			予約販売対象商品は、入荷時期が同じ商品であれば同時にカートに入れることができます。入荷時期が異なる予約商品は、同時にカートに入れることはできません。<br>
+			※予約商品と通常商品は同時にカートに入れることはできますが、決済が異なります。詳細はカート内に記載をしております。</p>
+			</div>
+		</section>
+	</div>
+</div>
+</section>
+
+<!--{if !$tpl_login}-->
+<section id="login_block" class="default_bloc">
+	<div class="undercolumn_inner">
+		<div class="alignC mg_t40 mg_b40">
+			<p>ご購入の前にログインして下さい。</p>
+		</div>
+		<header class="mg_b20">
+			<h1 class="tit_default_s">ログイン</h1>
+		</header>
+		<div>
+			<form name="header_login_form" id="header_login_form" method="post" action="javascript:;" onsubmit="return ajaxLogin();">
+				<input type="hidden" name="mode" value="login" />
+				<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+				<input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
+				<dl class="form_entry">
+					<dt>メールアドレス</dt>
+					<dd style="padding-bottom: 0;">
+						<input type="email" name="login_email" value="<!--{$tpl_login_email|h}-->" style="ime-mode: disabled;" placeholder="（例）sample@crewre.jp" class="w_full gray_input">
+					</dd>
+					<dt>パスワード</dt>
+					<dd style="padding-bottom: 0;">
+						<input type="password" name="login_pass" placeholder="パスワード" class="w_full gray_input">	
+					</dd>
+				</dl>
+				<p style="font-size: 1.2rem;">
+					<a href="<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->" onclick="eccube.openWindow('<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->','forget','600','400',{scrollbars:'no',resizable:'no'}); return false;" target="_blank" class="u_line">パスワードをお忘れの方はこちら</a>
+				</p>
+				<div class="btn_area">
+					<ul>
+						<li class="mg_b20">
+							<input type="submit" value="log in" class="btn_cart_black mg_b10">
+						</li>
+						<li>
+							<p class="alignC mg_b10">会員登録がお済みでない方はご登録ください。</p>
+							<a href="/entry/kiyaku.php" class="btn_cart_white">新規会員登録</a>
+						</li>
+					</ul>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+<script type="text/javascript">//<![CDATA[
+	function ajaxLogin() {
+        var postData = new Object;
+        postData['<!--{$smarty.const.TRANSACTION_ID_NAME}-->'] = "<!--{$transactionid}-->";
+        postData['mode'] = 'login';
+        postData['login_email'] = $('input[type=email]').val();
+        postData['login_pass'] = $('input[type=password]').val();
+        postData['url'] = $('input[name=url]').val();
+
+        $.ajax({
+            type: "POST",
+            url: "<!--{$smarty.const.HTTPS_URL}-->frontparts/login_check.php",
+            data: postData,
+            cache: false,
+            dataType: "json",
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert(textStatus);
+            },
+            success: function(result){
+                if (result.success) {
+                    location.href = result.success;
+                } else {
+                    alert(result.login_error);
+                }
+            }
+        });
+    }
+//]]></script>
+<!--{/if}-->
+
+<!--▲コンテンツここまで -->

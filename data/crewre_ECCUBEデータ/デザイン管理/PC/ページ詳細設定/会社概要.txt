@@ -1,0 +1,51 @@
+<section id="undercolumn">
+	<div id="undercolumn_entry">
+		<header class="mg_b40">
+			<h1 class="tit_default">
+				<!--{$tpl_title|h}-->
+			</h1>
+		</header>
+		<div id="static" class="privacy">
+			<div class="section">
+				<table class="info_sheet">
+					<tbody>
+						<tr>
+							<th>会社名</th>
+							<td>株式会社MODERN TIMES</td>
+						</tr>
+						<tr>
+							<th>設立</th>
+							<td> 2017年4月</td>
+						</tr>
+						<tr>
+							<th>代表取締役</th>
+							<td>
+								古賀 玄治
+							</td>
+						</tr>
+						<tr>
+							<th>会社住所</th>
+							<td>
+								〒153-0064<br>
+								東京都目黒区下目黒1-8-1 アルコタワー17F
+							</td>
+						</tr>
+						<tr>
+							<th>代表電話</th>
+							<td>
+								03-6805-0788
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="cart_btn_area mg_t30">
+				<ul>
+					<li>
+						<a href="<!--{$smarty.const.TOP_URL}-->" class="btn_gray_norm w_half">TOP PAGE</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>

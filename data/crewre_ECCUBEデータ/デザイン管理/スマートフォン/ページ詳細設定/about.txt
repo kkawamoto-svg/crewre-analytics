@@ -1,0 +1,30 @@
+<!--{if $adminDateDisp|strtotime <= "2024-02-21 21:00:00"|strtotime}-->
+<div id="about_block">
+    <ul>
+        <li><img src="<!--{$TPL_URLPATH}-->images/img_about_01.svg?v=1" alt="" class="lazyload fade_in"></li>
+        <li><img src="<!--{$TPL_URLPATH}-->images/img_about_02.png?v=1" alt="" class="lazyload fade_in"></li>
+        <li><img src="<!--{$TPL_URLPATH}-->images/img_about_03.png?v=1" alt="" class="lazyload fade_in"></li>
+        <li><img src="<!--{$TPL_URLPATH}-->images/img_about_04.png?v=1" alt="" class="lazyload fade_in"></li>
+        <li><img src="<!--{$TPL_URLPATH}-->images/img_about_05.png?v=1" alt="" class="lazyload fade_in"></li>
+    </ul>
+</div>
+<style>
+    #about_block {
+        padding-top: 40px;
+    }
+    img {
+        vertical-align: bottom;
+    }
+    #about_block li {
+        position: relative;
+    }
+</style>
+<!--{else}-->
+<div id="about_block">
+    <ul>
+        <li style="margin-bottom: 70px;"><img src="<!--{$TPL_URLPATH}-->images/img_about_01_20230214.jpg" alt="" class="lazyload fade_in"></li>
+        <li style="margin-bottom: 70px;"><img src="<!--{$TPL_URLPATH}-->images/img_about_02_20230214.jpg" alt="" class="lazyload fade_in"></li>
+        <li style="margin-bottom: 70px;"><img src="<!--{$TPL_URLPATH}-->images/img_about_03_20230214.jpg" alt="" class="lazyload fade_in"></li>
+    </ul>
+</div>
+<!--{/if}-->

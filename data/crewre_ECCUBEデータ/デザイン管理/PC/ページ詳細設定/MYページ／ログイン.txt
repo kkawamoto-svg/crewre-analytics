@@ -1,0 +1,33 @@
+<section>
+	<header class="mg_b40"><h1 class="tit_default_s">ログイン</h1></header>
+	<div id="block_login">
+		<section>
+			<h2 class="tit_bg_gray_edit">ログイン</h2>
+			<div class="block_login_inner">
+				<form name="login_mypage" class="inner_box" id="login_mypage" method="post" action="<!--{$smarty.const.HTTPS_URL}-->frontparts/login_check.php" onsubmit="return eccube.checkLoginFormInputted('login_mypage')">
+					<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+					<input type="hidden" name="mode" value="login" />
+					<input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
+					<div id="block_login_form">
+						<ul>
+							<!--{assign var=key value="login_email"}-->
+							<li><input class="gray_input" type="text" name="<!--{$key}-->" value="<!--{$tpl_login_email|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->; ime-mode: disabled;" placeholder="（例）sample@crewre.jp"></li>
+							<!--{assign var=key value="login_pass"}-->
+							<li><input type="password" name="<!--{$key}-->" class="gray_input" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" placeholder="password"></li>
+							<li><input class="btn_gray_norm bghover" type="submit" value="log in"></li>
+							<li><a href="<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->" onclick="eccube.openWindow('<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->','forget','600','400',{scrollbars:'no',resizable:'no'}); return false;" target="_blank" class="u_line">パスワードをお忘れの方はこちら</a></li>
+						</ul>
+					</div>
+				</form>
+			</div>
+		</section>
+		<section id="entry_area">
+			<h2 class="tit_bg_gray_edit">会員登録</h2>
+			<div class="block_login_inner">
+			<p class="logintext">会員登録を行っていただくと、すぐにパスワードが取得できます。<br>
+	パスワードを取得すると、お買い物、その他のサービスをより便利にご利用いただけます。 </p>
+			<p class="login_btn2"><a href="/entry/kiyaku.php" class="btn_lgray_norm bghover">会員登録</a></p>
+			</div>
+		</section>
+	</div>
+</section>

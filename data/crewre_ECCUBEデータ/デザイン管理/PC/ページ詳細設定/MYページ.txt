@@ -1,0 +1,248 @@
+<!--{*
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+*}-->
+<script type="text/javascript">//<![CDATA[
+	var setParamSubmitDetail = function(product_class_id,classcategory_id1,classcategory_id2,plan_price,product_type_id) {
+        document.form0.product_class_id.value = product_class_id;
+		document.form0.classcategory_id1.value = classcategory_id1;
+		document.form0.classcategory_id2.value = classcategory_id2;
+        document.form0.submit();
+    };
+	
+	$(document).ready(function (){
+		$(".iframe").colorbox({iframe:true, width:"770px", height:"80%"});
+	});
+
+//]]></script>
+<section id="mypage_block">
+	<header>
+		<h2 class="tit_default">my page</h2>
+	</header>
+	<div id="mypagecolumn">
+		<!--{if $tpl_navi != ""}-->
+			<!--{include file=$tpl_navi}-->
+		<!--{else}-->
+			<!--{include file=`$smarty.const.TEMPLATE_REALDIR`mypage/navi.tpl}-->
+		<!--{/if}-->
+		<div id="mycontents_area">
+			<div id="mypage_top" class="default_bloc">
+				<!--{if $CustomerName1 != "" AND $CustomerName2 != ""}-->
+				<p id="mypage_top_name">
+					<!--{$CustomerName1|h}--> <!--{$CustomerName2|h}--><span>様</span>
+				</p>
+				<ul id="mypage_top_point">
+					<li>ご利用可能ポイント：</li>
+					<li><!--{$CustomerTotalPoint|n2s|default:"0"|h}--><span>ポイント</span></li>
+				</ul>
+				<div id="mypage_top_reserve_point">
+					<p><strong>実ポイント：<!--{$estimatePoint}--> pt</strong><br>
+					※実ポイントは商品発送1ヶ月後にご利用可能ポイントとなります。</p>
+				</div>
+				<ul class="mypage_btn_double">
+					<li>
+						<a href="/mypage/change.php">会員情報の変更</a>
+					</li>
+					<li>
+						<a href="/mypage/change_card.php">カード情報の編集</a>
+					</li>
+				</ul>
+				<!--{else}-->
+				<div class="btn_area">
+					<ul>
+						<li>
+							<a rel="external" href="/mypage/change.php" class="btn_n btn_gray"><p>会員情報の変更</p></a>
+						</li>
+					</ul>
+				</div>
+				<!--{/if}-->
+			</div>
+			<!--{if $objNavi->now_page < 2 && $arrFavorite != ""}-->
+			<div class="mg_t40">
+				<form name="form0" id="form0" method="post" action="?">
+					<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+					<input type="hidden" name="order_id" value="" />
+					<input type="hidden" name="mode" value="cart" />
+					<input type="hidden" name="product_class_id" value="" />
+					<input type="hidden" name="classcategory_id1" value="" />
+					<input type="hidden" name="classcategory_id2" value="" />
+					<div class="tit_bg_gray flex_between">
+						<h3>最新のお気に入り一覧</h3>
+					</div>
+					<table summary="お気に入り" class="mypage_table mg_b40">
+						<col width="20%" />
+						<col width="45%" />
+						<col width="20%" />
+						<tr class="th_white">
+							<th class="alignC">商品画像</th>
+							<th class="alignC">商品名</th>
+							<th class="alignC"><!--{$smarty.const.SALE_PRICE_TITLE}-->(税込)</th>
+						</tr>
+
+						<!--{section name=cnt loop=$arrFavorite}-->
+							<!--{assign var=product_id value="`$arrFavorite[cnt].product_id`"}-->
+							<!--{assign var=product_class_id value="`$arrFavorite[cnt].product_class_id`"}-->
+							<tr>
+								<td class="alignC">
+									<a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$product_id|u}-->">
+										<img src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$arrFavorite[cnt].c_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65px;" alt="<!--{$arrFavorite[cnt].name|h}-->" /></a>
+								</td>
+								<td class="favorute_block">
+									<div>
+										<p><a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$product_id|u}-->">
+										<!--{$arrFavorite[cnt].name|h}--></a></p>
+										<p>
+											カラー：<!--{$arrFavorite[cnt].c_name|h}--><br>
+											サイズ：<!--{$arrFavorite[cnt].s_name|h}-->
+										</p>
+									</div>
+									<div class="mg_t10">
+									<!--{if $customer_rank == 1 && $arrFavorite[cnt].status == 5 && $arrFavorite[cnt].stock > 0}-->
+										<a class="btn_gray" href="javascript:void" onclick="setParamSubmitDetail(<!--{$arrFavorite[cnt].product_class_id}-->,<!--{$arrFavorite[cnt].classcategory_id1}-->,<!--{$arrFavorite[cnt].classcategory_id2}-->)">
+											add to cart
+										</a>
+									<!--{elseif $arrFavorite[cnt].plan_status == 1}-->
+										<a class="iframe btn_gray" href="/products/products_mail.php?page=/products/detail.php?product_id=<!--{$arrFavorite[cnt].product_id}-->&product_class_id=<!--{$arrFavorite[cnt].product_class_id}-->&form_mode=arrival">
+											入荷お知らせメール
+										</a>
+									<!--{elseif $arrFavorite[cnt].plan_status == 2 || $arrFavorite[cnt].plan_status == 3 || $arrFavorite[cnt].plan_status == 4 || $arrFavorite[cnt].plan_status == 5 || $arrFavorite[cnt].plan_status == 6 || $arrFavorite[cnt].plan_status == NULL}-->
+										<!--{if $arrFavorite[cnt].stock > 0 && $arrFavorite[cnt].plan_status == 2}-->
+											<a class="btn_gray" href="javascript:void" onclick="setParamSubmitDetail(<!--{$arrFavorite[cnt].product_class_id}-->,<!--{$arrFavorite[cnt].classcategory_id1}-->,<!--{$arrFavorite[cnt].classcategory_id2}-->)">
+												予約する
+											</a>
+										<!--{elseif $arrFavorite[cnt].stock > 0 && $arrFavorite[cnt].plan_status != 2}-->
+											<a class="btn_gray" href="javascript:void" onclick="setParamSubmitDetail(<!--{$arrFavorite[cnt].product_class_id}-->,<!--{$arrFavorite[cnt].classcategory_id1}-->,<!--{$arrFavorite[cnt].classcategory_id2}-->)">
+												add to cart
+											</a>
+										<!--{else}-->
+											<a class="iframe btn_gray" href="/products/products_mail.php?page=/products/detail.php?product_id=<!--{$arrFavorite[cnt].product_id}-->&product_class_id=<!--{$arrFavorite[cnt].product_class_id}-->&form_mode=rearrival">
+												再入荷お知らせメール
+											</a>
+										<!--{/if}-->
+									<!--{elseif $arrFavorite[cnt].plan_status == 7}-->
+										<a class="btn_gray" href="javascript:void(0)">販売終了</a>
+									<!--{/if}-->
+									</div>
+
+								</td>
+								<td class="alignR sale_price">
+									<span class="price"><!--{$arrFavorite[cnt].price02|n2s}-->円</span>
+								</td>
+							</tr>
+						<!--{/section}-->
+					</table>
+				</form>
+				<div class="cart_btn_area">
+					<ul>
+						<li><a href="/mypage/favorite.php<!--{if $isAdminLogin}-->?admin=on<!--{if count($adminDate)>0}-->&admin_date=<!--{$adminDate}--><!--{/if}--><!--{/if}-->" class="btn_gray_norm_mini w_half">全てのお気に入りを見る</a></li>
+					</ul>
+				</div>
+			</div>
+			<!--{/if}-->
+			
+			<form name="form1" id="form1" method="post" action="?">
+				<input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+				<input type="hidden" name="order_id" value="" />
+				<input type="hidden" name="pageno" value="<!--{$objNavi->now_page}-->" />
+				<div class="tit_bg_gray flex_between mg_t40">
+					<h3><!--{$tpl_subtitle|h}--></h3>
+					<p><span class="attention"><!--{$objNavi->all_row}-->件</span>の購入履歴があります。</p>
+				</div>				
+				<!--{if $objNavi->all_row > 0}-->
+					<table summary="購入履歴" class="mypage_table">
+						<tr class="th_white">
+							<th class="alignC">購入日時</th>
+							<th class="alignC">お支払い方法</th>
+							<th class="alignC">ポイント</th>
+							<th class="alignC">合計金額</th>
+							<!--{if $smarty.const.MYPAGE_ORDER_STATUS_DISP_FLAG }-->
+							<th class="alignC">ご注文状況</th>
+							<!--{/if}-->
+							<th class="alignC">詳細</th>
+						</tr>
+						<!--{section name=cnt loop=$arrOrder}-->
+							<tr>
+								<td><!--{$arrOrder[cnt].create_date|sfDispDBDate}--><br>
+									注文番号：<strong><!--{$arrOrder[cnt].order_id}--></strong><br>
+								<!--{if $arrOrder[cnt].deliv_plan != ""}-->発送予定：<!--{$arrOrder[cnt].deliv_plan}--><!--{else}-->発送予定：順次発送<!--{/if}--></td>
+								<!--{assign var=payment_id value="`$arrOrder[cnt].payment_id`"}-->
+								<td class="alignC"><!--{$arrPayment[$payment_id]|h}--></td>
+								<td>
+									使用ポイント：<!--{$arrOrder[cnt].use_point}-->pt<br>
+								獲得ポイント：<!--{if $arrOrder[cnt].status == ORDER_DELIV_FINISHED ||  $arrOrder[cnt].status == ORDER_RETURN_FINISHED || $arrOrder[cnt].status == ORDER_CHANGE_FINISHED}-->
+									<!--{$arrOrder[cnt].add_point}-->pt（獲得済）
+								<!--{elseif $arrOrder[cnt].status == ORDER_HUZAI || $arrOrder[cnt].status == ORDER_CANCEL || $arrOrder[cnt].status == ORDER_ALL_RETURN || $arrOrder[cnt].status == ORDER_RETURN_FINISHED}-->
+									<strike><!--{$arrOrder[cnt].add_point}--></strike>pt（取消し）
+								<!--{else}-->
+									<!--{$arrOrder[cnt].add_point}-->pt（獲得予定）
+								<!--{/if}-->
+								</td>
+								<td class="alignR"><!--{$arrOrder[cnt].payment_total|n2s}-->円</td>
+
+								<!--{if $smarty.const.MYPAGE_ORDER_STATUS_DISP_FLAG }-->
+									<!--{assign var=order_status_id value="`$arrOrder[cnt].status`"}-->
+									<!--{if $order_status_id != $smarty.const.ORDER_PENDING }-->
+									<td class="alignC"><!--{$arrCustomerOrderStatus[$order_status_id]|h}--></td>
+									<!--{else}-->
+									<td class="alignC attention"><!--{$arrCustomerOrderStatus[$order_status_id]|h}--></td>
+									<!--{/if}-->
+								<!--{/if}-->
+								<td class="alignC"><a href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/history.php?order_id=<!--{$arrOrder[cnt].order_id}-->">詳細</a></td>
+							</tr>
+						<!--{/section}-->
+					</table>
+					<!--{if $objNavi->strnavi !=""}-->
+					<!--{if $tpl_nowPage == 1 && $tpl_maxPage == 1}-->
+					<!--{else}-->
+					<div class="paging">
+						<!--▼ページナビ-->
+						<!--{$objNavi->strnavi}-->
+						<!--▲ページナビ-->
+					</div>
+					<!--{/if}-->
+					<!--{/if}-->
+				<!--{else}-->
+					<p>購入履歴はありません。</p>
+				<!--{/if}-->
+
+				<!--{if count($arrSpecialPoint) > 0}-->
+				<h2 class="tit_bg_gray mg_t30">特別付与ポイント履歴</h2>
+				<table class="list">
+					<tr class="th_white">
+						<th>日付</th>
+						<th>ステータス</th>
+						<th>付与ポイント</th>
+					</tr>
+					<!--{foreach item=pointHistory name=pointHistory from=$arrSpecialPoint}-->
+					<tr>
+						<td><!--{$pointHistory.create_date|date_format:"%Y/%m/%d"}--></td>
+						<!--{assign var=pointStatus value="`$pointHistory.point_status`"}-->
+						<td><!--{$arrPointStatus[$pointStatus]|h}--></td>
+						<td><!--{$pointHistory.point}-->pt</td>
+					</tr>
+					<!--{/foreach}-->
+				</table>
+				<!--{/if}-->
+			</form>
+		</div>
+	</div>
+</section>

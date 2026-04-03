@@ -1,0 +1,79 @@
+<!--{*
+ * Copyright(c) 2012 GMO Payment Gateway, Inc. All rights reserved.
+ * http://www.gmo-pg.com/
+ * Updated: 2012/07/30
+ *}-->
+<script type="text/javascript">//<![CDATA[
+var send = true;
+
+function fnCheckSubmit(mode) {
+    $('#payment_form_body').slideToggle();
+    $('#payment_form_loading').slideToggle();
+
+    if(send) {
+        send = false;
+        fnModeSubmit(mode,'','');
+        return false;
+    } else {
+        alert("只今、処理中です。しばらくお待ち下さい。");
+        return false;
+    }
+}
+
+//]]>
+</script>
+
+        <section id="payment_form_loading" style="<!--{if !$tpl_is_loding}-->display:none;<!--{/if}-->">
+            <div class="information end">
+                <p>決済処理中です。しばらくお待ち下さい。</p>
+            </div>
+            <div class="bubbleBox hot">
+                <div class="bubble_announce clearfix">
+                    <img src="<!--{$smarty.const.MDL_PG_MULPAY_MEDIAFILE_URL}-->loading.gif" />
+                </div>
+            </div>
+        </section>
+
+        <section id="payment_form_body" style="<!--{if $tpl_is_loding}-->display:none;<!--{/if}-->">
+            <!--{assign var=key1 value="payment"}-->
+            <!--{assign var=key2 value="conveni"}-->
+            <!--{assign var=key3 value="Convenience"}-->
+            <!--{if $arrErr[$key1] != "" OR $arrErr[$key2] != "" OR $arrErr[$key3] != ""}-->
+            <div class="information end">
+                <p class="attention"><!--{$arrErr[$key1]}--><!--{$arrErr[$key2]}--><!--{$arrErr[$key3]}--></p>
+            </div>
+            <!--{/if}-->
+                <h3 class="subtitle payment_subtit">お支払いをするコンビニの種類</h3>
+                <ul class="form_entry payment_card_list">
+
+                <!--{assign var=key value="Convenience"}-->
+                <!--{foreach from=$arrPaymentInfo.conveni item=data key=id name=cvsloop}-->
+                    <li>
+                        <input class="radio_btn data-role-none" type="radio" id="cvs_id_<!--{$data|h}-->" name="<!--{$key}-->" value="<!--{$data|h}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" <!--{$data|sfGetChecked:$arrForm[$key].value}--> />
+                        <label for="cvs_id_<!--{$data|h}-->"><!--{$arrCONVENI[$data]|h}--></label>
+                    </li>
+                <!--{/foreach}-->
+                </ul>
+
+
+            <div class="btn_area">
+                <ul class="btn_btm">
+
+                        <li class="mg_b10">
+                        <!--{if $tpl_btn_next}-->
+                            <a rel="external" href="javascript:void(fnCheckSubmit('next'));" class="btn_n btn_cart_black"/>ご注文完了ページへ</a>
+                        <!--{else}-->
+                            <a rel="external" href="javascript:void(fnCheckSubmit('next'));" class="btn_n btn_cart_black"/>ご注文完了ページへ</a>
+                        <!--{/if}-->
+                        </li>
+
+                        <!--{if !$tpl_btn_next}-->
+                        <li>
+                            <a rel="external" href="javascript:void(fnCheckSubmit('return'));" class="btn_n btn_cart_white"/>戻る</a>
+                        </li>
+                        <!--{/if}-->
+                </ul>
+            </div>
+
+       </section><!--{* /payment_form_body *}-->
+

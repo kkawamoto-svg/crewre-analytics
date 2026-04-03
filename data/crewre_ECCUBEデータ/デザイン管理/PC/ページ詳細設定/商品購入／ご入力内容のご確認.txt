@@ -1,0 +1,279 @@
+<!--{*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *}-->
+
+<script type="text/javascript">//<![CDATA[
+    var sent = false;
+
+    function fnCheckSubmit() {
+        if (sent) {
+            alert("只今、処理中です。しばらくお待ち下さい。");
+            return false;
+        }
+        sent = true;
+        return true;
+    }
+//]]></script>
+
+<!--CONTENTS-->
+<section id="undercolumn">
+    <div id="undercolumn_shopping">
+		<header class="mg_b40">
+			<h1 class="tit_default">入力内容のご確認</h1>
+		</header>
+		<div id="cart_flow" class="cart_flow1">
+			<ul>
+				<li class="cart_active_line"><span class="flow_active_icon"></span></li>
+				<li><span class="flow_active_icon"></span></li>
+				<li><span></span><span></span></li>
+			</ul>
+		</div>
+
+        <p class="information mg_b30">下記ご注文内容で送信してもよろしいでしょうか？<br />
+            よろしければ、「<!--{if $use_module}-->次へ<!--{else}-->ご注文完了ページへ<!--{/if}-->」ボタンをクリックしてください。</p>
+
+        <form name="form1" id="form1" method="post" action="?">
+            <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
+            <input type="hidden" name="mode" value="confirm" />
+            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->" />
+
+            <table summary="ご注文内容確認">
+                <col width="10%" />
+                <col width="40%" />
+                <col width="20%" />
+                <col width="10%" />
+                <col width="20%" />
+                <tr>
+                    <th scope="col">商品写真</th>
+                    <th scope="col">商品名</th>
+                    <th scope="col">単価</th>
+                    <th scope="col">数量</th>
+                    <th scope="col">小計</th>
+                </tr>
+                <!--{foreach from=$arrCartItems item=item}-->
+                    <tr>
+                        <td class="alignC">
+                            <a
+                                <!--{if $item.productsClass.main_image|strlen >= 1}--> href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$item.productsClass.main_image|sfNoImageMainList|h}-->" class="expansion" target="_blank"
+                                <!--{/if}-->
+                            >
+                                <img src="<!--{$smarty.const.IMAGE_SAVE_S3_URL}--><!--{$item.productsClass.c_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65px;" alt="<!--{$item.productsClass.name|h}-->" /></a>
+                        </td>
+                        <td>
+                            <ul>
+                                <li><strong><!--{$item.productsClass.name|h}--></strong></li>
+                                <!--{if $item.productsClass.classcategory_name1 != ""}-->
+                                <li><!--{$item.productsClass.class_name1|h}-->：<!--{$item.productsClass.classcategory_name1|h}--></li>
+                                <!--{/if}-->
+                                <!--{if $item.productsClass.classcategory_name2 != ""}-->
+                                <li><!--{$item.productsClass.class_name2|h}-->：<!--{$item.productsClass.classcategory_name2|h}--></li>
+                                <!--{/if}-->
+                            </ul>
+                        </td>
+                        <td class="alignR">
+                            <!--{$item.price_inctax|n2s}-->円
+                        </td>
+                        <td class="alignR"><!--{$item.quantity|n2s}--></td>
+                        <td class="alignR"><!--{$item.total_inctax|n2s}-->円</td>
+                    </tr>
+                <!--{/foreach}-->
+                <tr>
+                    <th colspan="4" class="alignR" scope="row">小計</th>
+                    <td class="alignR thin"><!--{$tpl_total_inctax[$cartKey]|n2s}-->円</td>
+                </tr>
+                <!--{if $smarty.const.USE_POINT !== false}-->
+                    <!--{if $arrForm.use_point > 0}-->
+                    <tr>
+                        <th colspan="4" class="alignR" scope="row">値引き（ポイントご使用時）</th>
+                        <td class="alignR thin">
+                            <!--{assign var=discount value=`$arrForm.use_point*$smarty.const.POINT_VALUE`}-->
+                            -<!--{$discount|n2s|default:0}-->円</td>
+                    </tr>
+                    <!--{/if}-->
+                <!--{/if}-->
+                <!--{if $arrForm.coupon_check != "" && $arrForm.coupon_check != "0" && $arrForm.coupon_discount_price > 0 && $smarty.const.USE_COUPON == true}-->
+                <tr>
+                    <th colspan="4" class="alignR" scope="row">クーポン利用</th>
+                    <td class="alignR thin">-<!--{$arrForm.coupon_discount_price|number_format}-->円</td>
+                </tr>
+                <!--{/if}-->
+                <tr>
+                    <th colspan="4" class="alignR" scope="row">送料</th>
+                    <td class="alignR thin"><!--{$arrForm.deliv_fee|n2s}-->円</td>
+                </tr>
+                <tr>
+                    <th colspan="4" class="alignR" scope="row">手数料</th>
+                    <td class="alignR thin"><!--{$arrForm.charge|n2s}-->円</td>
+                </tr>
+                <tr>
+                    <th colspan="4" class="alignR" scope="row">合計</th>
+                    <td class="alignR thin"><span class="price"><!--{$arrForm.payment_total|n2s}-->円</span></td>
+                </tr>
+            </table>
+
+            <!--{* ログイン済みの会員のみ *}-->
+            <!--{if $tpl_login == 1 && $smarty.const.USE_POINT !== false}-->
+                <table summary="ポイント確認" class="delivname">
+                <col width="30%" />
+                <col width="70%" />
+                    <tr>
+                        <th scope="row">ご注文前のポイント</th>
+                        <td class="thin"><!--{$tpl_user_point|n2s|default:0}-->Pt</td>
+                    </tr>
+                    <!--{if $arrForm.birth_point > 0}-->
+                    <tr>
+                        <th scope="row">お誕生月ポイント</th>
+                        <td class="thin">+<!--{$arrForm.birth_point|n2s|default:0}-->Pt</td>
+                    </tr>
+                    <!--{/if}-->
+                    <tr>
+                        <th scope="row">獲得予定ポイント</th>
+                        <td class="thin">+<!--{$arrForm.add_point|n2s|default:0}-->Pt<br>
+						※ポイントの付与は、商品配送後1ヵ月になります。</td>
+                    </tr>
+                </table>
+            <!--{/if}-->
+            <!--{* ログイン済みの会員のみ *}-->
+
+            <!--{* ▼注文者 *}-->
+			<div class="subbox">
+				<h3 class="subbox_tit">ご注文者</h3>
+				<div class="subbox_inner">
+					<p>
+						〒<!--{$arrForm.order_zip01|h}-->-<!--{$arrForm.order_zip02|h}--><br>
+						<!--{$arrPref[$arrForm.order_pref]}--><!--{$arrForm.order_addr01|h}--><!--{$arrForm.order_addr02|h}--><br>
+						<!--{$arrForm.order_name01|h}--> <!--{$arrForm.order_name02|h}--> 様<br>
+						<!--{$arrForm.order_tel01}-->-<!--{$arrForm.order_tel02}-->-<!--{$arrForm.order_tel03}--> / <!--{$arrForm.order_email|h}-->
+					</p>
+				</div>
+			</div>
+			
+			<div class="subbox mg_t40">
+				<!--{foreach item=shippingItem from=$arrShipping name=shippingItem}-->
+				<h3 class="subbox_tit">お届け先<!--{if $is_multiple}--><!--{$smarty.foreach.shippingItem.iteration}--><!--{/if}--></h3>
+				<!--{if $is_multiple}-->
+                    <table summary="ご注文内容確認">
+                        <col width="10%" />
+                        <col width="60%" />
+                        <col width="20%" />
+                        <col width="10%" />
+                        <tr>
+                            <th scope="col">商品写真</th>
+                            <th scope="col">商品名</th>
+                            <th scope="col">数量</th>
+                            <th scope="col">小計</th>
+                        </tr>
+                        <!--{foreach item=item from=$shippingItem.shipment_item}-->
+                            <tr>
+                                <td class="alignC">
+                                    <a
+                                        <!--{if $item.productsClass.main_image|strlen >= 1}--> href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$item.productsClass.main_image|sfNoImageMainList|h}-->" class="expansion" target="_blank"
+                                        <!--{/if}-->
+                                    >
+                                        <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$item.productsClass.main_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65px;" alt="<!--{$item.productsClass.name|h}-->" /></a>
+                                </td>
+                                <td><!--{* 商品名 *}--><strong><!--{$item.productsClass.name|h}--></strong><br />
+                                    <!--{if $item.productsClass.classcategory_name1 != ""}-->
+                                        <!--{$item.productsClass.class_name1}-->：<!--{$item.productsClass.classcategory_name1}--><br />
+                                    <!--{/if}-->
+                                    <!--{if $item.productsClass.classcategory_name2 != ""}-->
+                                        <!--{$item.productsClass.class_name2}-->：<!--{$item.productsClass.classcategory_name2}-->
+                                    <!--{/if}-->
+                                </td>
+                                <td class="alignC"><!--{$item.quantity}--></td>
+                                <td class="alignR">
+                                    <!--{$item.total_inctax|n2s}-->円
+                                </td>
+                            </tr>
+                        <!--{/foreach}-->
+                    </table>
+                <!--{/if}-->
+				<div class="subbox_inner">
+					<p>
+						〒<!--{$shippingItem.shipping_zip01|h}-->-<!--{$shippingItem.shipping_zip02|h}--><br>
+						<!--{$arrPref[$shippingItem.shipping_pref]}--><!--{$shippingItem.shipping_addr01|h}--><!--{$shippingItem.shipping_addr02|h}--><br>
+						<!--{$shippingItem.shipping_name01|h}--> <!--{$shippingItem.shipping_name02|h}--> 様<br>
+						<!--{$shippingItem.shipping_tel01}-->-<!--{$shippingItem.shipping_tel02}-->-<!--{$shippingItem.shipping_tel03}-->
+					</p>
+				</div>
+				<h3 class="subbox_tit mg_t40">配達希望指定<!--{if $is_multiple}--><!--{$smarty.foreach.shippingItem.iteration}--><!--{/if}--></h3>
+				<!--{if $cartKey != $smarty.const.PRODUCT_TYPE_DOWNLOAD}-->
+				<div class="subbox_inner">
+					<p>
+						配送希望日：<!--{$shippingItem.shipping_date|default:"最短"|h}--><br>
+                        配送希望時間：<!--{$shippingItem.shipping_time|default:"指定なし"|h}--><br>
+						※予約商品の場合はご指定できません。
+					</p>
+				</div>
+				<!--{/if}-->
+				<!--{/foreach}-->
+			</div>
+			
+			<div class="subbox mg_t40">
+				<h3 class="subbox_tit">配送方法・お支払方法</h3>
+				<div class="subbox_inner">
+					<p>
+						配送方法：<!--{$arrDeliv[$arrForm.deliv_id]|h}--><br>
+						<!--{if $arrForm.deliv_plan != ""}-->発送予定日：<!--{$arrForm.deliv_plan|h}--><br><!--{/if}-->
+						お支払方法：<!--{$arrForm.payment_method|h}--> <!--{if $arrForm.charge != 0}--> / <span>※手数料 ：<!--{$arrForm.charge|n2s}--> 円</span><!--{/if}-->
+					</p>
+				</div>
+			</div>
+			
+            <div class="cart_btn_area mg_t60">
+                <ul>
+					<!--{if $isAdminLogin == true}-->
+                    <li>
+                        <a href="/cart/?admin=on&admin_date=<!--{$adminDate}-->" class="btn_white_norm w_half">戻る</a>
+                    </li>
+					<!--{else}-->
+					<li>
+                        <a href="/cart/" class="btn_white_norm w_half">戻る</a>
+                    </li>
+					<!--{/if}-->
+                    <!--{if $use_module}-->
+                    <!--{if $arrForm.payment_id == 6}-->
+					<li>
+                        <input type="submit" onclick="return fnCheckSubmit();" value="注文を確定する" name="next" id="next" class="btn_gray_norm w_half">
+                    </li>
+					<!--{elseif $arrForm.payment_id == 5}-->
+					<li>
+                        <input type="submit" onclick="return fnCheckSubmit();" value="お支払い情報の入力へ" name="next" id="next" class="btn_gray_norm w_half">
+                    </li>
+					<!--{elseif $arrForm.payment_id == 7}-->
+					<li>
+                        <input type="submit" onclick="return fnCheckSubmit();" value="お支払い情報の入力へ" name="next" id="next" class="btn_gray_norm w_half">
+                    </li>
+					<!--{else}-->
+					<li>
+                        <input type="submit" onclick="return fnCheckSubmit();" value="お支払い情報の入力へ" name="next" id="next" class="btn_gray_norm w_half">
+                    </li>
+					<!--{/if}-->
+                    <!--{else}-->
+                    <li>
+						<input type="submit" onclick="return fnCheckSubmit();" value="注文を確定する" name="next" id="next" class="btn_gray_norm w_half bghover">
+                    </li>
+                    <!--{/if}-->
+                </ul>
+            </div>
+        </form>
+    </div>
+</section>

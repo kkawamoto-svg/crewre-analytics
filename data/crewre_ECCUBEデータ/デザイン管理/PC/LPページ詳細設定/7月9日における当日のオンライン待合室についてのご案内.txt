@@ -1,0 +1,43 @@
+<section class="lp_default">
+	<header>
+		<img data-src="/user_data/lp/images/news/news20250628.png" src="" class="fade_in lazyload">
+		<div class="default_bloc lp_mg_tb_default">
+			<h1 class="lp_default_tit">【7月9日販売における当日のオンライン待合室についてのご案内】</h1>
+            <p><font>
+                平素よりcrewreをご愛顧いただき誠にありがとうございます。<br>
+                次回販売に際しまして、下記のとおりご案内申し上げます。<br>
+                <br><br>
+
+
+                <b>1.前回販売での不具合についてのお詫び</b><br>
+                 　2025年5月17日に発生いたしましたシステム不具合により、一部のお客様が決済途中で待合室に戻される事象が確認されました。<br>ご不便・ご迷惑をお掛けしましたこと、改めて深くお詫び申し上げます。<br><br>
+                <b>2.オンライン待合室を導入いたします</b><br>
+                 　新作リリース時のアクセス集中を緩和し、すべてのお客様に公平かつスムーズにお買い物をお楽しみいただくため、販売開始前後は「オンライン待合室」へ自動的にご案内いたします。<br>順番が来ましたら画面が切り替わり、購入ページへお進みいただけますので、そのままお待ちくださいませ。<br><br>
+
+<center><img alt="crewre summer collection" src="https://crewre.jp/user_data/lp/images/banner/待機室フロー.jpg" style="max-width: 100%" /></center>
+<br>
+               ご不明点につきましてはshopping guideをご参考にください。<br><br>
+            <p class="alignC">
+                <a href="https://crewre.jp/user_data/shopping_guide.php" class="btn_black w_full"><b>shopping guideはこちらから</b></a>
+			</p><br>
+
+                <b>3.システム改善と再テストの完了</b><br>
+                 　不具合の原因を特定し、ロジック改修・負荷分散設定の最適化・多段階テストを実施いたしました。<br>現在は再現テストにおいて問題が解消されていることを確認しております。<br><br>
+                <b>お客様へのお願い</b><br>
+                ブラウザの Cookie と JavaScript を有効にした通常モードでご利用ください。<br>
+                待合室画面ではブラウザを閉じたり再読み込みをされますと、順番が無効になる場合がございます。<br>操作をせずそのままお待ちいただけますと幸いです。<br><br>
+
+                今後とも快適にお買い物いただける環境づくりに努めてまいりますので、何卒ご理解・ご協力賜りますようお願い申し上げます。<br>
+                </font></p>
+			<br><br>
+
+		</div>
+	</header>
+	<div>
+		<div class="default_bloc lp_mg_tb_default">
+			<p class="alignC">
+				<a href="/" class="btn_white w_full">top page</a>
+			</p>
+		</div>
+	</div>
+</section>

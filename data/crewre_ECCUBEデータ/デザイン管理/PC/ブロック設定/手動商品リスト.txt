@@ -1,0 +1,92 @@
+<section id="manual_list">
+    <header class="tit_default_center">
+        <!--タイトル-->
+        <h1>OUR RECOMMEND</h1>
+        <!--タイトル-->
+    </header>
+    <div class="item_list">
+        <ul>
+            <!--商品ここから-->
+            <li><a href="/products/detail.php?product_id=212">
+                    <div class="list_pict">
+                        <!--画像ここから（画像パスはdata-srcに記述。srcはそのままでOKです）-->
+                        <div><img
+                                src="/user_data/packages/default/images/pl.gif"
+                                data-src="https://img.crewre.jp/product/lm22ss04350/detail/lm22ss04350_001_s.jpg"
+                                class="fade_in lazyload">
+                                <!--ComingSoonやSoldOutの画像設定（SoldOutの場合はimg_soldout.png、ComingSoonの場合はimg_coming.pngを使用、使わない場合は削除）ここから-->
+                                <span class="over_img"><img
+                                    data-src="/user_data/packages/default/images/img_soldout.png"
+                                    class="fade_in lazyload"
+                                    src="/user_data/packages/default/images/pl.gif"></span>
+                                <!--ComingSoonやSoldOutの画像設定ここまで-->
+                                </div>
+                        <!--画像ここまで-->
+                    </div>
+                    <p class="mg_t10">LILY YARN KNIT BLOUSON<br><span>¥ 15,400</span></p>
+                </a>
+                <ul class="item_icon">
+                    <li>順次発送商品</li>
+                </ul>
+            </li>
+            <!--商品ここまで-->
+
+            <!--商品ここから-->
+            <li><a href="/products/detail.php?product_id=3">
+                    <div class="list_pict">
+                        <div><img
+                                src="/user_data/packages/default/images/pl.gif"
+                                data-src="https://img.crewre.jp/product/lm19ss07131/detail/lm19ss07131_001_s.jpg"
+                                class="fade_in lazyload"></div>
+                    </div>
+                    <p class="mg_t10">COMBINATION CHAIN NECKLACE<br><span>¥ 4,400</span></p>
+                </a>
+                <ul class="item_icon">
+                    <li>NEW</li>
+                </ul>
+            </li>
+            <!--商品ここまで-->
+
+            <!--商品ここから-->
+            <li><a href="/products/detail.php?product_id=223">
+                    <div class="list_pict">
+                        <div><img
+                                src="/user_data/packages/default/images/pl.gif"
+                                data-src="https://img.crewre.jp/product/lm22ss10384/detail/lm22ss10384_001_s.jpg"
+                                class="fade_in lazyload"></div>
+                    </div>
+                    <p class="mg_t10">SUPIMA VINTAGE STRAIGHT DENIM<br><span>¥ 14,300</span></p>
+                </a>
+                <ul class="item_icon">
+                    <li>順次発送商品</li>
+                </ul>
+            </li>
+            <!--商品ここまで-->
+
+            <!--商品ここから-->
+            <li><a href="/products/detail.php?product_id=182">
+                    <div class="list_pict">
+                        <!--画像ここから（画像パスはdata-srcに記述。srcはそのままでOKです）-->
+                        <div><img
+                                src="/user_data/packages/default/images/pl.gif"
+                                data-src="https://img.crewre.jp/product/lm22ss04350/detail/lm22ss04350_001_s.jpg"
+                                class="fade_in lazyload">
+                                <!--ComingSoonやSoldOutの画像設定（SoldOutの場合はimg_soldout.png、ComingSoonの場合はimg_coming.pngを使用、使わない場合は削除）ここから-->
+                                <span class="over_img"><img
+                                    data-src="/user_data/packages/default/images/img_soldout.png"
+                                    class="fade_in lazyload"
+                                    src="/user_data/packages/default/images/pl.gif"></span>
+                                <!--ComingSoonやSoldOutの画像設定ここまで-->
+                                </div>
+                        <!--画像ここまで-->
+                    </div>
+                    <p class="mg_t10">VAJIRA COMBAT JACKET<br><span>¥ 14,300</span></p>
+                </a>
+                <ul class="item_icon">
+                    <li>順次発送商品</li>
+                </ul>
+            </li>
+            <!--商品ここまで-->
+        </ul>
+    </div>
+</section>
