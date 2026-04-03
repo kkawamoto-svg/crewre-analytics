@@ -289,7 +289,7 @@ elif page == "商品分析":
         return df[["注文日時", "SKU", "商品名", "単価", "個数", "金額", "カラー", "サイズ", "ソース"]]
 
     # ── Shopifyデータ ─────────────────────────────────
-    @st.cache_data(ttl=300)
+    @st.cache_data(ttl=21600)
     def cached_shopify_lines():
         try:
             df = load_shopify_line_items()
@@ -446,7 +446,7 @@ elif page == "Shopify統合":
     st.title("Shopify リアルタイムデータ")
     st.caption("Shopify APIから最新データを取得して表示します")
 
-    @st.cache_data(ttl=300)  # 5分キャッシュ
+    @st.cache_data(ttl=21600)  # 6時間キャッシュ
     def cached_shopify_orders():
         try:
             return load_shopify_orders()
@@ -454,7 +454,7 @@ elif page == "Shopify統合":
             st.error(f"Shopify API接続エラー: {e}")
             return pd.DataFrame()
 
-    @st.cache_data(ttl=300)
+    @st.cache_data(ttl=21600)
     def cached_shopify_customers():
         try:
             return load_shopify_customers()
@@ -462,7 +462,7 @@ elif page == "Shopify統合":
             st.error(f"Shopify顧客API接続エラー: {e}")
             return pd.DataFrame()
 
-    @st.cache_data(ttl=300)
+    @st.cache_data(ttl=21600)
     def cached_shopify_products():
         try:
             return load_shopify_products()
@@ -553,23 +553,23 @@ elif page == "GA4アクセス分析":
     start_str = ga_start.strftime("%Y-%m-%d")
     end_str = ga_end.strftime("%Y-%m-%d")
 
-    @st.cache_data(ttl=300)
+    @st.cache_data(ttl=21600)
     def cached_ga4_daily(s, e):
         return load_ga4_daily(s, e)
 
-    @st.cache_data(ttl=300)
+    @st.cache_data(ttl=21600)
     def cached_ga4_channel(s, e):
         return load_ga4_channel(s, e)
 
-    @st.cache_data(ttl=300)
+    @st.cache_data(ttl=21600)
     def cached_ga4_source_medium(s, e):
         return load_ga4_source_medium(s, e)
 
-    @st.cache_data(ttl=300)
+    @st.cache_data(ttl=21600)
     def cached_ga4_device(s, e):
         return load_ga4_device(s, e)
 
-    @st.cache_data(ttl=300)
+    @st.cache_data(ttl=21600)
     def cached_ga4_landing(s, e):
         return load_ga4_landing_page(s, e)
 
@@ -682,7 +682,7 @@ elif page == "EC-CUBE × Shopify比較":
     eccube_sales = load_sales_by_period()
 
     # Shopifyデータ
-    @st.cache_data(ttl=300)
+    @st.cache_data(ttl=21600)
     def cached_shopify_orders_compare():
         try:
             return load_shopify_orders()
