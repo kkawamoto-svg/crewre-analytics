@@ -11,13 +11,19 @@ SUPABASE_KEY = None  # 実行時に取得
 def _get_supabase():
     """Supabaseクライアントを取得"""
     from supabase import create_client
-    key = SUPABASE_KEY
+    key = SUPABASE_KEY or ""
+    # Streamlit Secretsから取得
     if not key:
         try:
             import streamlit as st
-            key = st.secrets.get("SUPABASE_KEY", os.getenv("SUPABASE_KEY", ""))
+            key = st.secrets["SUPABASE_KEY"]
         except Exception:
-            key = os.getenv("SUPABASE_KEY", "")
+            pass
+    # 環境変数から取得
+    if not key:
+        key = os.getenv("SUPABASE_KEY", "")
+    if not key:
+        raise ValueError("SUPABASE_KEY が設定されていません")
     return create_client(SUPABASE_URL, key)
 
 
