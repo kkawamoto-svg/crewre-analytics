@@ -509,13 +509,12 @@ elif page == "Shopify統合":
             height=500,
         )
 
-    # ── 顧客統計 ──────────────────────────────────────
-    if len(sp_customers) > 0:
-        st.subheader("顧客 購入回数分布")
-        order_dist = sp_customers["注文数"].value_counts().sort_index().reset_index()
-        order_dist.columns = ["購入回数", "人数"]
-        order_dist = order_dist[order_dist["購入回数"] <= 20]
-        fig = px.bar(order_dist, x="購入回数", y="人数", text_auto=True)
+    # ── 都道府県別 ──────────────────────────────────────
+    if len(active_orders) > 0 and "都道府県" in active_orders.columns:
+        st.subheader("都道府県別 注文数 TOP 15")
+        pref = active_orders["都道府県"].value_counts().head(15).reset_index()
+        pref.columns = ["都道府県", "件数"]
+        fig = px.bar(pref, x="都道府県", y="件数", text_auto=True, color_discrete_sequence=["#10B981"])
         fig.update_layout(height=400)
         st.plotly_chart(fig, use_container_width=True)
 
