@@ -46,6 +46,10 @@ from shopify_loader import (
     load_shopify_products,
     load_shopify_line_items,
 )
+from supabase_sync import (
+    load_orders_from_supabase,
+    load_line_items_from_supabase,
+)
 from ga4_loader import (
     load_ga4_daily,
     load_ga4_channel,
@@ -288,16 +292,15 @@ elif page == "商品分析":
         df["サイズ"] = df["商品規格名2"].fillna("")
         return df[["注文日時", "SKU", "商品名", "単価", "個数", "金額", "カラー", "サイズ", "ソース"]]
 
-    # ── Shopifyデータ ─────────────────────────────────
-    @st.cache_data(ttl=21600)
+    # ── Shopifyデータ（Supabaseから高速読み込み） ──────
+    @st.cache_data(ttl=600)
     def cached_shopify_lines():
         try:
-            df = load_shopify_line_items()
+            df = load_line_items_from_supabase()
         except Exception:
             return pd.DataFrame()
         if len(df) > 0:
             df = df[~df["キャンセル"]].copy()
-            # バリアント「black / 1」をカラーとサイズに分割
             variant_split = df["バリアント"].str.split(r"\s*/\s*", n=1, expand=True)
             df["カラー"] = variant_split[0].fillna("") if 0 in variant_split.columns else ""
             df["サイズ"] = variant_split[1].fillna("") if 1 in variant_split.columns else ""
@@ -443,44 +446,25 @@ elif page == "商品分析":
 # Shopify統合
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 elif page == "Shopify統合":
-    st.title("Shopify リアルタイムデータ")
-    st.caption("Shopify APIから最新データを取得して表示します")
+    st.title("Shopify データ")
+    st.caption("Supabase DBから高速読み込み（定期的にShopify APIと同期）")
 
-    @st.cache_data(ttl=21600)  # 6時間キャッシュ
+    @st.cache_data(ttl=600)  # 10分キャッシュ
     def cached_shopify_orders():
         try:
-            return load_shopify_orders()
+            return load_orders_from_supabase()
         except Exception as e:
-            st.error(f"Shopify API接続エラー: {e}")
+            st.error(f"Supabase接続エラー: {e}")
             return pd.DataFrame()
 
-    @st.cache_data(ttl=21600)
-    def cached_shopify_customers():
-        try:
-            return load_shopify_customers()
-        except Exception as e:
-            st.error(f"Shopify顧客API接続エラー: {e}")
-            return pd.DataFrame()
-
-    @st.cache_data(ttl=21600)
-    def cached_shopify_products():
-        try:
-            return load_shopify_products()
-        except Exception as e:
-            st.error(f"Shopify商品API接続エラー: {e}")
-            return pd.DataFrame()
-
-    with st.spinner("Shopifyからデータ取得中..."):
-        sp_orders = cached_shopify_orders()
-        sp_customers = cached_shopify_customers()
-        sp_products = cached_shopify_products()
+    sp_orders = cached_shopify_orders()
 
     # KPI
-    k1, k2, k3, k4 = st.columns(4)
-    k1.metric("総注文数", f"{len(sp_orders):,}件")
-    k2.metric("総売上", fmt_yen(sp_orders["合計"].sum()) if len(sp_orders) > 0 else "¥0")
-    k3.metric("顧客数", f"{len(sp_customers):,}人")
-    k4.metric("商品数 (バリアント)", f"{len(sp_products):,}")
+    active_orders = sp_orders[~sp_orders["キャンセル"]] if len(sp_orders) > 0 else pd.DataFrame()
+    k1, k2, k3 = st.columns(3)
+    k1.metric("総注文数", f"{len(active_orders):,}件")
+    k2.metric("総売上", fmt_yen(active_orders["合計"].sum()) if len(active_orders) > 0 else "¥0")
+    k3.metric("平均注文額", fmt_yen(active_orders["合計"].mean()) if len(active_orders) > 0 else "¥0")
 
     # ── 月別売上推移 ──────────────────────────────────
     if len(sp_orders) > 0:
@@ -681,17 +665,16 @@ elif page == "EC-CUBE × Shopify比較":
     # EC-CUBEデータ
     eccube_sales = load_sales_by_period()
 
-    # Shopifyデータ
-    @st.cache_data(ttl=21600)
+    # Shopifyデータ（Supabaseから高速読み込み）
+    @st.cache_data(ttl=600)
     def cached_shopify_orders_compare():
         try:
-            return load_shopify_orders()
-        except Exception as e:
-            st.error(f"Shopify API接続エラー: {e}")
+            return load_orders_from_supabase()
+        except Exception:
             return pd.DataFrame()
 
-    with st.spinner("Shopifyデータ取得中..."):
-        sp_orders = cached_shopify_orders_compare()
+    sp_orders = cached_shopify_orders_compare()
+    sp_orders = sp_orders[~sp_orders["キャンセル"]] if len(sp_orders) > 0 else sp_orders
 
     # ── KPI比較 ───────────────────────────────────────
     st.subheader("KPI比較")

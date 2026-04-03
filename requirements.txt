@@ -5,3 +5,4 @@ python-dotenv
 google-analytics-data
 google-auth
 google-auth-oauthlib
+supabase
