@@ -60,7 +60,7 @@ st.set_page_config(page_title="crewre EC分析", page_icon="📊", layout="wide"
 st.sidebar.title("crewre EC分析")
 page = st.sidebar.radio(
     "ページ選択",
-    ["売上ダッシュボード", "顧客分析", "商品分析", "受注詳細", "Shopify統合", "GA4アクセス分析", "EC-CUBE × Shopify比較"],
+    ["売上ダッシュボード", "顧客分析", "商品分析", "Shopify統合", "GA4アクセス分析", "EC-CUBE × Shopify比較"],
 )
 
 
@@ -252,7 +252,7 @@ elif page == "顧客分析":
         fig = px.scatter(
             rfm.sample(min(5000, len(rfm))),
             x="Recency", y="Monetary", size="Frequency",
-            color="セグメント", hover_data=["お名前(姓)"] if "お名前(姓)" in rfm.columns else None,
+            color="セグメント",
             labels={"Recency": "最終購入からの日数", "Monetary": "累計購入額"},
         )
         fig.update_layout(height=500)
@@ -440,70 +440,6 @@ elif page == "商品分析":
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# 受注詳細
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-elif page == "受注詳細":
-    st.title("受注詳細・検索")
-
-    @st.cache_data
-    def cached_orders():
-        return load_orders()
-
-    orders = cached_orders()
-
-    # フィルター
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if "対応状況" in orders.columns:
-            statuses = ["すべて"] + sorted(orders["対応状況"].dropna().unique().tolist())
-            status_filter = st.selectbox("対応状況", statuses)
-    with col2:
-        if "支払い方法" in orders.columns:
-            payments = ["すべて"] + sorted(orders["支払い方法"].dropna().unique().tolist())
-            payment_filter = st.selectbox("支払い方法", payments)
-    with col3:
-        search_text = st.text_input("注文番号/名前で検索")
-
-    filtered = orders.copy()
-    if "対応状況" in orders.columns and status_filter != "すべて":
-        filtered = filtered[filtered["対応状況"] == status_filter]
-    if "支払い方法" in orders.columns and payment_filter != "すべて":
-        filtered = filtered[filtered["支払い方法"] == payment_filter]
-    if search_text:
-        mask = filtered.astype(str).apply(lambda row: row.str.contains(search_text, case=False, na=False).any(), axis=1)
-        filtered = filtered[mask]
-
-    st.write(f"**{len(filtered):,}件** の受注データ")
-
-    # 表示カラム
-    display_cols = ["注文番号", "注文日時", "お名前(姓)", "お名前(名)", "合計", "お支払い合計", "支払い方法", "対応状況", "都道府県"]
-    available_cols = [c for c in display_cols if c in filtered.columns]
-    st.dataframe(
-        filtered[available_cols].sort_values("注文日時", ascending=False).head(500),
-        use_container_width=True,
-        height=600,
-    )
-
-    # 対応状況の集計
-    if "対応状況" in orders.columns:
-        st.subheader("対応状況別 件数")
-        status_counts = orders["対応状況"].value_counts().reset_index()
-        status_counts.columns = ["対応状況", "件数"]
-        fig = px.bar(status_counts, x="対応状況", y="件数", text_auto=True)
-        fig.update_layout(height=350)
-        st.plotly_chart(fig, use_container_width=True)
-
-    # 都道府県別
-    if "都道府県" in orders.columns:
-        st.subheader("都道府県別 注文数")
-        pref = orders["都道府県"].value_counts().head(20).reset_index()
-        pref.columns = ["都道府県", "件数"]
-        fig = px.bar(pref, x="都道府県", y="件数", text_auto=True)
-        fig.update_layout(height=400)
-        st.plotly_chart(fig, use_container_width=True)
-
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Shopify統合
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 elif page == "Shopify統合":
@@ -584,17 +520,19 @@ elif page == "Shopify統合":
         st.subheader("直近の注文")
         recent = sp_orders.sort_values("注文日時", ascending=False).head(50)
         st.dataframe(
-            recent[["注文番号", "注文日時", "顧客名", "合計", "ステータス", "フルフィルメント", "支払い方法", "都道府県"]],
+            recent[["注文番号", "注文日時", "合計", "ステータス", "フルフィルメント", "支払い方法", "都道府県"]],
             use_container_width=True,
             height=500,
         )
 
-    # ── 顧客TOP ──────────────────────────────────────
+    # ── 顧客統計 ──────────────────────────────────────
     if len(sp_customers) > 0:
-        st.subheader("Shopify 顧客 購入額TOP 30")
-        top_cust = sp_customers.nlargest(30, "購入合計")
-        fig = px.bar(top_cust, x="購入合計", y="名前", orientation="h", text_auto=",.0f")
-        fig.update_layout(height=600, yaxis=dict(autorange="reversed"))
+        st.subheader("顧客 購入回数分布")
+        order_dist = sp_customers["注文数"].value_counts().sort_index().reset_index()
+        order_dist.columns = ["購入回数", "人数"]
+        order_dist = order_dist[order_dist["購入回数"] <= 20]
+        fig = px.bar(order_dist, x="購入回数", y="人数", text_auto=True)
+        fig.update_layout(height=400)
         st.plotly_chart(fig, use_container_width=True)
 
 

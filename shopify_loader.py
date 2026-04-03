@@ -17,18 +17,29 @@ API_VERSION = "2026-04"
 BASE_URL = f"https://{SHOP}/admin/api/{API_VERSION}"
 
 
+def _api_request(url):
+    """APIリクエスト（リトライ付き）"""
+    req = urllib.request.Request(url, headers={"X-Shopify-Access-Token": TOKEN})
+    for attempt in range(3):
+        try:
+            resp = urllib.request.urlopen(req, timeout=30)
+            link_header = resp.headers.get("Link", "")
+            data = json.loads(resp.read())
+            return data, link_header
+        except Exception:
+            if attempt == 2:
+                raise
+            time.sleep(2 * (attempt + 1))
+    return {}, ""
+
+
 def _api_get(endpoint, params=None):
     """Shopify Admin API GETリクエスト"""
     url = f"{BASE_URL}/{endpoint}"
     if params:
         qs = "&".join(f"{k}={v}" for k, v in params.items())
         url += f"?{qs}"
-    req = urllib.request.Request(url, headers={"X-Shopify-Access-Token": TOKEN})
-    resp = urllib.request.urlopen(req)
-    # ページネーション用のLinkヘッダー
-    link_header = resp.headers.get("Link", "")
-    data = json.loads(resp.read())
-    return data, link_header
+    return _api_request(url)
 
 
 def _parse_next_url(link_header):
@@ -44,15 +55,13 @@ def _parse_next_url(link_header):
 
 def _api_get_url(url):
     """絶対URLでGETリクエスト"""
-    req = urllib.request.Request(url, headers={"X-Shopify-Access-Token": TOKEN})
-    resp = urllib.request.urlopen(req)
-    link_header = resp.headers.get("Link", "")
-    data = json.loads(resp.read())
-    return data, link_header
+    return _api_request(url)
 
 
 def _fetch_all(endpoint, resource_key, params=None):
     """ページネーションで全件取得"""
+    if not SHOP or not TOKEN:
+        return []
     if params is None:
         params = {}
     params["limit"] = "250"
