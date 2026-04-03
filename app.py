@@ -291,7 +291,10 @@ elif page == "商品分析":
     # ── Shopifyデータ ─────────────────────────────────
     @st.cache_data(ttl=300)
     def cached_shopify_lines():
-        df = load_shopify_line_items()
+        try:
+            df = load_shopify_line_items()
+        except Exception:
+            return pd.DataFrame()
         if len(df) > 0:
             df = df[~df["キャンセル"]].copy()
             # バリアント「black / 1」をカラーとサイズに分割
@@ -509,15 +512,27 @@ elif page == "Shopify統合":
 
     @st.cache_data(ttl=300)  # 5分キャッシュ
     def cached_shopify_orders():
-        return load_shopify_orders()
+        try:
+            return load_shopify_orders()
+        except Exception as e:
+            st.error(f"Shopify API接続エラー: {e}")
+            return pd.DataFrame()
 
     @st.cache_data(ttl=300)
     def cached_shopify_customers():
-        return load_shopify_customers()
+        try:
+            return load_shopify_customers()
+        except Exception as e:
+            st.error(f"Shopify顧客API接続エラー: {e}")
+            return pd.DataFrame()
 
     @st.cache_data(ttl=300)
     def cached_shopify_products():
-        return load_shopify_products()
+        try:
+            return load_shopify_products()
+        except Exception as e:
+            st.error(f"Shopify商品API接続エラー: {e}")
+            return pd.DataFrame()
 
     with st.spinner("Shopifyからデータ取得中..."):
         sp_orders = cached_shopify_orders()
@@ -731,7 +746,11 @@ elif page == "EC-CUBE × Shopify比較":
     # Shopifyデータ
     @st.cache_data(ttl=300)
     def cached_shopify_orders_compare():
-        return load_shopify_orders()
+        try:
+            return load_shopify_orders()
+        except Exception as e:
+            st.error(f"Shopify API接続エラー: {e}")
+            return pd.DataFrame()
 
     with st.spinner("Shopifyデータ取得中..."):
         sp_orders = cached_shopify_orders_compare()
