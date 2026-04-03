@@ -6,20 +6,27 @@ import os
 import time
 import pandas as pd
 
-try:
-    import streamlit as st
-    SHOP = st.secrets.get("SHOPIFY_SHOP", os.getenv("SHOPIFY_SHOP", ""))
-    TOKEN = st.secrets.get("SHOPIFY_ACCESS_TOKEN", os.getenv("SHOPIFY_ACCESS_TOKEN", ""))
-except Exception:
-    SHOP = os.getenv("SHOPIFY_SHOP", "")
-    TOKEN = os.getenv("SHOPIFY_ACCESS_TOKEN", "")
 API_VERSION = "2026-04"
-BASE_URL = f"https://{SHOP}/admin/api/{API_VERSION}"
 
 
-def _api_request(url):
+def _get_config():
+    """ShopifyのSHOPとTOKENを取得"""
+    shop = os.getenv("SHOPIFY_SHOP", "")
+    token = os.getenv("SHOPIFY_ACCESS_TOKEN", "")
+    try:
+        import streamlit as st
+        shop = st.secrets.get("SHOPIFY_SHOP", shop)
+        token = st.secrets.get("SHOPIFY_ACCESS_TOKEN", token)
+    except Exception:
+        pass
+    return shop, token
+
+
+def _api_request(url, token=None):
     """APIリクエスト（リトライ付き）"""
-    req = urllib.request.Request(url, headers={"X-Shopify-Access-Token": TOKEN})
+    if token is None:
+        _, token = _get_config()
+    req = urllib.request.Request(url, headers={"X-Shopify-Access-Token": token})
     for attempt in range(3):
         try:
             resp = urllib.request.urlopen(req, timeout=30)
@@ -35,11 +42,12 @@ def _api_request(url):
 
 def _api_get(endpoint, params=None):
     """Shopify Admin API GETリクエスト"""
-    url = f"{BASE_URL}/{endpoint}"
+    shop, token = _get_config()
+    url = f"https://{shop}/admin/api/{API_VERSION}/{endpoint}"
     if params:
         qs = "&".join(f"{k}={v}" for k, v in params.items())
         url += f"?{qs}"
-    return _api_request(url)
+    return _api_request(url, token)
 
 
 def _parse_next_url(link_header):
@@ -60,7 +68,8 @@ def _api_get_url(url):
 
 def _fetch_all(endpoint, resource_key, params=None):
     """ページネーションで全件取得"""
-    if not SHOP or not TOKEN:
+    shop, token = _get_config()
+    if not shop or not token:
         return []
     if params is None:
         params = {}
