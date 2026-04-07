@@ -6,6 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import sys
 import os
+from datetime import date, timedelta
 
 sys.path.insert(0, os.path.dirname(__file__))
 
@@ -28,6 +29,7 @@ def check_password():
 
 if not check_password():
     st.stop()
+
 from data_loader import (
     load_sales_by_period,
     load_sales_by_product,
@@ -45,6 +47,7 @@ from shopify_loader import (
     load_shopify_customers,
     load_shopify_products,
     load_shopify_line_items,
+    load_shopify_inventory,
 )
 from supabase_sync import (
     load_orders_from_supabase,
@@ -64,7 +67,7 @@ st.set_page_config(page_title="crewre EC分析", page_icon="📊", layout="wide"
 st.sidebar.title("crewre EC分析")
 page = st.sidebar.radio(
     "ページ選択",
-    ["売上ダッシュボード", "顧客分析", "商品分析", "Shopify統合", "GA4アクセス分析", "EC-CUBE × Shopify比較"],
+    ["売上概要", "在庫・欠品管理", "商品分析（SKU別）", "販促ダッシュボード", "GA4アクセス分析"],
 )
 
 
@@ -74,10 +77,10 @@ def fmt_yen(val):
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# 売上ダッシュボード
+# ページ1: 売上概要
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-if page == "売上ダッシュボード":
-    st.title("売上ダッシュボード")
+if page == "売上概要":
+    st.title("売上概要")
 
     # EC-CUBEデータ
     ec_sales = load_sales_by_period()
@@ -98,7 +101,6 @@ if page == "売上ダッシュボード":
                 購入合計=("合計", "sum"),
             ).reset_index()
             daily["期間"] = pd.to_datetime(daily["期間"])
-            # EC-CUBEにある他のカラムを0で埋める
             for col in ["男性", "女性", "男性_会員", "男性_非会員", "女性_会員", "女性_非会員", "購入平均"]:
                 daily[col] = 0
             daily["購入平均"] = (daily["購入合計"] / daily["購入件数"]).fillna(0)
@@ -108,7 +110,7 @@ if page == "売上ダッシュボード":
 
     sp_daily = get_shopify_daily_sales()
 
-    # EC-CUBE + Shopifyを統合
+    # EC-CUBE + Shopifyを統合（Shopify移行後データは既に統合済み）
     if len(sp_daily) > 0:
         sales = pd.concat([ec_sales, sp_daily], ignore_index=True)
         sales = sales.groupby("期間").agg({
@@ -162,6 +164,10 @@ if page == "売上ダッシュボード":
     )
     st.plotly_chart(fig, use_container_width=True)
 
+    # ── 月別予算達成率 ────────────────────────────────
+    st.subheader("月別予算達成率")
+    st.info("予算設定後に表示")
+
     # ── 日別売上推移 ─────────────────────────────────
     st.subheader("日別売上推移")
     fig2 = px.line(filtered, x="期間", y="購入合計", labels={"購入合計": "売上 (円)", "期間": "日付"})
@@ -197,118 +203,154 @@ if page == "売上ダッシュボード":
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# 顧客分析
+# ページ2: 在庫・欠品管理
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-elif page == "顧客分析":
-    st.title("顧客分析")
+elif page == "在庫・欠品管理":
+    st.title("在庫・欠品管理")
 
-    # ── 年代別 ────────────────────────────────────────
-    st.subheader("年代別 購入分析")
-    age = load_sales_by_age()
-    age_order = ["10代", "20代", "30代", "40代", "50代", "60代", "70代", "未回答"]
-    age["年齢"] = pd.Categorical(age["年齢"], categories=age_order, ordered=True)
-    age = age.sort_values("年齢")
+    @st.cache_data(ttl=600)
+    def cached_inventory():
+        try:
+            return load_shopify_inventory()
+        except Exception as e:
+            st.error(f"在庫データ取得エラー: {e}")
+            return pd.DataFrame()
 
-    col1, col2 = st.columns(2)
+    @st.cache_data(ttl=600)
+    def cached_line_items_inv():
+        try:
+            df = load_line_items_from_supabase()
+            return df
+        except Exception as e:
+            st.error(f"売上データ取得エラー: {e}")
+            return pd.DataFrame()
+
+    with st.spinner("在庫データ取得中..."):
+        inv = cached_inventory()
+        line_items = cached_line_items_inv()
+
+    if len(inv) == 0:
+        st.warning("在庫データが取得できませんでした")
+        st.stop()
+
+    # ── KPI ──────────────────────────────────────────
+    active_inv = inv[inv["ステータス"] == "active"].copy() if "ステータス" in inv.columns else inv.copy()
+    total_stock = active_inv["在庫数"].sum()
+    total_stock_value = (active_inv["価格(税込)"] * active_inv["在庫数"]).sum()
+    active_skus = (active_inv["在庫数"] > 0).sum()
+
+    k1, k2, k3 = st.columns(3)
+    k1.metric("総在庫数", f"{total_stock:,.0f}点")
+    k2.metric("在庫金額（上代ベース）", fmt_yen(total_stock_value))
+    k3.metric("在庫あり SKU数", f"{active_skus:,}")
+
+    # ── フィルター ────────────────────────────────────
+    st.subheader("SKU別在庫テーブル")
+    col1, col2, col3 = st.columns(3)
     with col1:
-        fig = px.bar(age, x="年齢", y="購入件数", text_auto=True, color="年齢")
-        fig.update_layout(height=400, title="購入件数")
-        st.plotly_chart(fig, use_container_width=True)
+        search_name = st.text_input("商品名で検索", "")
     with col2:
-        fig = px.bar(age, x="年齢", y="購入合計", text_auto=",.0f", color="年齢")
-        fig.update_layout(height=400, title="購入金額")
-        st.plotly_chart(fig, use_container_width=True)
+        show_zero = st.checkbox("在庫0のみ表示", value=False)
+    with col3:
+        show_in_stock = st.checkbox("在庫ありのみ表示", value=False)
 
-    # ── 年代別 客単価 ─────────────────────────────────
-    st.subheader("年代別 平均客単価")
-    fig = px.bar(age, x="年齢", y="購入平均", text_auto=",.0f")
-    fig.update_layout(height=350)
+    disp_inv = active_inv.copy()
+    if search_name:
+        disp_inv = disp_inv[disp_inv["商品名"].str.contains(search_name, case=False, na=False)]
+    if show_zero:
+        disp_inv = disp_inv[disp_inv["在庫数"] == 0]
+    elif show_in_stock:
+        disp_inv = disp_inv[disp_inv["在庫数"] > 0]
+
+    disp_inv["在庫金額"] = disp_inv["価格(税込)"] * disp_inv["在庫数"]
+    disp_table = disp_inv[["商品名", "カラー", "サイズ", "SKU", "価格(税込)", "在庫数", "在庫金額"]].copy()
+    disp_table["価格(税込)"] = disp_table["価格(税込)"].apply(lambda x: f"¥{x:,.0f}")
+    disp_table["在庫金額"] = disp_table["在庫金額"].apply(lambda x: f"¥{x:,.0f}")
+    st.dataframe(disp_table, use_container_width=True, height=400)
+
+    # ── 在庫金額 TOP20（商品別） ───────────────────────
+    st.subheader("在庫金額 TOP20（商品別）")
+    inv_with_value = active_inv.copy()
+    inv_with_value["在庫金額"] = inv_with_value["価格(税込)"] * inv_with_value["在庫数"]
+    top20_products = (
+        inv_with_value.groupby("商品名")["在庫金額"]
+        .sum()
+        .sort_values(ascending=False)
+        .head(20)
+        .reset_index()
+    )
+    fig = px.bar(
+        top20_products,
+        x="在庫金額",
+        y="商品名",
+        orientation="h",
+        text_auto=",.0f",
+        labels={"在庫金額": "在庫金額 (円)"},
+    )
+    fig.update_layout(height=600, yaxis=dict(autorange="reversed"))
     st.plotly_chart(fig, use_container_width=True)
 
-    # ── 職業別 ────────────────────────────────────────
-    st.subheader("職業別 購入分析")
-    occ = load_sales_by_occupation()
-    occ = occ.sort_values("購入合計", ascending=False)
-    fig = px.bar(occ, x="職業", y="購入合計", text_auto=",.0f")
-    fig.update_layout(height=400)
-    st.plotly_chart(fig, use_container_width=True)
+    # ── 欠品アラート ──────────────────────────────────
+    st.subheader("欠品アラート（60日以内に売り切れ予測）")
 
-    # ── 会員別 ────────────────────────────────────────
-    st.subheader("会員種別 購入比率")
-    member = load_sales_by_member()
-    col1, col2 = st.columns(2)
-    with col1:
-        fig = px.pie(member, names="会員", values="購入件数", hole=0.4, title="件数比率")
-        st.plotly_chart(fig, use_container_width=True)
-    with col2:
-        fig = px.pie(member, names="会員", values="購入合計", hole=0.4, title="金額比率")
-        st.plotly_chart(fig, use_container_width=True)
+    if len(line_items) > 0:
+        # 日販計算（過去14日）
+        try:
+            li = line_items[~line_items["キャンセル"]].copy() if "キャンセル" in line_items.columns else line_items.copy()
+            if li["注文日時"].dt.tz is not None:
+                li["注文日時"] = li["注文日時"].dt.tz_localize(None)
+            today = pd.Timestamp.today().normalize()
+            since_14 = today - pd.Timedelta(days=14)
+            li_14 = li[li["注文日時"] >= since_14]
+            if len(li_14) > 0:
+                daily_sales = li_14.groupby("SKU").agg(
+                    日販合計=("数量", "sum"),
+                ).reset_index()
+                daily_sales["日販"] = daily_sales["日販合計"] / 14
 
-    # ── RFM分析 ───────────────────────────────────────
-    st.subheader("RFM分析（会員マスターベース）")
-    st.caption("Recency(最終購入からの日数) / Frequency(購入回数) / Monetary(購入金額)")
+                # 在庫と結合
+                inv_alert = active_inv[active_inv["在庫数"] > 0].copy()
+                inv_alert = inv_alert.merge(daily_sales[["SKU", "日販"]], on="SKU", how="left")
+                inv_alert["日販"] = inv_alert["日販"].fillna(0)
 
-    customers = load_customers()
-    rfm = customers[customers["購入回数"] > 0].copy()
+                # 売り切れ予測日数
+                inv_alert["売り切れ予測日数"] = inv_alert.apply(
+                    lambda r: r["在庫数"] / r["日販"] if r["日販"] > 0 else 9999,
+                    axis=1,
+                )
+                inv_alert["売り切れ予測日"] = inv_alert.apply(
+                    lambda r: (today + pd.Timedelta(days=int(r["売り切れ予測日数"]))).date() if r["売り切れ予測日数"] < 9999 else None,
+                    axis=1,
+                )
 
-    if len(rfm) > 0 and "最終購入日" in rfm.columns:
-        now = pd.Timestamp("2026-02-19")
-        rfm["Recency"] = (now - rfm["最終購入日"]).dt.days
-        rfm["Frequency"] = rfm["購入回数"]
-        rfm["Monetary"] = rfm["お買い上げ合計額"]
-        rfm = rfm.dropna(subset=["Recency", "Frequency", "Monetary"])
+                # 60日以内に売り切れるSKU
+                alert_df = inv_alert[inv_alert["売り切れ予測日数"] <= 60].copy()
+                alert_df = alert_df.sort_values("売り切れ予測日数")
 
-        # RFMスコア（3段階）
-        rfm["R_score"] = pd.qcut(rfm["Recency"], 3, labels=["高", "中", "低"], duplicates="drop")
-        rfm["F_score"] = pd.qcut(rfm["Frequency"].rank(method="first"), 3, labels=["低", "中", "高"], duplicates="drop")
-        rfm["M_score"] = pd.qcut(rfm["Monetary"].rank(method="first"), 3, labels=["低", "中", "高"], duplicates="drop")
-
-        # セグメント
-        def segment(row):
-            r, f, m = str(row["R_score"]), str(row["F_score"]), str(row["M_score"])
-            if r == "高" and f == "高":
-                return "優良顧客"
-            elif r == "高" and f == "低":
-                return "新規顧客"
-            elif r == "低" and f == "高":
-                return "離反リスク"
-            elif r == "低" and f == "低":
-                return "休眠顧客"
+                if len(alert_df) > 0:
+                    st.warning(f"{len(alert_df)} SKUが60日以内に売り切れ予測です")
+                    alert_disp = alert_df[["商品名", "カラー", "サイズ", "SKU", "在庫数", "日販", "売り切れ予測日数", "売り切れ予測日"]].copy()
+                    alert_disp["日販"] = alert_disp["日販"].round(1)
+                    alert_disp["売り切れ予測日数"] = alert_disp["売り切れ予測日数"].round(0).astype(int)
+                    # 定番商品（販売期間が長い＝多く出ているSKU）は注意喚起
+                    high_velocity = alert_disp[alert_disp["日販"] >= 1.0]
+                    if len(high_velocity) > 0:
+                        st.error(f"特に注意: 日販1点以上の定番商品 {len(high_velocity)} SKUが欠品リスクあり")
+                    st.dataframe(alert_disp, use_container_width=True, height=400)
+                else:
+                    st.success("60日以内に売り切れ予測のSKUはありません")
             else:
-                return "一般顧客"
-
-        rfm["セグメント"] = rfm.apply(segment, axis=1)
-        seg_count = rfm["セグメント"].value_counts().reset_index()
-        seg_count.columns = ["セグメント", "人数"]
-
-        col1, col2 = st.columns(2)
-        with col1:
-            fig = px.pie(seg_count, names="セグメント", values="人数", hole=0.4, title="顧客セグメント分布")
-            st.plotly_chart(fig, use_container_width=True)
-        with col2:
-            seg_monetary = rfm.groupby("セグメント")["Monetary"].mean().reset_index()
-            seg_monetary.columns = ["セグメント", "平均購入額"]
-            fig = px.bar(seg_monetary, x="セグメント", y="平均購入額", text_auto=",.0f", title="セグメント別 平均購入額")
-            st.plotly_chart(fig, use_container_width=True)
-
-        # Scatter
-        st.subheader("RFM散布図")
-        fig = px.scatter(
-            rfm.sample(min(5000, len(rfm))),
-            x="Recency", y="Monetary", size="Frequency",
-            color="セグメント",
-            labels={"Recency": "最終購入からの日数", "Monetary": "累計購入額"},
-        )
-        fig.update_layout(height=500)
-        st.plotly_chart(fig, use_container_width=True)
+                st.info("過去14日の売上データがありません")
+        except Exception as e:
+            st.error(f"欠品アラート計算エラー: {e}")
     else:
-        st.info("購入履歴のある会員データがありません")
+        st.info("売上データが取得できないため、欠品アラートを表示できません")
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# 商品分析
+# ページ3: 商品分析（SKU別）
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-elif page == "商品分析":
+elif page == "商品分析（SKU別）":
     st.title("商品分析（SKU別）")
 
     # ── データソース選択 & 期間設定 ────────────────────
@@ -483,84 +525,191 @@ elif page == "商品分析":
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# Shopify統合
+# ページ4: 販促ダッシュボード
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-elif page == "Shopify統合":
-    st.title("Shopify データ")
-    st.caption("Supabase DBから高速読み込み（定期的にShopify APIと同期）")
+elif page == "販促ダッシュボード":
+    st.title("販促ダッシュボード")
+    st.caption("在庫状況と販売速度から販促優先度を可視化します")
 
-    @st.cache_data(ttl=600)  # 10分キャッシュ
-    def cached_shopify_orders():
+    @st.cache_data(ttl=600)
+    def cached_inventory_promo():
         try:
-            return load_orders_from_supabase()
+            return load_shopify_inventory()
         except Exception as e:
-            st.error(f"Supabase接続エラー: {e}")
+            st.error(f"在庫データ取得エラー: {e}")
             return pd.DataFrame()
 
-    sp_orders = cached_shopify_orders()
+    @st.cache_data(ttl=600)
+    def cached_line_items_promo():
+        try:
+            df = load_line_items_from_supabase()
+            return df
+        except Exception as e:
+            st.error(f"売上データ取得エラー: {e}")
+            return pd.DataFrame()
 
-    # KPI
-    active_orders = sp_orders[~sp_orders["キャンセル"]] if len(sp_orders) > 0 else pd.DataFrame()
-    k1, k2, k3 = st.columns(3)
-    k1.metric("総注文数", f"{len(active_orders):,}件")
-    k2.metric("総売上", fmt_yen(active_orders["合計"].sum()) if len(active_orders) > 0 else "¥0")
-    k3.metric("平均注文額", fmt_yen(active_orders["合計"].mean()) if len(active_orders) > 0 else "¥0")
+    with st.spinner("データ取得中..."):
+        inv = cached_inventory_promo()
+        line_items = cached_line_items_promo()
 
-    # ── 月別売上推移 ──────────────────────────────────
-    if len(sp_orders) > 0:
-        st.subheader("Shopify 月別売上推移")
-        sp_orders["年月"] = sp_orders["注文日時"].dt.to_period("M").astype(str)
-        sp_monthly = sp_orders.groupby("年月").agg(
-            売上=("合計", "sum"),
-            注文数=("注文番号", "count"),
-        ).reset_index()
+    if len(inv) == 0:
+        st.warning("在庫データが取得できませんでした")
+        st.stop()
 
-        fig = go.Figure()
-        fig.add_trace(go.Bar(x=sp_monthly["年月"], y=sp_monthly["売上"], name="売上", marker_color="#10B981"))
-        fig.add_trace(go.Scatter(x=sp_monthly["年月"], y=sp_monthly["注文数"], name="注文数", yaxis="y2", marker_color="#F59E0B", mode="lines+markers"))
-        fig.update_layout(
-            yaxis=dict(title="売上 (円)", tickformat=","),
-            yaxis2=dict(title="注文数", overlaying="y", side="right"),
-            height=450,
-            legend=dict(orientation="h", yanchor="bottom", y=1.02),
-        )
-        st.plotly_chart(fig, use_container_width=True)
+    # 在庫データ（activeのみ）
+    active_inv = inv[inv["ステータス"] == "active"].copy() if "ステータス" in inv.columns else inv.copy()
+    active_inv["在庫金額"] = active_inv["価格(税込)"] * active_inv["在庫数"]
 
-        # ステータス別
-        st.subheader("決済ステータス別")
-        col1, col2 = st.columns(2)
-        with col1:
-            status_counts = sp_orders["ステータス"].value_counts().reset_index()
-            status_counts.columns = ["ステータス", "件数"]
-            fig = px.pie(status_counts, names="ステータス", values="件数", hole=0.4, title="決済ステータス")
-            st.plotly_chart(fig, use_container_width=True)
-        with col2:
-            ff_counts = sp_orders["フルフィルメント"].value_counts().reset_index()
-            ff_counts.columns = ["フルフィルメント", "件数"]
-            fig = px.pie(ff_counts, names="フルフィルメント", values="件数", hole=0.4, title="配送ステータス")
-            st.plotly_chart(fig, use_container_width=True)
+    # 日販計算（過去14日）
+    daily_sales_sku = pd.DataFrame(columns=["SKU", "日販"])
+    today = pd.Timestamp.today().normalize()
+    since_14 = today - pd.Timedelta(days=14)
 
-        # 直近注文
-        st.subheader("直近の注文")
-        recent = sp_orders.sort_values("注文日時", ascending=False).head(50)
-        st.dataframe(
-            recent[["注文番号", "注文日時", "合計", "ステータス", "フルフィルメント", "支払い方法", "都道府県"]],
-            use_container_width=True,
-            height=500,
-        )
+    if len(line_items) > 0:
+        try:
+            li = line_items[~line_items["キャンセル"]].copy() if "キャンセル" in line_items.columns else line_items.copy()
+            if li["注文日時"].dt.tz is not None:
+                li["注文日時"] = li["注文日時"].dt.tz_localize(None)
+            li_14 = li[li["注文日時"] >= since_14]
+            if len(li_14) > 0:
+                ds = li_14.groupby("SKU").agg(日販合計=("数量", "sum")).reset_index()
+                ds["日販"] = ds["日販合計"] / 14
+                daily_sales_sku = ds[["SKU", "日販"]]
+        except Exception as e:
+            st.error(f"日販計算エラー: {e}")
 
-    # ── 都道府県別 ──────────────────────────────────────
-    if len(active_orders) > 0 and "都道府県" in active_orders.columns:
-        st.subheader("都道府県別 注文数 TOP 15")
-        pref = active_orders["都道府県"].value_counts().head(15).reset_index()
-        pref.columns = ["都道府県", "件数"]
-        fig = px.bar(pref, x="都道府県", y="件数", text_auto=True, color_discrete_sequence=["#10B981"])
-        fig.update_layout(height=400)
-        st.plotly_chart(fig, use_container_width=True)
+    # 在庫データと日販を結合
+    promo_df = active_inv.merge(daily_sales_sku, on="SKU", how="left")
+    promo_df["日販"] = promo_df["日販"].fillna(0)
+
+    # 売り切れ予測日数
+    promo_df["売り切れ予測日数"] = promo_df.apply(
+        lambda r: r["在庫数"] / r["日販"] if r["日販"] > 0 and r["在庫数"] > 0 else (0 if r["在庫数"] == 0 else 9999),
+        axis=1,
+    )
+    promo_df["売り切れ予測日"] = promo_df.apply(
+        lambda r: (today + pd.Timedelta(days=int(min(r["売り切れ予測日数"], 3650)))).date() if r["売り切れ予測日数"] < 9999 else None,
+        axis=1,
+    )
+
+    # 推定下代（下代データがないため 在庫金額×推定原価率40%で仮計算）
+    ESTIMATED_COST_RATIO = 0.40
+    promo_df["下代合計（推定）"] = promo_df["在庫金額"] * ESTIMATED_COST_RATIO
+
+    # ゾーン分類
+    # - 販促強化: 日販少 & 在庫多
+    # - 安定露出: 日販多 & 在庫多
+    # - 欠品・追加検討: 日販多 & 在庫少
+    median_sales = promo_df["日販"].median()
+    median_stock = promo_df["在庫数"].median()
+
+    def classify_zone(row):
+        if row["在庫数"] == 0:
+            return "在庫なし"
+        high_sales = row["日販"] >= median_sales
+        high_stock = row["在庫数"] >= median_stock
+        if high_sales and high_stock:
+            return "安定露出"
+        elif not high_sales and high_stock:
+            return "販促強化"
+        elif high_sales and not high_stock:
+            return "欠品・追加検討"
+        else:
+            return "低優先"
+
+    promo_df["ゾーン"] = promo_df.apply(classify_zone, axis=1)
+
+    # ── KPI ──────────────────────────────────────────
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("分析SKU数", f"{len(promo_df):,}")
+    k2.metric("総在庫金額（上代）", fmt_yen(promo_df["在庫金額"].sum()))
+    k3.metric("総下代合計（推定）", fmt_yen(promo_df["下代合計（推定）"].sum()))
+    k4.metric("販促強化対象SKU", f"{(promo_df['ゾーン'] == '販促強化').sum():,}")
+
+    # ── 散布図 ───────────────────────────────────────
+    st.subheader("在庫×日販 散布図（ゾーン分析）")
+    st.caption("X=平均日販(過去14日), Y=残在庫数, バブルサイズ=在庫金額")
+
+    zone_colors = {
+        "安定露出": "#10B981",
+        "販促強化": "#EF4444",
+        "欠品・追加検討": "#F59E0B",
+        "低優先": "#94A3B8",
+        "在庫なし": "#CBD5E1",
+    }
+
+    scatter_df = promo_df[promo_df["在庫数"] > 0].copy()
+    scatter_df["表示名"] = scatter_df["商品名"].str[:20] + " / " + scatter_df["カラー"] + " / " + scatter_df["サイズ"]
+    # バブルサイズの正規化（最小10、最大50）
+    if scatter_df["在庫金額"].max() > 0:
+        scatter_df["バブルサイズ"] = (scatter_df["在庫金額"] / scatter_df["在庫金額"].max() * 40 + 10).clip(10, 50)
+    else:
+        scatter_df["バブルサイズ"] = 15
+
+    fig = px.scatter(
+        scatter_df,
+        x="日販",
+        y="在庫数",
+        size="バブルサイズ",
+        color="ゾーン",
+        color_discrete_map=zone_colors,
+        hover_name="表示名",
+        hover_data={
+            "SKU": True,
+            "在庫金額": ":.0f",
+            "日販": ":.2f",
+            "在庫数": True,
+            "バブルサイズ": False,
+        },
+        labels={"日販": "平均日販（過去14日）", "在庫数": "残在庫数"},
+        title="販促優先度マップ",
+    )
+
+    # 基準線（中央値）を追加
+    fig.add_hline(y=median_stock, line_dash="dash", line_color="gray", annotation_text=f"在庫中央値 ({median_stock:.0f}点)")
+    fig.add_vline(x=median_sales, line_dash="dash", line_color="gray", annotation_text=f"日販中央値 ({median_sales:.2f})")
+
+    # ゾーンラベル
+    fig.add_annotation(x=0, y=scatter_df["在庫数"].max() * 0.95 if len(scatter_df) > 0 else 100,
+                       text="販促強化", showarrow=False, font=dict(color="#EF4444", size=14))
+    fig.add_annotation(x=scatter_df["日販"].max() * 0.8 if len(scatter_df) > 0 else 1,
+                       y=scatter_df["在庫数"].max() * 0.95 if len(scatter_df) > 0 else 100,
+                       text="安定露出", showarrow=False, font=dict(color="#10B981", size=14))
+    fig.add_annotation(x=scatter_df["日販"].max() * 0.8 if len(scatter_df) > 0 else 1,
+                       y=0,
+                       text="欠品・追加検討", showarrow=False, font=dict(color="#F59E0B", size=14))
+
+    fig.update_layout(height=600)
+    st.plotly_chart(fig, use_container_width=True)
+
+    # ── 販促優先度テーブル ────────────────────────────
+    st.subheader("販促優先度テーブル（残在庫多 & 日販少 順）")
+    st.caption("残在庫が多く日販が少ない順（= 販促が最も必要なSKU）")
+
+    priority_df = promo_df[promo_df["在庫数"] > 0].copy()
+    priority_df = priority_df.sort_values(["在庫金額"], ascending=False)
+    priority_df["在庫×日販スコア"] = priority_df.apply(
+        lambda r: r["在庫数"] / (r["日販"] + 0.01),
+        axis=1,
+    )
+    priority_df = priority_df.sort_values("在庫×日販スコア", ascending=False)
+
+    disp_priority = priority_df[[
+        "商品名", "カラー", "サイズ", "SKU", "在庫数", "在庫金額",
+        "下代合計（推定）", "日販", "売り切れ予測日数", "売り切れ予測日", "ゾーン"
+    ]].copy()
+    disp_priority["在庫金額"] = disp_priority["在庫金額"].apply(lambda x: f"¥{x:,.0f}")
+    disp_priority["下代合計（推定）"] = disp_priority["下代合計（推定）"].apply(lambda x: f"¥{x:,.0f}")
+    disp_priority["日販"] = disp_priority["日販"].round(2)
+    disp_priority["売り切れ予測日数"] = disp_priority["売り切れ予測日数"].apply(
+        lambda x: f"{int(x)}日" if x < 9999 else "—"
+    )
+
+    st.dataframe(disp_priority, use_container_width=True, height=500)
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# GA4アクセス分析
+# ページ5: GA4アクセス分析
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 elif page == "GA4アクセス分析":
     st.title("GA4 アクセス分析")
@@ -692,111 +841,3 @@ elif page == "GA4アクセス分析":
             use_container_width=True,
             height=500,
         )
-
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# EC-CUBE × Shopify比較
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-elif page == "EC-CUBE × Shopify比較":
-    st.title("EC-CUBE × Shopify 統合比較")
-    st.caption("EC-CUBE時代（2023/8〜2026/2）とShopify移行後のデータを比較します")
-
-    # EC-CUBEデータ
-    eccube_sales = load_sales_by_period()
-
-    # Shopifyデータ（Supabaseから高速読み込み）
-    @st.cache_data(ttl=600)
-    def cached_shopify_orders_compare():
-        try:
-            return load_orders_from_supabase()
-        except Exception:
-            return pd.DataFrame()
-
-    sp_orders = cached_shopify_orders_compare()
-    sp_orders = sp_orders[~sp_orders["キャンセル"]] if len(sp_orders) > 0 else sp_orders
-
-    # ── KPI比較 ───────────────────────────────────────
-    st.subheader("KPI比較")
-
-    eccube_total_sales = eccube_sales["購入合計"].sum()
-    eccube_total_orders = eccube_sales["購入件数"].sum()
-    eccube_days = (eccube_sales["期間"].max() - eccube_sales["期間"].min()).days or 1
-
-    sp_total_sales = sp_orders["合計"].sum() if len(sp_orders) > 0 else 0
-    sp_total_orders = len(sp_orders)
-    sp_days = (sp_orders["注文日時"].max() - sp_orders["注文日時"].min()).days if len(sp_orders) > 1 else 1
-
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("### EC-CUBE")
-        st.metric("総売上", fmt_yen(eccube_total_sales))
-        st.metric("総注文数", f"{eccube_total_orders:,.0f}件")
-        st.metric("平均日販", fmt_yen(eccube_total_sales / eccube_days))
-        st.metric("平均注文額", fmt_yen(eccube_total_sales / eccube_total_orders if eccube_total_orders > 0 else 0))
-        st.metric("データ期間", f"{eccube_days}日")
-    with col2:
-        st.markdown("### Shopify")
-        st.metric("総売上", fmt_yen(sp_total_sales))
-        st.metric("総注文数", f"{sp_total_orders:,}件")
-        st.metric("平均日販", fmt_yen(sp_total_sales / sp_days))
-        st.metric("平均注文額", fmt_yen(sp_total_sales / sp_total_orders if sp_total_orders > 0 else 0))
-        st.metric("データ期間", f"{sp_days}日")
-
-    # ── 月別売上の統合グラフ ──────────────────────────
-    st.subheader("月別売上推移（統合）")
-
-    # EC-CUBE月別
-    ec_monthly = eccube_sales.copy()
-    ec_monthly["年月"] = ec_monthly["期間"].dt.to_period("M").astype(str)
-    ec_monthly_agg = ec_monthly.groupby("年月").agg(売上=("購入合計", "sum")).reset_index()
-    ec_monthly_agg["ソース"] = "EC-CUBE"
-
-    # Shopify月別
-    if len(sp_orders) > 0:
-        sp_orders_copy = sp_orders.copy()
-        sp_orders_copy["年月"] = sp_orders_copy["注文日時"].dt.to_period("M").astype(str)
-        sp_monthly_agg = sp_orders_copy.groupby("年月").agg(売上=("合計", "sum")).reset_index()
-        sp_monthly_agg["ソース"] = "Shopify"
-        combined_monthly = pd.concat([ec_monthly_agg, sp_monthly_agg], ignore_index=True)
-    else:
-        combined_monthly = ec_monthly_agg
-
-    fig = px.bar(combined_monthly, x="年月", y="売上", color="ソース",
-                 barmode="group", text_auto=",.0f",
-                 color_discrete_map={"EC-CUBE": "#4F46E5", "Shopify": "#10B981"})
-    fig.update_layout(height=500, yaxis=dict(tickformat=","))
-    st.plotly_chart(fig, use_container_width=True)
-
-    # ── 曜日別比較 ────────────────────────────────────
-    st.subheader("曜日別 平均売上比較")
-    dow_map = {0: "月", 1: "火", 2: "水", 3: "木", 4: "金", 5: "土", 6: "日"}
-
-    ec_dow = eccube_sales.copy()
-    ec_dow["曜日"] = ec_dow["期間"].dt.dayofweek
-    ec_dow["曜日名"] = ec_dow["曜日"].map(dow_map)
-    ec_dow_agg = ec_dow.groupby(["曜日", "曜日名"]).agg(平均売上=("購入合計", "mean")).reset_index().sort_values("曜日")
-    ec_dow_agg["ソース"] = "EC-CUBE"
-
-    if len(sp_orders) > 0:
-        sp_dow = sp_orders.copy()
-        sp_dow["曜日"] = sp_dow["注文日時"].dt.dayofweek
-        sp_dow["曜日名"] = sp_dow["曜日"].map(dow_map)
-        sp_dow_agg = sp_dow.groupby(["曜日", "曜日名"]).agg(平均売上=("合計", "mean")).reset_index().sort_values("曜日")
-        sp_dow_agg["ソース"] = "Shopify"
-        combined_dow = pd.concat([ec_dow_agg, sp_dow_agg], ignore_index=True)
-    else:
-        combined_dow = ec_dow_agg
-
-    fig = px.bar(combined_dow, x="曜日名", y="平均売上", color="ソース", barmode="group",
-                 color_discrete_map={"EC-CUBE": "#4F46E5", "Shopify": "#10B981"})
-    fig.update_layout(height=400)
-    st.plotly_chart(fig, use_container_width=True)
-
-    # ── 都道府県比較 ──────────────────────────────────
-    if len(sp_orders) > 0 and "都道府県" in sp_orders.columns:
-        st.subheader("都道府県別 注文数 TOP 15（Shopify）")
-        sp_pref = sp_orders["都道府県"].value_counts().head(15).reset_index()
-        sp_pref.columns = ["都道府県", "件数"]
-        fig = px.bar(sp_pref, x="都道府県", y="件数", text_auto=True, color_discrete_sequence=["#10B981"])
-        fig.update_layout(height=400)
-        st.plotly_chart(fig, use_container_width=True)

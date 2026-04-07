@@ -212,3 +212,49 @@ def load_shopify_products():
     df = pd.DataFrame(rows)
     df["作成日"] = pd.to_datetime(df["作成日"])
     return df
+
+
+def load_shopify_inventory():
+    """Shopify APIから全商品のバリアント別在庫データを取得してDataFrameで返す"""
+    products = _fetch_all("products.json", "products")
+    if not products:
+        return pd.DataFrame()
+
+    rows = []
+    for p in products:
+        product_name = p.get("title", "")
+        product_type = p.get("product_type", "")
+        status = p.get("status", "")
+        for v in p.get("variants", []):
+            variant_title = v.get("title", "")
+            # バリアントを / で分割してカラーとサイズを取得
+            parts = variant_title.split(" / ", 1)
+            color = parts[0].strip() if len(parts) >= 1 else ""
+            size = parts[1].strip() if len(parts) >= 2 else ""
+            # バリアントが "Default Title" の場合は空にする
+            if variant_title in ("Default Title", "デフォルトタイトル"):
+                color = ""
+                size = ""
+            try:
+                price = float(v.get("price", 0))
+            except (ValueError, TypeError):
+                price = 0.0
+            # 税込価格（日本は消費税10%）
+            price_with_tax = round(price * 1.1)
+            inventory_qty = int(v.get("inventory_quantity", 0) or 0)
+            rows.append({
+                "商品名": product_name,
+                "SKU": v.get("sku", ""),
+                "バリアント": variant_title,
+                "カラー": color,
+                "サイズ": size,
+                "価格(税込)": price_with_tax,
+                "在庫数": inventory_qty,
+                "商品タイプ": product_type,
+                "ステータス": status,
+            })
+
+    if not rows:
+        return pd.DataFrame()
+    df = pd.DataFrame(rows)
+    return df
