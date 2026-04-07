@@ -219,13 +219,29 @@ elif page == "在庫・欠品管理":
             st.error(f"売上データ取得エラー: {e}")
             return pd.DataFrame()
 
+    @st.cache_data
+    def load_wishlist():
+        path = os.path.join(os.path.dirname(__file__), "data", "top-products.csv")
+        if os.path.exists(path):
+            return pd.read_csv(path)
+        return pd.DataFrame()
+
     with st.spinner("在庫データ取得中..."):
         inv = cached_inventory()
         line_items = cached_line_items_inv()
+        wishlist = load_wishlist()
 
     if len(inv) == 0:
         st.warning("在庫データが取得できませんでした")
         st.stop()
+
+    # お気に入り数を在庫データに結合
+    if len(wishlist) > 0:
+        wishlist = wishlist.rename(columns={"Product": "商品名", "Total": "お気に入り数"})
+        inv = inv.merge(wishlist[["商品名", "お気に入り数"]], on="商品名", how="left")
+        inv["お気に入り数"] = inv["お気に入り数"].fillna(0).astype(int)
+    else:
+        inv["お気に入り数"] = 0
 
     # ── KPI ──────────────────────────────────────────
     active_inv = inv[inv["ステータス"] == "active"].copy() if "ステータス" in inv.columns else inv.copy()
@@ -257,7 +273,7 @@ elif page == "在庫・欠品管理":
         disp_inv = disp_inv[disp_inv["在庫数"] > 0]
 
     disp_inv["在庫金額"] = disp_inv["価格(税込)"] * disp_inv["在庫数"]
-    disp_table = disp_inv[["商品名", "カラー", "サイズ", "SKU", "価格(税込)", "在庫数", "在庫金額"]].copy()
+    disp_table = disp_inv[["商品名", "カラー", "サイズ", "SKU", "価格(税込)", "在庫数", "在庫金額", "お気に入り数"]].copy()
     disp_table["価格(税込)"] = disp_table["価格(税込)"].apply(lambda x: f"¥{x:,.0f}")
     disp_table["在庫金額"] = disp_table["在庫金額"].apply(lambda x: f"¥{x:,.0f}")
     st.dataframe(disp_table, use_container_width=True, height=400)
@@ -323,7 +339,7 @@ elif page == "在庫・欠品管理":
 
                 if len(alert_df) > 0:
                     st.warning(f"{len(alert_df)} SKUが60日以内に売り切れ予測です")
-                    alert_disp = alert_df[["商品名", "カラー", "サイズ", "SKU", "在庫数", "日販", "売り切れ予測日数", "売り切れ予測日"]].copy()
+                    alert_disp = alert_df[["商品名", "カラー", "サイズ", "SKU", "在庫数", "お気に入り数", "日販", "売り切れ予測日数", "売り切れ予測日"]].copy()
                     alert_disp["日販"] = alert_disp["日販"].round(1)
                     alert_disp["売り切れ予測日数"] = alert_disp["売り切れ予測日数"].round(0).astype(int)
                     # 定番商品（販売期間が長い＝多く出ているSKU）は注意喚起
@@ -542,13 +558,29 @@ elif page == "販促ダッシュボード":
             st.error(f"売上データ取得エラー: {e}")
             return pd.DataFrame()
 
+    @st.cache_data
+    def load_wishlist_promo():
+        path = os.path.join(os.path.dirname(__file__), "data", "top-products.csv")
+        if os.path.exists(path):
+            return pd.read_csv(path)
+        return pd.DataFrame()
+
     with st.spinner("データ取得中..."):
         inv = cached_inventory_promo()
         line_items = cached_line_items_promo()
+        wishlist = load_wishlist_promo()
 
     if len(inv) == 0:
         st.warning("在庫データが取得できませんでした")
         st.stop()
+
+    # お気に入り数を結合
+    if len(wishlist) > 0:
+        wl = wishlist.rename(columns={"Product": "商品名", "Total": "お気に入り数"})
+        inv = inv.merge(wl[["商品名", "お気に入り数"]], on="商品名", how="left")
+        inv["お気に入り数"] = inv["お気に入り数"].fillna(0).astype(int)
+    else:
+        inv["お気に入り数"] = 0
 
     # 在庫データ（activeのみ）
     active_inv = inv[inv["ステータス"] == "active"].copy() if "ステータス" in inv.columns else inv.copy()
@@ -689,7 +721,7 @@ elif page == "販促ダッシュボード":
     priority_df = priority_df.sort_values("在庫×日販スコア", ascending=False)
 
     disp_priority = priority_df[[
-        "商品名", "カラー", "サイズ", "SKU", "在庫数", "在庫金額",
+        "商品名", "カラー", "サイズ", "SKU", "在庫数", "お気に入り数", "在庫金額",
         "下代合計（推定）", "日販", "売り切れ予測日数", "売り切れ予測日", "ゾーン"
     ]].copy()
     disp_priority["在庫金額"] = disp_priority["在庫金額"].apply(lambda x: f"¥{x:,.0f}")
