@@ -79,7 +79,47 @@ def fmt_yen(val):
 if page == "売上ダッシュボード":
     st.title("売上ダッシュボード")
 
-    sales = load_sales_by_period()
+    # EC-CUBEデータ
+    ec_sales = load_sales_by_period()
+
+    # Shopifyデータ（Supabaseから）をEC-CUBE形式に変換して統合
+    @st.cache_data(ttl=600)
+    def get_shopify_daily_sales():
+        try:
+            sp = load_orders_from_supabase()
+            if len(sp) == 0:
+                return pd.DataFrame()
+            sp = sp[~sp["キャンセル"]].copy()
+            if sp["注文日時"].dt.tz is not None:
+                sp["注文日時"] = sp["注文日時"].dt.tz_localize(None)
+            sp["期間"] = sp["注文日時"].dt.date
+            daily = sp.groupby("期間").agg(
+                購入件数=("合計", "count"),
+                購入合計=("合計", "sum"),
+            ).reset_index()
+            daily["期間"] = pd.to_datetime(daily["期間"])
+            # EC-CUBEにある他のカラムを0で埋める
+            for col in ["男性", "女性", "男性_会員", "男性_非会員", "女性_会員", "女性_非会員", "購入平均"]:
+                daily[col] = 0
+            daily["購入平均"] = (daily["購入合計"] / daily["購入件数"]).fillna(0)
+            return daily
+        except Exception:
+            return pd.DataFrame()
+
+    sp_daily = get_shopify_daily_sales()
+
+    # EC-CUBE + Shopifyを統合
+    if len(sp_daily) > 0:
+        sales = pd.concat([ec_sales, sp_daily], ignore_index=True)
+        sales = sales.groupby("期間").agg({
+            "購入件数": "sum", "購入合計": "sum",
+            "男性": "sum", "女性": "sum",
+            "男性_会員": "sum", "男性_非会員": "sum",
+            "女性_会員": "sum", "女性_非会員": "sum",
+            "購入平均": "mean",
+        }).reset_index().sort_values("期間")
+    else:
+        sales = ec_sales
 
     # 期間フィルター
     col1, col2 = st.columns(2)
