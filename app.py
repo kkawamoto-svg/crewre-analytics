@@ -42,13 +42,7 @@ from data_loader import (
     load_products,
     load_categories,
 )
-from shopify_loader import (
-    load_shopify_orders,
-    load_shopify_customers,
-    load_shopify_products,
-    load_shopify_line_items,
-    load_shopify_inventory,
-)
+from shopify_loader import load_shopify_inventory
 from supabase_sync import (
     load_orders_from_supabase,
     load_line_items_from_supabase,
