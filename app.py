@@ -61,7 +61,7 @@ st.set_page_config(page_title="crewre EC分析", page_icon="📊", layout="wide"
 st.sidebar.title("crewre EC分析")
 page = st.sidebar.radio(
     "ページ選択",
-    ["売上概要", "在庫・欠品管理", "商品分析（SKU別）", "販促ダッシュボード", "GA4アクセス分析"],
+    ["売上概要", "会員年齢分布", "在庫・欠品管理", "商品分析（SKU別）", "販促ダッシュボード", "GA4アクセス分析"],
 )
 
 
@@ -197,7 +197,56 @@ if page == "売上概要":
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# ページ2: 在庫・欠品管理
+# 会員年齢分布
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+elif page == "会員年齢分布":
+    st.title("会員年齢分布")
+    st.caption("EC-CUBE 会員マスターの誕生日データから年齢分布を集計")
+
+    customers_age = load_customers()
+    if "誕生日" in customers_age.columns:
+        cust_bd = customers_age[customers_age["誕生日"].notna()].copy()
+        today = pd.Timestamp.now().normalize()
+        cust_bd["年齢"] = ((today - cust_bd["誕生日"]).dt.days / 365.25).astype(int)
+        cust_bd = cust_bd[(cust_bd["年齢"] >= 10) & (cust_bd["年齢"] <= 100)]
+
+        bins = [10, 20, 30, 40, 50, 60, 70, 80, 100]
+        labels = ["10代", "20代", "30代", "40代", "50代", "60代", "70代", "80代〜"]
+        cust_bd["年代"] = pd.cut(cust_bd["年齢"], bins=bins, labels=labels, right=False)
+        age_dist = cust_bd["年代"].value_counts().sort_index().reset_index()
+        age_dist.columns = ["年代", "会員数"]
+
+        total_with_bd = len(cust_bd)
+        total_all = len(customers_age)
+        no_bd = total_all - total_with_bd
+
+        # KPI
+        k1, k2, k3 = st.columns(3)
+        k1.metric("全会員数", f"{total_all:,}名")
+        k2.metric("誕生日登録あり", f"{total_with_bd:,}名")
+        k3.metric("誕生日未登録", f"{no_bd:,}名")
+
+        # グラフ
+        col1, col2 = st.columns(2)
+        with col1:
+            fig = px.bar(age_dist, x="年代", y="会員数", text_auto=True, color="年代")
+            fig.update_layout(height=420, title="年代別 会員数")
+            st.plotly_chart(fig, use_container_width=True)
+        with col2:
+            fig = px.pie(age_dist, names="年代", values="会員数", hole=0.4, title="年代別 構成比")
+            fig.update_layout(height=420)
+            st.plotly_chart(fig, use_container_width=True)
+
+        # データテーブル
+        st.subheader("年代別 詳細")
+        age_dist["構成比"] = (age_dist["会員数"] / age_dist["会員数"].sum() * 100).round(1).astype(str) + "%"
+        st.dataframe(age_dist, use_container_width=True, hide_index=True)
+    else:
+        st.info("会員データに誕生日カラムがありません")
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ページ3: 在庫・欠品管理
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 elif page == "在庫・欠品管理":
     st.title("在庫・欠品管理")
